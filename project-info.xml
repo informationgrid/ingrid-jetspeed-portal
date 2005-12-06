@@ -1,32 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-Copyright 2004 The Apache Software Foundation
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
-  $Id$
--->
 <project>
-   <organization/>  
-   <inceptionYear/>
+   <organization>media style GmbH</organization>>
+   <inceptionYear>2005</inceptionYear>
    <package/>
    <description/>
    <shortDescription/>
    <url/>
-   <issueTrackingUrl/>
-   <siteAddress/>
-   <siteDirectory/>
-   <repository/>
+   <issueTrackingUrl>http://jira.media-style.com/browse/INGRID</issueTrackingUrl>
+   <siteAddress>http://torwald.gistec-online.de/ingrid/ingrid-jetspeed-portal</siteAddress>
+   <siteDirectory>srv/www/htdocs/ingrid/ingrid-jetspeed-portal</siteDirectory>
+   <repository>svn://torwald.gistec-online.de/svn/ingrid</repository>
    <mailingLists/>
-   <developers/>
+   <developers>
+       <developer>
+       <id>0</id>
+      <name>Stefan Groschupf</name>
+      <email>sg(at)media-style.com</email>
+      <organization>media style GmbH</organization>
+      <organizationUrl>http://www.media-style.com</organizationUrl>
+      <roles>
+		  <role>project leader</role>
+		  <role>developer</role>
+	  </roles>
+    </developer>
+	<developer>
+      <id>1</id>
+      <name>Frank Henze</name>
+      <email>fh(at)media-style.com</email>
+      <organization>media style GmbH</organization>
+      <organizationUrl>http://www.media-style.com</organizationUrl>
+      <roles>
+		  <role>project leader</role>
+		  <role>developer</role>
+	  </roles>
+    </developer>
+	<developer>
+      <id>3</id>
+      <name>Marko Bauhardt</name>
+      <email>mb(at)media-style.com</email>
+      <organization>media style GmbH</organization>
+      <organizationUrl>http://www.media-style.com</organizationUrl>
+      <roles>
+		  <role>developer</role>
+	  </roles>
+    </developer>
+    <developer>
+      <id>5</id>
+      <name>Martin Schaaf</name>
+      <email>ms(at)media(stripe)style(dot)com</email>
+      <organization>media style GmbH</organization>
+      <organizationUrl>http://www.media-style.com</organizationUrl>
+      <roles>
+		  <role>developer</role>
+	  </roles>
+    </developer>
+       </developers>
 </project>
