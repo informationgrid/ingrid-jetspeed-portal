@@ -14,7 +14,7 @@
    <issueTrackingUrl>http://jira.media-style.com/browse/INGRID</issueTrackingUrl>
    <siteAddress>http://torwald.gistec-online.de/ingrid/ingrid-jetspeed-portal</siteAddress>
    <siteDirectory>srv/www/htdocs/ingrid/ingrid-jetspeed-portal</siteDirectory>
-   <repository>svn://torwald.gistec-online.de/svn/ingrid:ingrid-jetspeed-portal</repository>
+   <repository>scm:svn://torwald.gistec-online.de/svn/ingrid:ingrid-jetspeed-portal</repository>
    <mailingLists/>
    <developers>
        <developer>
