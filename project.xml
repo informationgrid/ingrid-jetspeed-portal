@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+    <pomVersion>3</pomVersion>
+    <groupId>ingrid-jetspeed-portal</groupId>
+    <artifactId>usermanagement</artifactId>
+    <name>Ingrid User Management</name>
+    <currentVersion>0.0.1</currentVersion>
+   <organization>media style GmbH</organization>>
+   <inceptionYear>2005</inceptionYear>
+   <package/>
+   <description/>
+   <shortDescription/>
+   <url/>
+   <issueTrackingUrl>http://jira.media-style.com/browse/INGRID</issueTrackingUrl>
+   <siteAddress>http://torwald.gistec-online.de/ingrid/ingrid-jetspeed-portal</siteAddress>
+   <siteDirectory>srv/www/htdocs/ingrid/ingrid-jetspeed-portal</siteDirectory>
+   <repository>svn://torwald.gistec-online.de/svn/ingrid:ingrid-jetspeed-portal</repository>
+   <mailingLists/>
+   <developers>
+       <developer>
+       <id>0</id>
+      <name>Stefan Groschupf</name>
+      <email>sg(at)media-style.com</email>
+      <organization>media style GmbH</organization>
+      <organizationUrl>http://www.media-style.com</organizationUrl>
+      <roles>
+		  <role>project leader</role>
+		  <role>developer</role>
+	  </roles>
+    </developer>
+	<developer>
+      <id>1</id>
+      <name>Frank Henze</name>
+      <email>fh(at)media-style.com</email>
+      <organization>media style GmbH</organization>
+      <organizationUrl>http://www.media-style.com</organizationUrl>
+      <roles>
+		  <role>project leader</role>
+		  <role>developer</role>
+	  </roles>
+    </developer>
+	<developer>
+      <id>3</id>
+      <name>Marko Bauhardt</name>
+      <email>mb(at)media-style.com</email>
+      <organization>media style GmbH</organization>
+      <organizationUrl>http://www.media-style.com</organizationUrl>
+      <roles>
+		  <role>developer</role>
+	  </roles>
+    </developer>
+    <developer>
+      <id>5</id>
+      <name>Martin Schaaf</name>
+      <email>ms(at)media(stripe)style(dot)com</email>
+      <organization>media style GmbH</organization>
+      <organizationUrl>http://www.media-style.com</organizationUrl>
+      <roles>
+		  <role>developer</role>
+	  </roles>
+    </developer>
+       </developers>
+    <build>
+	    <sourceDirectory>src/main/java</sourceDirectory>
+    	<unitTestSourceDirectory>src/test/java</unitTestSourceDirectory>
+        <unitTest>
+	      <resources>
+    	    <resource>
+				<directory>src/test/resources</directory>
+            </resource>
+          </resources>
+        </unitTest>
+	    <resources>
+    	  <resource>
+        	<directory>src/main/resources</directory>
+	      </resource>
+    	</resources>
+        <unitTest>
+      <includes>
+        <include>**/*Test.java</include>
+      </includes>
+    </unitTest>
+        </build>
+   		<dependencies>	
+			<dependency>
+            	<id>commons-logging</id>
+	            <version>1.0.3</version>
+    	        <type>jar</type>
+        	    <properties>
+            	    <war.bundle>true</war.bundle>
+	            </properties>
+    	    </dependency>
+	    	<dependency>
+		      <id>junit</id>
+		      <version>3.8.1</version>
+			  <properties>
+	        	<war.bundle>false</war.bundle>
+		      </properties>
+		    </dependency>
+   	    	<dependency>
+		      <id>hibernate</id>
+		      <version>3.1beta3</version>
+			  <properties>
+	        	<war.bundle>true</war.bundle>
+		      </properties>
+		    </dependency>
+            <dependency>
+		      <id>antlr</id>
+		      <version>2.7.2</version>
+			  <properties>
+	        	<war.bundle>true</war.bundle>
+		      </properties>
+		    </dependency>
+            <dependency>
+		      <id>c3p0</id>
+		      <version>0.9.0.2</version>
+			  <properties>
+	        	<war.bundle>true</war.bundle>
+		      </properties>
+		    </dependency>
+            <dependency>
+		      <id>cglib</id>
+		      <version>nodep-2.1_3</version>
+			  <properties>
+	        	<war.bundle>true</war.bundle>
+		      </properties>
+		    </dependency>
+            <dependency>
+		      <id>commons-collections</id>
+		      <version>3.1</version>
+			  <properties>
+	        	<war.bundle>true</war.bundle>
+		      </properties>
+		    </dependency>
+            <dependency>
+		      <id>dom4j</id>
+		      <version>1.4</version>
+			  <properties>
+	        	<war.bundle>true</war.bundle>
+		      </properties>
+		    </dependency>
+            <dependency>
+		      <id>ehcache</id>
+		      <version>1.1</version>
+			  <properties>
+	        	<war.bundle>true</war.bundle>
+		      </properties>
+		    </dependency>
+            <dependency>
+		      <id>hsqldb</id>
+		      <version>1.8.0.2</version>
+			  <properties>
+	        	<war.bundle>true</war.bundle>
+		      </properties>
+		    </dependency>
+            <dependency>
+		      <id>jta</id>
+		      <version>1.0.1</version>
+			  <properties>
+	        	<war.bundle>true</war.bundle>
+		      </properties>
+		    </dependency>
+		 </dependencies>
+</project>
