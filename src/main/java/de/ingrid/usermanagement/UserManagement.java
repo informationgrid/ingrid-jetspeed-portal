@@ -10,6 +10,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.jetspeed.i18n.KeyedMessage;
+import org.apache.jetspeed.security.SecurityException;
+
 /**
  *  
  */
@@ -64,6 +67,7 @@ public class UserManagement {
      * @param string
      */
     public void removeUser(String string) {
+        //TODO: remove also from the user to group relation
         this.fUsers.remove(string);
     }
 
@@ -71,6 +75,7 @@ public class UserManagement {
      * @param string
      */
     public void removeGroup(String string) {
+        //TODO: remove also from the user to group relation
         this.fGroups.remove(string);
     }
 
@@ -95,6 +100,7 @@ public class UserManagement {
      * @param role
      */
     public void removeRole(String role) {
+        //TODO: remove also from the user to group relation
         this.fRoles.remove(role);
     }
 
@@ -196,61 +202,75 @@ public class UserManagement {
     private void setId(String id) {
         this.fId = id;
     }
-    
+
     /**
      * @param users
-     * 
+     *  
      */
     public void setUsers(Serializable users) {
         this.fUsers = (HashMap) users;
     }
-    
+
     /**
      * @return
      */
     public Serializable getUsers() {
         return this.fUsers;
     }
-    
+
     /**
      * @param groups
      */
     public void setGroups(Serializable groups) {
         this.fGroups = (ArrayList) groups;
     }
-    
+
     /**
      * @return
      */
     public Serializable getGroups() {
         return this.fGroups;
     }
-    
+
     /**
      * @param roles
      */
     public void setRoles(Serializable roles) {
         this.fRoles = (ArrayList) roles;
     }
-    
+
     /**
      * @return
      */
     public Serializable getRoles() {
         return this.fRoles;
     }
-    
+
     /**
      * @param user2group
      */
     public void setUserToGroup(Serializable user2group) {
         this.fUser2Group = (HashMap) user2group;
     }
-    
+
     /**
      * @return
      */
     public Serializable getUserToGroup() {
         return this.fUser2Group;
+    }
+
+    /**
+     * @param username
+     * @param oldPassword
+     * @param newPassword
+     * @throws SecurityException
+     */
+    public void setPassword(String username, String oldPassword, String newPassword) throws SecurityException {
+        if (authenticate(username, oldPassword)) {
+            this.fUsers.put(username, newPassword);
+        } else {
+            throw new SecurityException(new KeyedMessage("Cannot authenticate."));
+        }
     }
 }
