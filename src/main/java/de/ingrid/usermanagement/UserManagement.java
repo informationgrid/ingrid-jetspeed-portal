@@ -6,6 +6,7 @@
 
 package de.ingrid.usermanagement;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -21,6 +22,8 @@ public class UserManagement {
     private ArrayList fGroups = new ArrayList();
 
     private HashMap fUser2Group = new HashMap();
+
+    private String fId;
 
     /**
      * @param name
@@ -183,4 +186,71 @@ public class UserManagement {
         return result;
     }
 
+    /**
+     * @return
+     */
+    public String getId() {
+        return this.fId;
+    }
+
+    private void setId(String id) {
+        this.fId = id;
+    }
+    
+    /**
+     * @param users
+     * 
+     */
+    public void setUsers(Serializable users) {
+        this.fUsers = (HashMap) users;
+    }
+    
+    /**
+     * @return
+     */
+    public Serializable getUsers() {
+        return this.fUsers;
+    }
+    
+    /**
+     * @param groups
+     */
+    public void setGroups(Serializable groups) {
+        this.fGroups = (ArrayList) groups;
+    }
+    
+    /**
+     * @return
+     */
+    public Serializable getGroups() {
+        return this.fGroups;
+    }
+    
+    /**
+     * @param roles
+     */
+    public void setRoles(Serializable roles) {
+        this.fRoles = (ArrayList) roles;
+    }
+    
+    /**
+     * @return
+     */
+    public Serializable getRoles() {
+        return this.fRoles;
+    }
+    
+    /**
+     * @param user2group
+     */
+    public void setUserToGroup(Serializable user2group) {
+        this.fUser2Group = (HashMap) user2group;
+    }
+    
+    /**
+     * @return
+     */
+    public Serializable getUserToGroup() {
+        return this.fUser2Group;
+    }
 }
