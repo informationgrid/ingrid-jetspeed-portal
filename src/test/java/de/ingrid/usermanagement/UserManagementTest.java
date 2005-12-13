@@ -109,6 +109,22 @@ public class UserManagementTest extends TestCase {
     }
 
     /**
+     * 
+     */
+    public void testRemoveUserFromRole() {
+        this.fUserManagement.addUser("user1", "pwd");
+        this.fUserManagement.addGroup("group1");
+        this.fUserManagement.addRole("role1");
+        this.fUserManagement.addRole("role2");
+        this.fUserManagement.addUserToGroup("user1", "group1", "role1");
+        this.fUserManagement.addUserToGroup("user1", "group1", "role2");
+
+        this.fUserManagement.removeUserFromRole("user1", "group1", "role1");
+        assertFalse(this.fUserManagement.isUserInGroup("user1", "group1", "role1"));
+        assertTrue(this.fUserManagement.isUserInGroup("user1", "group1", "role2"));
+    }
+    
+    /**
      *  
      */
     public void testAuthenticate() {
