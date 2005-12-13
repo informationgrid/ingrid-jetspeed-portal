@@ -33,7 +33,7 @@ public class UserManagement {
      * @param name
      * @param password
      */
-    public void addUser(String name, String password) {
+    public synchronized void addUser(final String name, final String password) {
         if (!this.fUsers.containsKey(name)) {
             this.fUsers.put(name, password);
         }
@@ -43,7 +43,7 @@ public class UserManagement {
      * @param name
      * @return True if the user exists, false otherwise.
      */
-    public boolean userExists(String name) {
+    final public boolean userExists(final String name) {
         return this.fUsers.containsKey(name);
     }
 
@@ -51,14 +51,14 @@ public class UserManagement {
      * @param name
      * @return True if the group exists, false otherwise.
      */
-    public boolean groupExists(String name) {
+    public boolean groupExists(final String name) {
         return this.fGroups.contains(name);
     }
 
     /**
      * @param group
      */
-    public void addGroup(String group) {
+    public synchronized void addGroup(String group) {
         if (!this.fGroups.contains(group)) {
             this.fGroups.add(group);
         }
@@ -67,7 +67,7 @@ public class UserManagement {
     /**
      * @param userName
      */
-    public void removeUser(String userName) {
+    public void removeUser(final String userName) {
         this.fUsers.remove(userName);
         this.fUser2Group.remove(userName);
     }
@@ -75,7 +75,7 @@ public class UserManagement {
     /**
      * @param groupName
      */
-    public void removeGroup(String groupName) {
+    public synchronized void removeGroup(final String groupName) {
         for (Iterator iter = this.fUser2Group.keySet().iterator(); iter.hasNext();) {
             String userName = (String) iter.next();
             removeUserFromGroup(userName, groupName);
@@ -87,14 +87,14 @@ public class UserManagement {
      * @param name
      * @return True if the role exists, false otherwise.
      */
-    public boolean roleExists(String name) {
+    public boolean roleExists(final String name) {
         return this.fRoles.contains(name);
     }
 
     /**
      * @param role
      */
-    public synchronized void addRole(String role) {
+    public synchronized void addRole(final String role) {
         if (!this.fRoles.contains(role)) {
             this.fRoles.add(role);
         }
@@ -103,7 +103,7 @@ public class UserManagement {
     /**
      * @param roleName
      */
-    public synchronized void removeRole(String roleName) {
+    public synchronized void removeRole(final String roleName) {
         for (Iterator userIter = this.fUser2Group.keySet().iterator(); userIter.hasNext();) {
             String userName = (String) userIter.next();
             HashMap groupHash = (HashMap) this.fUser2Group.get(userName);
@@ -120,7 +120,7 @@ public class UserManagement {
      * @param groupName
      * @param roleName
      */
-    public synchronized void removeUserFromRole(String userName, String groupName, String roleName) {
+    public synchronized void removeUserFromRole(final String userName, final String groupName, final String roleName) {
         if (userExists(userName) && groupExists(groupName) && roleExists(roleName)) {
             if (this.fUser2Group.containsKey(userName)) {
                 HashMap groupHash = (HashMap) this.fUser2Group.get(userName);
@@ -141,7 +141,7 @@ public class UserManagement {
      * @param groupName
      * @param roleName
      */
-    public void addUserToGroup(String userName, String groupName, String roleName) {
+    final public synchronized void addUserToGroup(final String userName, final String groupName, final String roleName) {
         if (userExists(userName) && groupExists(groupName) && roleExists(roleName)) {
             if (this.fUser2Group.containsKey(userName)) {
                 HashMap groupHash = (HashMap) this.fUser2Group.get(userName);
@@ -171,7 +171,7 @@ public class UserManagement {
      * @param roleName
      * @return True if the user is in the group with the role, false otherwise.
      */
-    public boolean isUserInGroup(String userName, String groupName, String roleName) {
+    public boolean isUserInGroup(final String userName, final String groupName, final String roleName) {
         boolean result = false;
 
         if (userExists(userName) && groupExists(groupName) && roleExists(roleName)) {
@@ -193,7 +193,7 @@ public class UserManagement {
      * @param userName
      * @param groupName
      */
-    public void removeUserFromGroup(String userName, String groupName) {
+    public synchronized void removeUserFromGroup(final String userName, final String groupName) {
         if (userExists(userName) && groupExists(groupName)) {
             if (this.fUser2Group.containsKey(userName)) {
                 HashMap groupHash = (HashMap) this.fUser2Group.get(userName);
@@ -209,7 +209,7 @@ public class UserManagement {
      * @param password
      * @return True if the supplied password is identical with the stored.
      */
-    public boolean authenticate(String userName, String password) {
+    public synchronized boolean authenticate(final String userName, final String password) {
         boolean result = false;
 
         if (userExists(userName)) {
@@ -225,7 +225,7 @@ public class UserManagement {
     /**
      * @return The Id for hibernate.
      */
-    public String getId() {
+    private String getId() {
         return this.fId;
     }
 
@@ -234,7 +234,7 @@ public class UserManagement {
      * 
      * @param id
      */
-    private void setId(String id) {
+    private void setId(final String id) {
         this.fId = id;
     }
 
@@ -242,56 +242,56 @@ public class UserManagement {
      * @param users
      *  
      */
-    public void setUsers(Serializable users) {
+    private synchronized void setUsers(final Serializable users) {
         this.fUsers = (HashMap) users;
     }
 
     /**
      * @return The user hash map as serializable.
      */
-    public Serializable getUsers() {
+    private synchronized Serializable getUsers() {
         return this.fUsers;
     }
 
     /**
      * @param groups
      */
-    public void setGroups(Serializable groups) {
+    private synchronized void setGroups(Serializable groups) {
         this.fGroups = (ArrayList) groups;
     }
 
     /**
      * @return The group hash map as serializable.
      */
-    public Serializable getGroups() {
+    private synchronized Serializable getGroups() {
         return this.fGroups;
     }
 
     /**
      * @param roles
      */
-    public void setRoles(Serializable roles) {
+    private synchronized void setRoles(final Serializable roles) {
         this.fRoles = (ArrayList) roles;
     }
 
     /**
      * @return The role hash map as serializable.
      */
-    public Serializable getRoles() {
+    private synchronized Serializable getRoles() {
         return this.fRoles;
     }
 
     /**
      * @param user2group
      */
-    public void setUserToGroup(Serializable user2group) {
+    private synchronized void setUserToGroup(Serializable user2group) {
         this.fUser2Group = (HashMap) user2group;
     }
 
     /**
      * @return The user to group relation hash map as serializable.
      */
-    public Serializable getUserToGroup() {
+    final private synchronized Serializable getUserToGroup() {
         return this.fUser2Group;
     }
 
@@ -301,7 +301,8 @@ public class UserManagement {
      * @param newPassword
      * @throws SecurityException
      */
-    public void setPassword(String username, String oldPassword, String newPassword) throws SecurityException {
+    final public synchronized void setPassword(String username, String oldPassword, String newPassword)
+            throws SecurityException {
         if (authenticate(username, oldPassword)) {
             this.fUsers.put(username, newPassword);
         } else {

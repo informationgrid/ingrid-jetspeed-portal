@@ -1,6 +1,9 @@
 /*
- * Created on 07.12.2005
+ * Copyright (c) 1997-2005 by media style GmbH
+ * 
+ * $Source: $
  */
+
 package de.ingrid.usermanagement;
 
 import org.apache.commons.logging.Log;
@@ -14,17 +17,17 @@ import org.hibernate.cfg.Configuration;
  */
 public class HibernateUtil {
 
-    private static Log log = LogFactory.getLog(HibernateUtil.class);
+    private static Log fLoggger = LogFactory.getLog(HibernateUtil.class);
 
-    private static final SessionFactory sessionFactory;
+    private static final SessionFactory fSessionFactory;
 
     static {
         try {
             // Create the SessionFactory
-            sessionFactory = new Configuration().configure().buildSessionFactory();
+            fSessionFactory = new Configuration().configure().buildSessionFactory();
         } catch (Throwable ex) {
             // Make sure you log the exception, as it might be swallowed
-            log.error("Initial SessionFactory creation failed.", ex);
+            fLoggger.error("Initial SessionFactory creation failed.", ex);
             throw new ExceptionInInitializerError(ex);
         }
     }
@@ -32,17 +35,17 @@ public class HibernateUtil {
     /**
      * Comment for <code>session</code>
      */
-    public static final ThreadLocal session = new ThreadLocal();
+    public static final ThreadLocal fSession = new ThreadLocal();
 
     /**
      * @return The current session.
      */
     public static Session currentSession() {
-        Session s = (Session) session.get();
+        Session s = (Session) fSession.get();
         // Open a new Session, if this Thread has none yet
         if (s == null) {
-            s = sessionFactory.openSession();
-            session.set(s);
+            s = fSessionFactory.openSession();
+            fSession.set(s);
         }
         return s;
     }
@@ -51,10 +54,10 @@ public class HibernateUtil {
      *  
      */
     public static void closeSession() {
-        Session s = (Session) session.get();
+        Session s = (Session) fSession.get();
         if (s != null) {
             s.close();
         }
-        session.set(null);
+        fSession.set(null);
     }
 }

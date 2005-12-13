@@ -1,7 +1,12 @@
 /*
- * Created on 06.12.2005
+ * Copyright (c) 1997-2005 by media style GmbH
+ * 
+ * $Source: $
  */
+
 package de.ingrid.usermanagement;
+
+import org.apache.jetspeed.security.SecurityException;
 
 import junit.framework.TestCase;
 
@@ -109,7 +114,7 @@ public class UserManagementTest extends TestCase {
     }
 
     /**
-     * 
+     *  
      */
     public void testRemoveUserFromRole() {
         this.fUserManagement.addUser("user1", "pwd");
@@ -123,7 +128,7 @@ public class UserManagementTest extends TestCase {
         assertFalse(this.fUserManagement.isUserInGroup("user1", "group1", "role1"));
         assertTrue(this.fUserManagement.isUserInGroup("user1", "group1", "role2"));
     }
-    
+
     /**
      *  
      */
@@ -132,9 +137,9 @@ public class UserManagementTest extends TestCase {
 
         assertTrue(this.fUserManagement.authenticate("user1", "pwd"));
     }
-    
+
     /**
-     * 
+     *  
      */
     public void testFalseAuthenticate() {
         this.fUserManagement.addUser("user1", "pwd");
@@ -145,5 +150,15 @@ public class UserManagementTest extends TestCase {
         assertFalse(this.fUserManagement.authenticate("user1", "ppwd"));
         assertFalse(this.fUserManagement.authenticate("user1", "ppwdd"));
     }
-    
+
+    /**
+     * @throws SecurityException
+     *  
+     */
+    public void testSetPassword() throws SecurityException {
+        this.fUserManagement.addUser("user", "pwd");
+        this.fUserManagement.setPassword("user", "pwd", "dwp");
+
+        assertTrue(this.fUserManagement.authenticate("user", "dwp"));
+    }
 }
