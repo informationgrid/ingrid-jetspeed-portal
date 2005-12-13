@@ -15,7 +15,7 @@
    <siteAddress>http://torwald.gistec-online.de/ingrid/ingrid-jetspeed-portal</siteAddress>
    <siteDirectory>/srv/www/htdocs/ingrid/ingrid-jetspeed-portal</siteDirectory>
    <repository>
-       <connection>scm:svn://torwald.gistec-online.de/svn/ingrid:ingrid-jetspeed-portal</connection>
+       <connection>scm:svn:http://torwald.gistec-online.de/svn/ingrid:ingrid-jetspeed-portal</connection>
    </repository>
    <mailingLists/>
    <developers>
@@ -93,7 +93,6 @@
         <report>maven-checkstyle-plugin</report>
         <report>maven-jxr-plugin</report>
         <report>maven-changelog-plugin</report>
-        <report>maven-jdiff-plugin</report>
 	</reports>
    		<dependencies>
             <dependency>
