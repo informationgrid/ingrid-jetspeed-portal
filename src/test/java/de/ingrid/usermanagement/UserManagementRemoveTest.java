@@ -39,7 +39,7 @@ public class UserManagementRemoveTest extends TestCase {
         super.tearDown();
     }
     /**
-     * 
+     * Tests if after a role deletion the relation is completly removed.
      */
     public void testCompleteRoleRemoval() {
         this.fUserManagement.removeRole("role");
@@ -59,7 +59,7 @@ public class UserManagementRemoveTest extends TestCase {
     }
 
     /**
-     * 
+     * Tests if after a group deletion the relation is completly removed.
      */
     public void testCompleteGroupRemoval() {
         this.fUserManagement.removeGroup("group");

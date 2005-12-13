@@ -77,8 +77,6 @@
         	<directory>src/main/resources</directory>
 	      </resource>
     	</resources>
-        <unitTest>
-    </unitTest>
         </build>
     <reports>
 		<report>maven-junit-report-plugin</report>
