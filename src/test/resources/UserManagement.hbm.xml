@@ -14,5 +14,6 @@
 	    <property name="Users" type="serializable" not-null="true"/>
 	    <property name="Groups" type="serializable" not-null="true"/>
 	    <property name="Roles" type="serializable" not-null="true"/>
+        <property name="UserToGroup" type="serializable" not-null="true"/>
     </class>
 </hibernate-mapping>

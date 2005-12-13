@@ -9,6 +9,7 @@ package de.ingrid.usermanagement;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import org.apache.jetspeed.i18n.KeyedMessage;
 import org.apache.jetspeed.security.SecurityException;
@@ -64,19 +65,22 @@ public class UserManagement {
     }
 
     /**
-     * @param string
+     * @param userName
      */
-    public void removeUser(String string) {
-        //TODO: remove also from the user to group relation
-        this.fUsers.remove(string);
+    public void removeUser(String userName) {
+        this.fUsers.remove(userName);
+        this.fUser2Group.remove(userName);
     }
 
     /**
-     * @param string
+     * @param groupName
      */
-    public void removeGroup(String string) {
-        //TODO: remove also from the user to group relation
-        this.fGroups.remove(string);
+    public void removeGroup(String groupName) {
+        for (Iterator iter = this.fUser2Group.keySet().iterator(); iter.hasNext();) {
+            String userName = (String) iter.next();
+            removeUserFromGroup(userName, groupName);
+        }
+        this.fGroups.remove(groupName);
     }
 
     /**
@@ -90,18 +94,44 @@ public class UserManagement {
     /**
      * @param role
      */
-    public void addRole(String role) {
+    public synchronized void addRole(String role) {
         if (!this.fRoles.contains(role)) {
             this.fRoles.add(role);
         }
     }
 
     /**
-     * @param role
+     * @param roleName
      */
-    public void removeRole(String role) {
-        //TODO: remove also from the user to group relation
-        this.fRoles.remove(role);
+    public synchronized void removeRole(String roleName) {
+        for (Iterator userIter = this.fUser2Group.keySet().iterator(); userIter.hasNext();) {
+            String userName = (String) userIter.next();
+            HashMap groupHash = (HashMap) this.fUser2Group.get(userName);
+            for (Iterator groupIter = groupHash.keySet().iterator(); groupIter.hasNext();) {
+                String groupName = (String) groupIter.next();
+                removeUserFromRole(userName, groupName, roleName);
+            }
+        }
+        this.fRoles.remove(roleName);
+    }
+
+    /**
+     * @param userName
+     * @param groupName
+     * @param roleName
+     */
+    public synchronized void removeUserFromRole(String userName, String groupName, String roleName) {
+        if (userExists(userName) && groupExists(groupName) && roleExists(roleName)) {
+            if (this.fUser2Group.containsKey(userName)) {
+                HashMap groupHash = (HashMap) this.fUser2Group.get(userName);
+                if (groupHash.containsKey(groupName)) {
+                    ArrayList roleArray = (ArrayList) groupHash.get(groupName);
+                    if (roleArray.contains(roleName)) {
+                        roleArray.remove(roleName);
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -193,12 +223,17 @@ public class UserManagement {
     }
 
     /**
-     * @return
+     * @return The Id for hibernate.
      */
     public String getId() {
         return this.fId;
     }
 
+    /**
+     * Is used by hibernate.
+     * 
+     * @param id
+     */
     private void setId(String id) {
         this.fId = id;
     }
@@ -212,7 +247,7 @@ public class UserManagement {
     }
 
     /**
-     * @return
+     * @return The user hash map as serializable.
      */
     public Serializable getUsers() {
         return this.fUsers;
@@ -226,7 +261,7 @@ public class UserManagement {
     }
 
     /**
-     * @return
+     * @return The group hash map as serializable.
      */
     public Serializable getGroups() {
         return this.fGroups;
@@ -240,7 +275,7 @@ public class UserManagement {
     }
 
     /**
-     * @return
+     * @return The role hash map as serializable.
      */
     public Serializable getRoles() {
         return this.fRoles;
@@ -254,7 +289,7 @@ public class UserManagement {
     }
 
     /**
-     * @return
+     * @return The user to group relation hash map as serializable.
      */
     public Serializable getUserToGroup() {
         return this.fUser2Group;
