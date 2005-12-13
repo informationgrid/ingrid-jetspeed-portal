@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance.xsd" xsi:noNamespaceSchemaLocation="http://maven.apache.org/xsd/maven-project-3.0.0.xsd">
     <pomVersion>3</pomVersion>
     <groupId>ingrid-jetspeed-portal</groupId>
     <artifactId>usermanagement</artifactId>
@@ -14,7 +14,9 @@
    <issueTrackingUrl>http://jira.media-style.com/browse/INGRID</issueTrackingUrl>
    <siteAddress>http://torwald.gistec-online.de/ingrid/ingrid-jetspeed-portal</siteAddress>
    <siteDirectory>srv/www/htdocs/ingrid/ingrid-jetspeed-portal</siteDirectory>
-   <repository>scm:svn://torwald.gistec-online.de/svn/ingrid:ingrid-jetspeed-portal</repository>
+   <repository>
+       <connection>scm:svn://torwald.gistec-online.de/svn/ingrid:ingrid-jetspeed-portal</connection>
+   </repository>
    <mailingLists/>
    <developers>
        <developer>
@@ -81,6 +83,12 @@
       </includes>
     </unitTest>
         </build>
+    <reports>
+		<report>maven-junit-report-plugin</report>
+		<report>maven-jcoverage-plugin</report>
+        <report>maven-tasklist-plugin</report>
+        <report>maven-checkstyle-plugin</report>
+	</reports>
    		<dependencies>	
 			<dependency>
             	<id>commons-logging</id>
