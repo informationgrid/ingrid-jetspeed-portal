@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance.xsd" xsi:noNamespaceSchemaLocation="http://maven.apache.org/xsd/maven-project-3.0.0.xsd">
     <pomVersion>3</pomVersion>
-    <groupId>ingrid-jetspeed-portal</groupId>
-    <artifactId>usermanagement</artifactId>
-    <name>Ingrid User Management</name>
+    <groupId>ingrid</groupId>
+    <artifactId>ingrid-jetspeed-portal</artifactId>
+    <name>ingrid-jetspeed-portal</name>
     <currentVersion>0.0.1</currentVersion>
    <organization>media style GmbH</organization>>
    <inceptionYear>2005</inceptionYear>
