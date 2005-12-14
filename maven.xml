@@ -37,11 +37,11 @@
         </j:if>
 	</goal>
 	
-	<preGoal name="maven-jcoverage-plugin:report" prereqs="checkuser">
+	<preGoal name="maven-jcoverage-plugin:report">
 		<j:set var="maven.test.failure.ignore" value="true"/>
 	</preGoal>
 	
-	<postGoal name="maven-jcoverage-plugin:report" prereqs="checkuser">
+	<postGoal name="maven-jcoverage-plugin:report">
 		<j:set var="maven.test.failure.ignore" value="false"/>
 	</postGoal>
 	
