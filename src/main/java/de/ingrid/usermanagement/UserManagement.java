@@ -145,15 +145,9 @@ public class UserManagement {
         if (userExists(userName) && groupExists(groupName) && roleExists(roleName)) {
             if (this.fUser2Group.containsKey(userName)) {
                 HashMap groupHash = (HashMap) this.fUser2Group.get(userName);
-                if (groupHash.containsKey(groupName)) {
-                    ArrayList roleArray = (ArrayList) groupHash.get(groupName);
-                    if (!roleArray.contains(roleName)) {
-                        roleArray.add(roleName);
-                    }
-                } else {
-                    ArrayList roleArray = new ArrayList();
+                ArrayList roleArray = (ArrayList) groupHash.get(groupName);
+                if (!roleArray.contains(roleName)) {
                     roleArray.add(roleName);
-                    groupHash.put(groupName, roleArray);
                 }
             } else {
                 ArrayList roleArray = new ArrayList();
