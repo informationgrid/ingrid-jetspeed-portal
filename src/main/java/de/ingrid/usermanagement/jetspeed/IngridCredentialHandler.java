@@ -1,6 +1,9 @@
 /*
- * Created on 06.12.2005
+ * Copyright (c) 1997-2005 by media style GmbH
+ * 
+ * $Source: $
  */
+
 package de.ingrid.usermanagement.jetspeed;
 
 import java.sql.Date;
@@ -10,7 +13,7 @@ import org.apache.jetspeed.security.SecurityException;
 import org.apache.jetspeed.security.spi.CredentialHandler;
 
 /**
- * 
+ * TODO: implement this
  */
 public class IngridCredentialHandler implements CredentialHandler {
 

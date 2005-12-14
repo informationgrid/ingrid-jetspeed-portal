@@ -1,6 +1,9 @@
 /*
- * Created on 05.12.2005
+ * Copyright (c) 1997-2005 by media style GmbH
+ * 
+ * $Source: $
  */
+
 package de.ingrid.usermanagement.jetspeed;
 
 import java.security.Principal;
@@ -11,7 +14,7 @@ import org.apache.jetspeed.security.UserPrincipal;
 import org.apache.jetspeed.security.spi.UserSecurityHandler;
 
 /**
- * 
+ * TODO: implement this
  */
 public class IngridUserSecurityHandler implements UserSecurityHandler {
 
