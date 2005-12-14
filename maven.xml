@@ -1,5 +1,15 @@
-<project xmlns:j="jelly:core" xmlns:deploy="deploy">
+<project xmlns:j="jelly:core" xmlns:m="jelly:maven" xmlns:a="jelly:ant" xmlns:deploy="deploy">
 
+    <property environment="env" />
+    
+    <goal name="checkuser">
+        <j:if test="${context.getVariable('env.USER') != null}">
+                    <j:if test="${context.getVariable('env.USER') == 'root'}">
+                        <fail>!!!PLEASE, do not run this script as root!!!</fail>
+                    </j:if>
+        </j:if>
+    </goal>
+    
     <!-- POST_GOAL 'clean' : CLEAN SINGLE FILES-->	
 	<postGoal name="clean">
 		<delete>
@@ -15,7 +25,7 @@
 		<attainGoal name="jar:jar"/>		
 	</goal>
 
-	<goal name="site:generate">
+	<goal name="site:generate" prereqs="checkuser">
 		<j:set var="testmatchpattern" value="**/*"/>
 		<j:set var="testnotmatchpattern" value=""/>
 		<attainGoal name="site"/>
@@ -27,11 +37,11 @@
         </j:if>
 	</goal>
 	
-	<preGoal name="maven-jcoverage-plugin:report">
+	<preGoal name="maven-jcoverage-plugin:report" prereqs="checkuser">
 		<j:set var="maven.test.failure.ignore" value="true"/>
 	</preGoal>
 	
-	<postGoal name="maven-jcoverage-plugin:report">
+	<postGoal name="maven-jcoverage-plugin:report" prereqs="checkuser">
 		<j:set var="maven.test.failure.ignore" value="false"/>
 	</postGoal>
 	
