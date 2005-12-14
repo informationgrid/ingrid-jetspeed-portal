@@ -161,4 +161,17 @@ public class UserManagementTest extends TestCase {
 
         assertTrue(this.fUserManagement.authenticate("user", "dwp"));
     }
+
+    /**
+     */
+    public void testCannotSetPassword() {
+        this.fUserManagement.addUser("user", "pwd");
+
+        try {
+            this.fUserManagement.setPassword("user", "dwp", "pwd");
+            fail();
+        } catch (SecurityException e) {
+            assertTrue(this.fUserManagement.authenticate("user", "pwd"));
+        }
+    }
 }
