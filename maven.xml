@@ -30,7 +30,7 @@
 		<j:set var="testnotmatchpattern" value=""/>
 		<attainGoal name="site"/>
 	</goal>
-	
+
 	<goal name="test:test" prereqs="test:compile">
         <j:if test="${context.getVariable('maven.test.skip') != 'true'}">
 			<attainGoal name="test:match" />
