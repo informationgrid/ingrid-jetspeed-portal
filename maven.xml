@@ -1,5 +1,14 @@
 <project xmlns:j="jelly:core" xmlns:deploy="deploy">
-	
+
+    <!-- POST_GOAL 'clean' : CLEAN SINGLE FILES-->	
+	<postGoal name="clean">
+		<delete>
+			<fileset dir="${basedir}">
+	    	    <include name="**/jcoverage.ser"/>
+			</fileset>
+	   </delete>
+	</postGoal>
+
 	<goal name="jar">
 		<j:set var="testmatchpattern" value="**/*"/>
 		<j:set var="testnotmatchpattern" value="**/v*/*"/>
