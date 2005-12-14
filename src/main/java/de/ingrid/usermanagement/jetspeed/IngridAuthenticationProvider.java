@@ -6,17 +6,20 @@
 
 package de.ingrid.usermanagement.jetspeed;
 
+import java.io.Serializable;
+
 import org.apache.jetspeed.security.AuthenticationProvider;
 import org.apache.jetspeed.security.impl.AuthenticationProviderImpl;
 import org.apache.jetspeed.security.spi.CredentialHandler;
 import org.apache.jetspeed.security.spi.UserSecurityHandler;
 
 /**
- *  
  */
 public class IngridAuthenticationProvider implements AuthenticationProvider {
 
     private AuthenticationProviderImpl fAuthProv = null;
+
+    private String fId;
 
     /**
      * @see AuthenticationProviderImpl
@@ -68,11 +71,25 @@ public class IngridAuthenticationProvider implements AuthenticationProvider {
         this.fAuthProv.setCredentialHandler(arg0);
     }
 
-    private AuthenticationProviderImpl getAuthenticationProvider() {
-        return this.fAuthProv;
+    /**
+     * @return The id for hibernate.
+     */
+    private String getId() {
+        return this.fId;
     }
 
-    private void getAuthenticationProvider(AuthenticationProviderImpl authenticationProviderImpl) {
-        this.fAuthProv = authenticationProviderImpl;
+    private void setId(String id) {
+        this.fId = id;
+    }
+
+    private Serializable getAuthenticationProvider() {
+        return (Serializable) this.fAuthProv;
+    }
+
+    /**
+     * @param authenticationProviderImpl
+     */
+    private void setAuthenticationProvider(Serializable authenticationProviderImpl) {
+        this.fAuthProv = (AuthenticationProviderImpl) authenticationProviderImpl;
     }
 }

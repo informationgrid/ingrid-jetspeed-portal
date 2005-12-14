@@ -30,5 +30,6 @@
         <property name="hbm2ddl.auto">create</property>
 
         <mapping resource="UserManagement.hbm.xml"/>
+        <mapping resource="IngridAuthenticationProvider.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

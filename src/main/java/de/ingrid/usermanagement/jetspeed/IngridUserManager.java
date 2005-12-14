@@ -17,7 +17,6 @@ import org.apache.jetspeed.security.UserManager;
 import de.ingrid.usermanagement.UserManagement;
 
 /**
- *  
  */
 public class IngridUserManager implements UserManager {
 
