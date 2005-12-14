@@ -1,7 +1,7 @@
 <project xmlns:j="jelly:core" xmlns:m="jelly:maven" xmlns:a="jelly:ant" xmlns:deploy="deploy">
 
     <property environment="env" />
-    
+
     <goal name="checkuser">
         <j:if test="${context.getVariable('env.USER') != null}">
                     <j:if test="${context.getVariable('env.USER') == 'root'}">
