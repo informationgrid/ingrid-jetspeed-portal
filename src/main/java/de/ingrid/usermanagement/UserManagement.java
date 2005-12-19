@@ -1,7 +1,5 @@
 /*
  * Copyright (c) 1997-2005 by media style GmbH
- * 
- * $Source: $
  */
 
 package de.ingrid.usermanagement;
@@ -15,7 +13,7 @@ import org.apache.jetspeed.i18n.KeyedMessage;
 import org.apache.jetspeed.security.SecurityException;
 
 /**
- *  
+ *
  */
 public class UserManagement {
 
@@ -136,7 +134,7 @@ public class UserManagement {
 
     /**
      * Bind a user to a group with a specific role. A user can have more roles in one group.
-     * 
+     *
      * @param userName
      * @param groupName
      * @param roleName
@@ -206,11 +204,9 @@ public class UserManagement {
     public synchronized boolean authenticate(final String userName, final String password) {
         boolean result = false;
 
-        if (userExists(userName)) {
-            String storedPassword = (String) this.fUsers.get(userName);
-            if (storedPassword.equals(password)) {
-                result = true;
-            }
+        String storedPassword = (String) this.fUsers.get(userName);
+        if (storedPassword.equals(password)) {
+            result = true;
         }
 
         return result;
@@ -225,7 +221,7 @@ public class UserManagement {
 
     /**
      * Is used by hibernate.
-     * 
+     *
      * @param id
      */
     private void setId(final String id) {
@@ -233,8 +229,8 @@ public class UserManagement {
     }
 
     /**
-     * @param users
-     *  
+     * @param user
+     *
      */
     private synchronized void setUsers(final Serializable users) {
         this.fUsers = (HashMap) users;
@@ -248,7 +244,7 @@ public class UserManagement {
     }
 
     /**
-     * @param groups
+     * @param group
      */
     private synchronized void setGroups(Serializable groups) {
         this.fGroups = (ArrayList) groups;
@@ -262,7 +258,7 @@ public class UserManagement {
     }
 
     /**
-     * @param roles
+     * @param role
      */
     private synchronized void setRoles(final Serializable roles) {
         this.fRoles = (ArrayList) roles;
@@ -302,5 +298,22 @@ public class UserManagement {
         } else {
             throw new SecurityException(new KeyedMessage("Cannot authenticate."));
         }
+    }
+
+    /**
+     * @param userName
+     * @return The password to the user name.
+     * @throws SecurityException
+     */
+    public String getPassword(String userName) throws SecurityException {
+        String result = null;
+
+        if (userExists(userName)) {
+            result = (String) this.fUsers.get(userName);
+        } else {
+            throw new SecurityException(SecurityException.USER_DOES_NOT_EXIST.create(userName));
+        }
+
+        return result;
     }
 }
