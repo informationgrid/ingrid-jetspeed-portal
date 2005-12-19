@@ -6,18 +6,30 @@
 	<classpathentry output="target/test-classes" kind="src" path="src/test/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="var" path="MAVEN_REPO/commons-logging/jars/commons-logging-1.0.3.jar"/>
-	<classpathentry kind="var" path="MAVEN_REPO/jetspeed2/jars/jetspeed-api-2.0-dev.jar"/>
+	<classpathentry sourcepath="/MAVEN_REPO/jetspeed2/jars/jetspeed-api-2.0-src.zip" kind="var" path="MAVEN_REPO/jetspeed2/jars/jetspeed-api-2.0-dev.jar">
+		<attributes>
+			<attribute value="jar:file:/home/ms/.maven/repository/jetspeed2/jars/jetspeed-api-2.0_javadoc.jar!/" name="javadoc_location"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="var" path="MAVEN_REPO/junit/jars/junit-3.8.1.jar"/>
-	<classpathentry kind="var" path="MAVEN_REPO/jetspeed2/jars/jetspeed-security-2.0-dev.jar"/>
+	<classpathentry sourcepath="/MAVEN_REPO/jetspeed2/jars/jetspeed-security-2.0-src.zip" kind="var" path="MAVEN_REPO/jetspeed2/jars/jetspeed-security-2.0-dev.jar">
+		<attributes>
+			<attribute value="jar:file:/home/ms/.maven/repository/jetspeed2/jars/jetspeed-security-2.0_javadoc.jar!/" name="javadoc_location"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="var" path="MAVEN_REPO/hibernate/jars/hibernate-3.1beta3.jar"/>
 	<classpathentry kind="var" path="MAVEN_REPO/dom4j/jars/dom4j-1.4.jar"/>
 	<classpathentry kind="var" path="MAVEN_REPO/commons-collections/jars/commons-collections-3.1.jar"/>
-	<classpathentry kind="var" path="MAVEN_REPO/postgresql/jars/postgresql-8.0-314.jdbc2.jar"/>
 	<classpathentry kind="var" path="MAVEN_REPO/c3p0/jars/c3p0-0.9.0.2.jar"/>
 	<classpathentry kind="var" path="MAVEN_REPO/ehcache/jars/ehcache-1.1.jar"/>
 	<classpathentry kind="var" path="MAVEN_REPO/jta/jars/jta-1.0.1.jar"/>
 	<classpathentry kind="var" path="MAVEN_REPO/antlr/jars/antlr-2.7.2.jar"/>
 	<classpathentry kind="var" path="MAVEN_REPO/hsqldb/jars/hsqldb-1.8.0.2.jar"/>
 	<classpathentry kind="var" path="MAVEN_REPO/cglib/jars/cglib-nodep-2.1_3.jar"/>
+	<classpathentry sourcepath="/MAVEN_REPO/jetspeed2/jars/jetspeed-rdbms-2.0-src.zip" kind="var" path="MAVEN_REPO/jetspeed2/jars/jetspeed-rdbms-2.0-M4-SNAPSHOT.jar">
+		<attributes>
+			<attribute value="jar:file:/home/ms/.maven/repository/jetspeed2/jars/jetspeed-rdbms-2.0_javadoc.jar!/" name="javadoc_location"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
