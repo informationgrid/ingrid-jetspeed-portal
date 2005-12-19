@@ -1,7 +1,5 @@
 /*
  * Copyright (c) 1997-2005 by media style GmbH
- * 
- * $Source: $
  */
 
 package de.ingrid.usermanagement;
@@ -15,7 +13,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 /**
- *  
+ *
  */
 public class UserManagementPersistenceTest extends TestCase {
 
@@ -30,7 +28,7 @@ public class UserManagementPersistenceTest extends TestCase {
     }
 
     /**
-     *  
+     *
      */
     public void testPersistenceWrite() {
         Transaction tx = this.fSession.beginTransaction();
@@ -46,7 +44,7 @@ public class UserManagementPersistenceTest extends TestCase {
     }
 
     /**
-     *  
+     *
      */
     public void testPersistenceRead() {
         Transaction tx = this.fSession.beginTransaction();
@@ -64,7 +62,7 @@ public class UserManagementPersistenceTest extends TestCase {
     }
 
     /**
-     *  
+     *
      */
     public void testPersistenceUpdateWrite() {
         Transaction tx = this.fSession.beginTransaction();
@@ -82,7 +80,7 @@ public class UserManagementPersistenceTest extends TestCase {
     }
 
     /**
-     *  
+     *
      */
     public void testPersistenceUpdateRead() {
         Transaction tx = this.fSession.beginTransaction();
