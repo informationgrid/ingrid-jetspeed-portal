@@ -31,5 +31,6 @@
 			<attribute value="jar:file:/home/ms/.maven/repository/jetspeed2/jars/jetspeed-rdbms-2.0_javadoc.jar!/" name="javadoc_location"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="var" path="MAVEN_REPO/commons-lang/jars/commons-lang-2.1.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

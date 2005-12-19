@@ -121,6 +121,14 @@
             	    <war.bundle>true</war.bundle>
 	            </properties>
     	    </dependency>
+			<dependency>
+            	<id>commons-lang</id>
+	            <version>2.1</version>
+    	        <type>jar</type>
+        	    <properties>
+            	    <war.bundle>true</war.bundle>
+	            </properties>
+    	    </dependency>
 	    	<dependency>
 		      <id>junit</id>
 		      <version>3.8.1</version>
