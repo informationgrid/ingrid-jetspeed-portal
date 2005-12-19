@@ -1,7 +1,5 @@
 /*
  * Copyright (c) 1997-2005 by media style GmbH
- * 
- * $Source: $
  */
 
 package de.ingrid.usermanagement;
@@ -13,18 +11,22 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 /**
- *  
+ *
  */
-public class HibernateUtil {
+public final class HibernateUtil {
 
     private static Log fLoggger = LogFactory.getLog(HibernateUtil.class);
 
-    private static final SessionFactory fSessionFactory;
+    private static final SessionFactory SESSIONFACTORY;
+
+    private HibernateUtil() {
+        super();
+    }
 
     static {
         try {
             // Create the SessionFactory
-            fSessionFactory = new Configuration().configure().buildSessionFactory();
+            SESSIONFACTORY = new Configuration().configure().buildSessionFactory();
         } catch (Throwable ex) {
             // Make sure you log the exception, as it might be swallowed
             fLoggger.error("Initial SessionFactory creation failed.", ex);
@@ -35,29 +37,29 @@ public class HibernateUtil {
     /**
      * Comment for <code>session</code>
      */
-    public static final ThreadLocal fSession = new ThreadLocal();
+    public static final ThreadLocal SESSION = new ThreadLocal();
 
     /**
      * @return The current session.
      */
     public static Session currentSession() {
-        Session s = (Session) fSession.get();
+        Session s = (Session) SESSION.get();
         // Open a new Session, if this Thread has none yet
         if (s == null) {
-            s = fSessionFactory.openSession();
-            fSession.set(s);
+            s = SESSIONFACTORY.openSession();
+            SESSION.set(s);
         }
         return s;
     }
 
     /**
-     *  
+     *
      */
     public static void closeSession() {
-        Session s = (Session) fSession.get();
+        Session s = (Session) SESSION.get();
         if (s != null) {
             s.close();
         }
-        fSession.set(null);
+        SESSION.set(null);
     }
 }
