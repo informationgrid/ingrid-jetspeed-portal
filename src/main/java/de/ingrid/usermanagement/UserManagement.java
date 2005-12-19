@@ -13,7 +13,7 @@ import org.apache.jetspeed.i18n.KeyedMessage;
 import org.apache.jetspeed.security.SecurityException;
 
 /**
- *
+ * 
  */
 public class UserManagement {
 
@@ -134,7 +134,7 @@ public class UserManagement {
 
     /**
      * Bind a user to a group with a specific role. A user can have more roles in one group.
-     *
+     * 
      * @param userName
      * @param groupName
      * @param roleName
@@ -221,7 +221,7 @@ public class UserManagement {
 
     /**
      * Is used by hibernate.
-     *
+     * 
      * @param id
      */
     private void setId(final String id) {
@@ -230,7 +230,7 @@ public class UserManagement {
 
     /**
      * @param user
-     *
+     * 
      */
     private synchronized void setUsers(final Serializable users) {
         this.fUsers = (HashMap) users;
@@ -313,6 +313,33 @@ public class UserManagement {
         } else {
             throw new SecurityException(SecurityException.USER_DOES_NOT_EXIST.create(userName));
         }
+
+        return result;
+    }
+
+    /**
+     * @param filter A wildcard filter.
+     * @return All user names that match the filter.
+     */
+    public String[] find(final String filter) {
+        ArrayList result = new ArrayList();
+
+        for (Iterator iter = this.fUsers.keySet().iterator(); iter.hasNext();) {
+            String regex = wildcardToRegex(filter);
+            String userName = (String) iter.next();
+            if (userName.matches(regex)) {
+                result.add(userName);
+            }
+        }
+
+        return (String[]) result.toArray(new String[result.size()]);
+    }
+
+    private String wildcardToRegex(String filter) {
+        String result = filter;
+
+        result = filter.replaceAll("\\*", ".*");
+        result = filter.replace('?', '.');
 
         return result;
     }
