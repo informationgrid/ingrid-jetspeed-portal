@@ -61,7 +61,7 @@ public class IngridUserSecurityHandler implements UserSecurityHandler {
                 result = new UserPrincipalImpl(userName);
             }
         } catch (IndexOutOfBoundsException e) {
-            this.fLogger.error("An hibernate error has occurred for user name:" + userName);
+            this.fLogger.error("An hibernate error has occurred: No UserManagement found.");
         } finally {
             tx.commit();
         }
@@ -85,7 +85,7 @@ public class IngridUserSecurityHandler implements UserSecurityHandler {
                 result.add(new UserPrincipalImpl(userNames[i]));
             }
         } catch (IndexOutOfBoundsException e) {
-            this.fLogger.error("An hibernate error has occurred for filter:" + filter);
+            this.fLogger.error("An hibernate error has occurred: No UserManagement found.");
         } finally {
             tx.commit();
         }
@@ -113,7 +113,7 @@ public class IngridUserSecurityHandler implements UserSecurityHandler {
             um.addUser(userName, userName);
             this.fSession.update(um);
         } catch (IndexOutOfBoundsException e) {
-            this.fLogger.error("An hibernate error has occurred for user name:" + userName);
+            this.fLogger.error("An hibernate error has occurred: No UserManagement found.");
         } finally {
             tx.commit();
         }
@@ -154,7 +154,7 @@ public class IngridUserSecurityHandler implements UserSecurityHandler {
         } catch (IndexOutOfBoundsException e) {
             this.fLogger.error(e);
             throw new SecurityException(SecurityException.UNEXPECTED
-                    .create("An hibernate error has occurred for user name:" + userName));
+                    .create("An hibernate error has occurred: No UserManagement found."));
         } finally {
             tx.commit();
         }
