@@ -181,6 +181,21 @@ public class UserManagement {
         return result;
     }
 
+    private boolean isUserInGroup(final String userName, final String groupName) {
+        boolean result = false;
+
+        if (userExists(userName) && groupExists(groupName)) {
+            if (this.fUser2Group.containsKey(userName)) {
+                HashMap groupHash = (HashMap) this.fUser2Group.get(userName);
+                if (groupHash.containsKey(groupName)) {
+                    result = true;
+                }
+            }
+        }
+
+        return result;
+    }
+
     /**
      * @param userName
      * @param groupName
@@ -305,7 +320,7 @@ public class UserManagement {
      * @return The password to the user name.
      * @throws SecurityException
      */
-    public String getPassword(String userName) throws SecurityException {
+    public synchronized String getPassword(String userName) throws SecurityException {
         String result = null;
 
         if (userExists(userName)) {
@@ -318,10 +333,11 @@ public class UserManagement {
     }
 
     /**
-     * @param filter A wildcard filter.
+     * @param filter
+     *            A wildcard filter.
      * @return All user names that match the filter.
      */
-    public String[] find(final String filter) {
+    public synchronized String[] find(final String filter) {
         ArrayList result = new ArrayList();
 
         for (Iterator iter = this.fUsers.keySet().iterator(); iter.hasNext();) {
@@ -342,5 +358,67 @@ public class UserManagement {
         result = result.replace('?', '.');
 
         return result;
+    }
+
+    /**
+     * @param userName
+     * @return All groups a user is member for.
+     * @throws SecurityException
+     */
+    public synchronized String[] getGroupsForUser(String userName) throws SecurityException {
+        ArrayList result = new ArrayList();
+
+        if (userExists(userName)) {
+            if (this.fUser2Group.containsKey(userName)) {
+                HashMap groups = (HashMap) this.fUser2Group.get(userName);
+                for (Iterator iter = groups.keySet().iterator(); iter.hasNext();) {
+                    String groupName = (String) iter.next();
+                    result.add(groupName);
+                }
+            }
+        } else {
+            throw new SecurityException(SecurityException.USER_DOES_NOT_EXIST.create(userName));
+        }
+
+        return (String[]) result.toArray(new String[result.size()]);
+    }
+
+    /**
+     * @param groupName
+     * @return All users in a group.
+     */
+    public synchronized String[] getUsersForGroup(String groupName) {
+        ArrayList result = new ArrayList();
+
+        for (Iterator iter = this.fUsers.keySet().iterator(); iter.hasNext();) {
+            String userName = (String) iter.next();
+            if (isUserInGroup(userName, groupName)) {
+                result.add(userName);
+            }
+        }
+
+        return (String[]) result.toArray(new String[result.size()]);
+    }
+
+    /**
+     * @param userName
+     * @param groupName
+     * @throws SecurityException
+     */
+    public synchronized void addUserToGroup(String userName, String groupName) throws SecurityException {
+        if (userExists(userName)) {
+            if (groupExists(groupName)) {
+                if (!this.fUser2Group.containsKey(userName)) {
+                    ArrayList roleArray = new ArrayList();
+                    HashMap groupHash = new HashMap();
+                    groupHash.put(groupName, roleArray);
+                    this.fUser2Group.put(userName, groupHash);
+                }
+            } else {
+                throw new SecurityException(SecurityException.GROUP_DOES_NOT_EXIST.create(groupName));
+            }
+        } else {
+            throw new SecurityException(SecurityException.USER_DOES_NOT_EXIST.create(userName));
+        }
     }
 }
