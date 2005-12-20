@@ -172,4 +172,26 @@ public class UserManagementTest extends TestCase {
             assertTrue(this.fUserManagement.authenticate("user", "pwd"));
         }
     }
+
+    /**
+     * @throws SecurityException
+     */
+    public void testGetPassword() throws SecurityException {
+        this.fUserManagement.addUser("user", "pwd");
+
+        final String password = this.fUserManagement.getPassword("user");
+        assertEquals("pwd", password);
+    }
+
+    /**
+     *
+     */
+    public void testGetPasswordNoUser() {
+        try {
+            this.fUserManagement.getPassword("user");
+            fail();
+        } catch (SecurityException e) {
+            assertEquals(SecurityException.USER_DOES_NOT_EXIST.getKey(), e.getKeyedMessage().getKey());
+        }
+    }
 }

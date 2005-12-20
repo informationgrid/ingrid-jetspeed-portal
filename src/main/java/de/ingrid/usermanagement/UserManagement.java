@@ -335,11 +335,11 @@ public class UserManagement {
         return (String[]) result.toArray(new String[result.size()]);
     }
 
-    private String wildcardToRegex(String filter) {
+    private String wildcardToRegex(final String filter) {
         String result = filter;
 
-        result = filter.replaceAll("\\*", ".*");
-        result = filter.replace('?', '.');
+        result = result.replaceAll("\\*", ".*");
+        result = result.replace('?', '.');
 
         return result;
     }
