@@ -1,0 +1,9 @@
+<!-- Security SPI: SecurityMappingHandler -->
+<bean id="org.apache.jetspeed.security.spi.SecurityMappingHandler" class="org.ingrid.usermanagement.jetspeed.IngridSecurityMappingHandler">  	   
+   <constructor-arg >
+   </constructor-arg>
+   <!-- Default role hierarchy strategy is by generalization.  
+        Add contructor-arg to change the strategy. -->
+   <!-- Default group hierarchy strategy is by generalization.  
+        Add contructor-arg to change the strategy. -->
+</bean>
