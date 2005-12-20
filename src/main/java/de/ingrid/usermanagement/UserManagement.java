@@ -9,11 +9,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import org.apache.jetspeed.i18n.KeyedMessage;
 import org.apache.jetspeed.security.SecurityException;
 
 /**
- * 
+ *
  */
 public class UserManagement {
 
@@ -134,7 +133,7 @@ public class UserManagement {
 
     /**
      * Bind a user to a group with a specific role. A user can have more roles in one group.
-     * 
+     *
      * @param userName
      * @param groupName
      * @param roleName
@@ -247,7 +246,7 @@ public class UserManagement {
 
     /**
      * Is used by hibernate.
-     * 
+     *
      * @param id
      */
     private void setId(final String id) {
@@ -256,7 +255,7 @@ public class UserManagement {
 
     /**
      * @param user
-     * 
+     *
      */
     private synchronized void setUsers(final Serializable users) {
         this.fUsers = (HashMap) users;
@@ -322,7 +321,7 @@ public class UserManagement {
         if (authenticate(username, oldPassword)) {
             this.fUsers.put(username, newPassword);
         } else {
-            throw new SecurityException(new KeyedMessage("Cannot authenticate."));
+            throw new SecurityException(SecurityException.INCORRECT_PASSWORD.create("Cannot authenticate."));
         }
     }
 
@@ -419,18 +418,18 @@ public class UserManagement {
     public synchronized void addUserToGroup(String userName, String groupName) throws SecurityException {
         if (userExists(userName)) {
             if (groupExists(groupName)) {
-                    if (this.fUser2Group.containsKey(userName)) {
-                        HashMap groupHash = (HashMap) this.fUser2Group.get(userName);
-                        if (!groupHash.containsKey(groupName)) {
-                            ArrayList roleArray = new ArrayList();
-                            groupHash.put(groupName, roleArray);
-                        }
-                    } else {
+                if (this.fUser2Group.containsKey(userName)) {
+                    HashMap groupHash = (HashMap) this.fUser2Group.get(userName);
+                    if (!groupHash.containsKey(groupName)) {
                         ArrayList roleArray = new ArrayList();
-                        HashMap groupHash = new HashMap();
                         groupHash.put(groupName, roleArray);
-                        this.fUser2Group.put(userName, groupHash);
                     }
+                } else {
+                    ArrayList roleArray = new ArrayList();
+                    HashMap groupHash = new HashMap();
+                    groupHash.put(groupName, roleArray);
+                    this.fUser2Group.put(userName, groupHash);
+                }
             } else {
                 throw new SecurityException(SecurityException.GROUP_DOES_NOT_EXIST.create(groupName));
             }
