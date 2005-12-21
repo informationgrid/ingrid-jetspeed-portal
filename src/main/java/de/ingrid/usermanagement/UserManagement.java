@@ -238,9 +238,9 @@ public class UserManagement {
     }
 
     /**
-     * @return The Id for hibernate.
+     * @return The id for hibernate.
      */
-    private String getId() {
+    public String getId() {
         return this.fId;
     }
 
@@ -249,64 +249,64 @@ public class UserManagement {
      *
      * @param id
      */
-    private void setId(final String id) {
+    public void setId(final String id) {
         this.fId = id;
     }
 
     /**
-     * @param user
+     * @param users
      *
      */
-    private synchronized void setUsers(final Serializable users) {
+    public synchronized void setUsers(final Object users) {
         this.fUsers = (HashMap) users;
     }
 
     /**
      * @return The user hash map as serializable.
      */
-    private synchronized Serializable getUsers() {
+    public synchronized HashMap getUsers() {
         return this.fUsers;
     }
 
     /**
-     * @param group
+     * @param groups
      */
-    private synchronized void setGroups(Serializable groups) {
+    public synchronized void setGroups(Serializable groups) {
         this.fGroups = (ArrayList) groups;
     }
 
     /**
      * @return The group hash map as serializable.
      */
-    private synchronized Serializable getGroups() {
+    public synchronized Serializable getGroups() {
         return this.fGroups;
     }
 
     /**
-     * @param role
+     * @param roles
      */
-    private synchronized void setRoles(final Serializable roles) {
+    public synchronized void setRoles(final Serializable roles) {
         this.fRoles = (ArrayList) roles;
     }
 
     /**
      * @return The role hash map as serializable.
      */
-    private synchronized Serializable getRoles() {
+    public synchronized Serializable getRoles() {
         return this.fRoles;
     }
 
     /**
      * @param user2group
      */
-    private synchronized void setUserToGroup(Serializable user2group) {
+    public synchronized void setUserToGroup(Serializable user2group) {
         this.fUser2Group = (HashMap) user2group;
     }
 
     /**
      * @return The user to group relation hash map as serializable.
      */
-    final private synchronized Serializable getUserToGroup() {
+    public synchronized Serializable getUserToGroup() {
         return this.fUser2Group;
     }
 
