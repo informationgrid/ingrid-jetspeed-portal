@@ -4,9 +4,6 @@
 
 package de.ingrid.usermanagement;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import junit.framework.TestCase;
 
 import org.apache.jetspeed.security.SecurityException;

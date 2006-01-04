@@ -6,7 +6,6 @@ package de.ingrid.usermanagement.jetspeed;
 
 import java.sql.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
@@ -14,10 +13,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.jetspeed.security.SecurityException;
 import org.apache.jetspeed.security.spi.CredentialHandler;
 import org.apache.jetspeed.security.spi.impl.DefaultPasswordCredentialImpl;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
-import de.ingrid.usermanagement.HibernateManager;
 import de.ingrid.usermanagement.UserManagement;
 
 /**

@@ -7,11 +7,8 @@ package de.ingrid.usermanagement;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.jetspeed.security.SecurityException;
-import org.hibernate.criterion.Restrictions;
-import org.hibernate.criterion.SimpleExpression;
 
 /**
  * 
@@ -277,7 +274,6 @@ public class UserManagement {
      */
     public synchronized void removeUserFromGroup(final String userName, final String groupName) {
         if (userExists(userName) && groupExists(groupName)) {
-            User user = getUser(userName);
             List relations = this.fHibernateManager.loadAllData(UserGroupRoleRelation.class, 0);
             for (Iterator iter = relations.iterator(); iter.hasNext();) {
                 UserGroupRoleRelation element = (UserGroupRoleRelation) iter.next();

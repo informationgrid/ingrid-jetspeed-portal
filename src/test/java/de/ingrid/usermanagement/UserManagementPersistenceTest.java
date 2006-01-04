@@ -4,13 +4,7 @@
 
 package de.ingrid.usermanagement;
 
-import java.util.Iterator;
-import java.util.List;
-
 import junit.framework.TestCase;
-
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 /**
  * 

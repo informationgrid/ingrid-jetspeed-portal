@@ -4,9 +4,6 @@
 
 package de.ingrid.usermanagement;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  */
 public class User {
@@ -14,8 +11,6 @@ public class User {
     private String fPassword;
 
     private String fName;
-
-    private Set fGroupRoleRelation = new HashSet();
 
     /**
      */
