@@ -71,7 +71,7 @@
     <goal name="prepare-server">
         <unzip src="${maven.repo.local}/weta-g/zips/${weta.server.name}${weta.server.suffix}" dest="${maven.build.dir}/${weta.server.destination}"></unzip>
     </goal>
-<!--starts the unpacked weta-g server with the deployed component archive-->
+<!-- starts the unpacked weta-g server with the deployed component archive-->
     <goal name="run-weta-g">
         <j:set var="server.home" value="${maven.build.dir}/${weta.server.destination}/${weta.server.name}" />
         <java classname="net.weta.boot.WetaServerApplication" fork="true" failonerror="true" maxmemory="128M">
