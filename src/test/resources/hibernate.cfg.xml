@@ -16,9 +16,9 @@
         <property name="connection.password"></property>-->
         
         <!--<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="connection.url">jdbc:mysql://192.168.200.55:3306/uni</property>
+        <property name="connection.url">jdbc:mysql://mini:3306/uni</property>
         <property name="connection.username">robert</property>
-        <property name="connection.password">robert</property>-->
+        <property name="connection.password"></property>-->
 
         <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
         <property name="cache.use_query_cache">false</property>
