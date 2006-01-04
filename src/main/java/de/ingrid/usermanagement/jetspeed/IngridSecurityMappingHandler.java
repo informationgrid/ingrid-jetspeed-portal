@@ -6,7 +6,6 @@ package de.ingrid.usermanagement.jetspeed;
 
 import java.security.Principal;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.prefs.Preferences;
 
@@ -19,10 +18,7 @@ import org.apache.jetspeed.security.impl.GeneralizationHierarchyResolver;
 import org.apache.jetspeed.security.impl.GroupPrincipalImpl;
 import org.apache.jetspeed.security.impl.UserPrincipalImpl;
 import org.apache.jetspeed.security.spi.SecurityMappingHandler;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
-import de.ingrid.usermanagement.HibernateUtil;
 import de.ingrid.usermanagement.UserManagement;
 
 /**
@@ -32,19 +28,13 @@ public class IngridSecurityMappingHandler implements SecurityMappingHandler {
 
     private final Log fLogger = LogFactory.getLog(this.getClass());
 
-    private Session fSession;
-
     /** The role hierarchy resolver. */
     private HierarchyResolver fRoleHierarchyResolver = new GeneralizationHierarchyResolver();
 
     /** The group hierarchy resolver. */
     private HierarchyResolver fGroupHierarchyResolver = new GeneralizationHierarchyResolver();
 
-    /**
-     */
-    public IngridSecurityMappingHandler() {
-        this.fSession = HibernateUtil.currentSession();
-    }
+    private UserManagement fUserManagement = new UserManagement();
 
     public HierarchyResolver getRoleHierarchyResolver() {
         return this.fRoleHierarchyResolver;
@@ -89,20 +79,13 @@ public class IngridSecurityMappingHandler implements SecurityMappingHandler {
     public Set getGroupPrincipals(String userName) {
         Set groupPrincipals = new HashSet();
 
-        Transaction tx = this.fSession.beginTransaction();
-        List authList = this.fSession.createQuery("from UserManagement").list();
         try {
-            UserManagement um = (UserManagement) authList.get(0);
-
-            String[] groups;
-            groups = um.getGroupsForUser(userName);
+            String[] groups = this.fUserManagement.getGroupsForUser(userName);
             for (int i = 0; i < groups.length; i++) {
                 createResolvedGroupPrincipalSet(userName, groupPrincipals, groups, i);
             }
         } catch (SecurityException e) {
-            this.fLogger.error(e);
-        } finally {
-            tx.commit();
+            this.fLogger.warn(e);
         }
 
         return groupPrincipals;
@@ -122,42 +105,17 @@ public class IngridSecurityMappingHandler implements SecurityMappingHandler {
         Preferences preferences = Preferences.userRoot().node(groupFullPathName);
         String[] fullPaths = this.fGroupHierarchyResolver.resolve(preferences);
 
-        try {
-            getUserPrincipalsInGroup(userPrincipals, fullPaths);
-        } catch (SecurityException e) {
-            this.fLogger.error(e);
-        }
+        getUserPrincipalsInGroup(userPrincipals, fullPaths);
+
         return userPrincipals;
     }
 
     public void setUserPrincipalInGroup(String username, String groupFullPathName) throws SecurityException {
-        Transaction tx = this.fSession.beginTransaction();
-        List authList = this.fSession.createQuery("from UserManagement").list();
-        try {
-            UserManagement um = (UserManagement) authList.get(0);
-            
-            um.addUserToGroup(username, groupFullPathName);
-            this.fSession.update(um);
-        } catch (IndexOutOfBoundsException e) {
-            throw new SecurityException(SecurityException.UNEXPECTED.create("No UserManagment in database."));
-        } finally {
-            tx.commit();
-        }
+        this.fUserManagement.addUserToGroup(username, groupFullPathName);
     }
 
     public void removeUserPrincipalInGroup(String userName, String groupFullPathName) throws SecurityException {
-        Transaction tx = this.fSession.beginTransaction();
-        List authList = this.fSession.createQuery("from UserManagement").list();
-        try {
-            UserManagement um = (UserManagement) authList.get(0);
-            
-            um.removeUserFromGroup(userName, groupFullPathName);
-            this.fSession.update(um);
-        } catch (IndexOutOfBoundsException e) {
-            throw new SecurityException(SecurityException.UNEXPECTED.create("No UserManagment in database."));
-        } finally {
-            tx.commit();
-        }
+        this.fUserManagement.removeUserFromGroup(userName, groupFullPathName);
     }
 
     /**
@@ -185,26 +143,13 @@ public class IngridSecurityMappingHandler implements SecurityMappingHandler {
      * 
      * @param userPrincipals
      * @param fullPaths
-     * @throws SecurityException
-     *             A {@link SecurityException}.
      */
-    private void getUserPrincipalsInGroup(Set userPrincipals, String[] fullPaths) throws SecurityException {
+    private void getUserPrincipalsInGroup(Set userPrincipals, String[] fullPaths) {
         for (int i = 0; i < fullPaths.length; i++) {
-
-            Transaction tx = this.fSession.beginTransaction();
-            List authList = this.fSession.createQuery("from UserManagement").list();
-            try {
-                UserManagement um = (UserManagement) authList.get(0);
-
-                String[] usersInGroup = um.getUsersForGroup(fullPaths[i]);
-                for (int y = 0; y < usersInGroup.length; y++) {
-                    Principal userPrincipal = new UserPrincipalImpl(usersInGroup[y]);
-                    userPrincipals.add(userPrincipal);
-                }
-            } catch (IndexOutOfBoundsException e) {
-                throw new SecurityException(SecurityException.UNEXPECTED.create("No usermanagment in database."));
-            } finally {
-                tx.commit();
+            String[] usersInGroup = this.fUserManagement.getUsersForGroup(fullPaths[i]);
+            for (int y = 0; y < usersInGroup.length; y++) {
+                Principal userPrincipal = new UserPrincipalImpl(usersInGroup[y]);
+                userPrincipals.add(userPrincipal);
             }
         }
     }

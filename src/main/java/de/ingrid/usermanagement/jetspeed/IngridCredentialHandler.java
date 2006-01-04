@@ -17,23 +17,16 @@ import org.apache.jetspeed.security.spi.impl.DefaultPasswordCredentialImpl;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import de.ingrid.usermanagement.HibernateUtil;
+import de.ingrid.usermanagement.HibernateManager;
 import de.ingrid.usermanagement.UserManagement;
 
 /**
  */
 public class IngridCredentialHandler implements CredentialHandler {
 
-    private Session fSession;
-
     private Log fLogger = LogFactory.getLog(this.getClass());
 
-    /**
-     * 
-     */
-    public IngridCredentialHandler() {
-        this.fSession = HibernateUtil.currentSession();
-    }
+    private UserManagement fUserManagement = new UserManagement();
 
     /**
      * @see org.apache.jetspeed.security.spi.CredentialHandler#getPublicCredentials(java.lang.String)
@@ -49,17 +42,12 @@ public class IngridCredentialHandler implements CredentialHandler {
         Set result = new HashSet();
         String password = null;
 
-        Transaction tx = this.fSession.beginTransaction();
-        List authList = this.fSession.createQuery("from UserManagement").list();
         try {
-            UserManagement um = (UserManagement) authList.get(0);
-            password = um.getPassword(userName);
+            password = this.fUserManagement.getPassword(userName);
 
             result.add(new DefaultPasswordCredentialImpl(userName, password.toCharArray()));
         } catch (SecurityException e) {
             this.fLogger.error("Failure creating a PasswordCredential for InternalCredential userName:" + userName, e);
-        } finally {
-            tx.commit();
         }
 
         return result;
@@ -70,17 +58,7 @@ public class IngridCredentialHandler implements CredentialHandler {
      *      java.lang.String)
      */
     public void setPassword(String userName, String oldPassword, String newPassword) throws SecurityException {
-        Transaction tx = this.fSession.beginTransaction();
-        List authList = this.fSession.createQuery("from UserManagement").list();
-        try {
-            UserManagement um = (UserManagement) authList.get(0);
-
-            um.setPassword(userName, oldPassword, newPassword);
-        } catch (IndexOutOfBoundsException e) {
-            this.fLogger.error("Cannot set password of user:" + userName, e);
-        } finally {
-            tx.commit();
-        }
+        this.fUserManagement.setPassword(userName, oldPassword, newPassword);
     }
 
     /**
@@ -110,16 +88,7 @@ public class IngridCredentialHandler implements CredentialHandler {
     public boolean authenticate(String userName, String password) throws SecurityException {
         boolean result = false;
 
-        Transaction tx = this.fSession.beginTransaction();
-        List authList = this.fSession.createQuery("from UserManagement").list();
-        try {
-            UserManagement um = (UserManagement) authList.get(0);
-            result = um.authenticate(userName, password);
-        } catch (Exception e) {
-            this.fLogger.error("Failure to authenticate user:" + userName, e);
-        } finally {
-            tx.commit();
-        }
+        result = this.fUserManagement.authenticate(userName, password);
 
         return result;
     }

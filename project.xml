@@ -1,203 +1,200 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance.xsd" xsi:noNamespaceSchemaLocation="http://maven.apache.org/xsd/maven-project-3.0.0.xsd">
-    <pomVersion>3</pomVersion>
-    <groupId>ingrid</groupId>
-    <artifactId>ingrid-jetspeed-portal</artifactId>
-    <name>ingrid-jetspeed-portal</name>
-    <currentVersion>0.0.1</currentVersion>
-   <organization>media style GmbH</organization>>
-   <inceptionYear>2005</inceptionYear>
-   <package/>
-   <description/>
-   <shortDescription/>
-   <url/>
-   <issueTrackingUrl>http://jira.media-style.com/browse/INGRID</issueTrackingUrl>
-   <siteAddress>http://torwald.gistec-online.de/ingrid/ingrid-jetspeed-portal</siteAddress>
-   <siteDirectory>/srv/www/htdocs/ingrid/ingrid-jetspeed-portal</siteDirectory>
-   <repository>
-       <connection>scm:svn:http://torwald.gistec-online.de/svn/ingrid:ingrid-jetspeed-portal</connection>
-   </repository>
-   <mailingLists/>
-   <developers>
-       <developer>
-       <id>sg</id>
-      <name>Stefan Groschupf</name>
-      <email>sg(at)media-style.com</email>
-      <organization>media style GmbH</organization>
-      <organizationUrl>http://www.media-style.com</organizationUrl>
-      <roles>
-		  <role>project leader</role>
-		  <role>developer</role>
-	  </roles>
-    </developer>
-	<developer>
-      <id>fh</id>
-      <name>Frank Henze</name>
-      <email>fh(at)media-style.com</email>
-      <organization>media style GmbH</organization>
-      <organizationUrl>http://www.media-style.com</organizationUrl>
-      <roles>
-		  <role>project leader</role>
-		  <role>developer</role>
-	  </roles>
-    </developer>
-	<developer>
-      <id>mb</id>
-      <name>Marko Bauhardt</name>
-      <email>mb(at)media-style.com</email>
-      <organization>media style GmbH</organization>
-      <organizationUrl>http://www.media-style.com</organizationUrl>
-      <roles>
-		  <role>developer</role>
-	  </roles>
+<pomVersion>3</pomVersion>
+<groupId>ingrid</groupId>
+<artifactId>ingrid-jetspeed-portal</artifactId>
+<name>ingrid-jetspeed-portal</name>
+<currentVersion>0.0.1</currentVersion>
+<organization>media style GmbH</organization>
+<inceptionYear>2005</inceptionYear>
+<package />
+<description />
+<shortDescription />
+<url />
+<issueTrackingUrl>http://jira.media-style.com/browse/INGRID</issueTrackingUrl>
+<siteAddress>http://torwald.gistec-online.de/ingrid/ingrid-jetspeed-portal</siteAddress>
+<siteDirectory>/srv/www/htdocs/ingrid/ingrid-jetspeed-portal</siteDirectory>
+<repository>
+    <connection>scm:svn:http://torwald.gistec-online.de/svn/ingrid:ingrid-jetspeed-portal</connection>
+</repository>
+<mailingLists />
+<developers>
+    <developer>
+        <id>sg</id>
+        <name>Stefan Groschupf</name>
+        <email>sg(at)media-style.com</email>
+        <organization>media style GmbH</organization>
+        <organizationUrl>http://www.media-style.com</organizationUrl>
+        <roles>
+            <role>project leader</role>
+            <role>developer</role>
+        </roles>
     </developer>
     <developer>
-      <id>ms</id>
-      <name>Martin Schaaf</name>
-      <email>ms(at)media(stripe)style(dot)com</email>
-      <organization>media style GmbH</organization>
-      <organizationUrl>http://www.media-style.com</organizationUrl>
-      <roles>
-		  <role>developer</role>
-	  </roles>
+        <id>fh</id>
+        <name>Frank Henze</name>
+        <email>fh(at)media-style.com</email>
+        <organization>media style GmbH</organization>
+        <organizationUrl>http://www.media-style.com</organizationUrl>
+        <roles>
+            <role>project leader</role>
+            <role>developer</role>
+        </roles>
     </developer>
-       </developers>
-    <build>
-	    <sourceDirectory>src/main/java</sourceDirectory>
-    	<unitTestSourceDirectory>src/test/java</unitTestSourceDirectory>
-        <unitTest>
-	      <resources>
-    	    <resource>
-				<directory>src/test/resources</directory>
+    <developer>
+        <id>mb</id>
+        <name>Marko Bauhardt</name>
+        <email>mb(at)media-style.com</email>
+        <organization>media style GmbH</organization>
+        <organizationUrl>http://www.media-style.com</organizationUrl>
+        <roles>
+            <role>developer</role>
+        </roles>
+    </developer>
+    <developer>
+        <id>ms</id>
+        <name>Martin Schaaf</name>
+        <email>ms(at)media(stripe)style(dot)com</email>
+        <organization>media style GmbH</organization>
+        <organizationUrl>http://www.media-style.com</organizationUrl>
+        <roles>
+            <role>developer</role>
+        </roles>
+    </developer>
+</developers>
+<build>
+    <sourceDirectory>src/main/java</sourceDirectory>
+    <unitTestSourceDirectory>src/test/java</unitTestSourceDirectory>
+    <unitTest>
+        <resources>
+            <resource>
+                <directory>src/test/resources</directory>
             </resource>
-          </resources>
-        </unitTest>
-	    <resources>
-    	  <resource>
-        	<directory>src/main/resources</directory>
-	      </resource>
-    	</resources>
-        </build>
-    <reports>
-        <report>maven-junit-report-plugin</report>
-        <report>maven-jcoverage-plugin</report>
-        <report>maven-simian-plugin</report>
-        <report>maven-javadoc-plugin</report>
-        <report>maven-pmd-plugin</report>
-        <report>maven-changes-plugin</report>
-        <report>maven-developer-activity-plugin</report>
-        <report>maven-file-activity-plugin</report>
-        <report>maven-jdepend-plugin</report>
-        <report>maven-tasklist-plugin</report>
-        <report>maven-license-plugin</report>
-        <report>maven-checkstyle-plugin</report>
-        <report>maven-jxr-plugin</report>
-        <report>maven-changelog-plugin</report>
-	</reports>
-   		<dependencies>
-            <dependency>
-                <groupId>jetspeed2</groupId>
-                <artifactId>jetspeed-security</artifactId>>
-   	            <version>2.0-dev</version>
-    	        <type>jar</type>
-        	    <properties>
-            	    <war.bundle>true</war.bundle>
-		        </properties>
-    	    </dependency>
-	        <dependency>
-                <groupId>jetspeed2</groupId>
-                <artifactId>jetspeed-api</artifactId>>
-   	            <version>2.0-dev</version>
-    	        <type>jar</type>
-        	    <properties>
-            	    <war.bundle>true</war.bundle>
-		        </properties>
-    	    </dependency>
-      		<dependency>
-            	<id>commons-logging</id>
-	            <version>1.0.3</version>
-    	        <type>jar</type>
-        	    <properties>
-            	    <war.bundle>true</war.bundle>
-	            </properties>
-    	    </dependency>
-			<dependency>
-            	<id>commons-lang</id>
-	            <version>2.1</version>
-    	        <type>jar</type>
-        	    <properties>
-            	    <war.bundle>true</war.bundle>
-	            </properties>
-    	    </dependency>
-	    	<dependency>
-		      <id>junit</id>
-		      <version>3.8.1</version>
-			  <properties>
-	        	<war.bundle>false</war.bundle>
-		      </properties>
-		    </dependency>
-   	    	<dependency>
-		      <id>hibernate</id>
-		      <version>3.1beta3</version>
-			  <properties>
-	        	<war.bundle>true</war.bundle>
-		      </properties>
-		    </dependency>
-            <dependency>
-		      <id>antlr</id>
-		      <version>2.7.2</version>
-			  <properties>
-	        	<war.bundle>true</war.bundle>
-		      </properties>
-		    </dependency>
-            <dependency>
-		      <id>c3p0</id>
-		      <version>0.9.0.2</version>
-			  <properties>
-	        	<war.bundle>true</war.bundle>
-		      </properties>
-		    </dependency>
-            <dependency>
-		      <id>cglib</id>
-		      <version>nodep-2.1_3</version>
-			  <properties>
-	        	<war.bundle>true</war.bundle>
-		      </properties>
-		    </dependency>
-            <dependency>
-		      <id>commons-collections</id>
-		      <version>3.1</version>
-			  <properties>
-	        	<war.bundle>true</war.bundle>
-		      </properties>
-		    </dependency>
-            <dependency>
-		      <id>dom4j</id>
-		      <version>1.4</version>
-			  <properties>
-	        	<war.bundle>true</war.bundle>
-		      </properties>
-		    </dependency>
-            <dependency>
-		      <id>ehcache</id>
-		      <version>1.1</version>
-			  <properties>
-	        	<war.bundle>true</war.bundle>
-		      </properties>
-		    </dependency>
-            <dependency>
-		      <id>hsqldb</id>
-		      <version>1.8.0.2</version>
-			  <properties>
-	        	<war.bundle>true</war.bundle>
-		      </properties>
-		    </dependency>
-            <dependency>
-		      <id>jta</id>
-		      <version>1.0.1</version>
-			  <properties>
-	        	<war.bundle>true</war.bundle>
-		      </properties>
-		    </dependency>
-		 </dependencies>
-</project>
+        </resources>
+    </unitTest>
+    <resources>
+        <resource>
+            <directory>src/main/resources</directory>
+        </resource>
+    </resources>
+</build>
+<reports>
+    <report>maven-junit-report-plugin</report>
+    <report>maven-jcoverage-plugin</report>
+    <report>maven-simian-plugin</report>
+    <report>maven-javadoc-plugin</report>
+    <report>maven-pmd-plugin</report>
+    <report>maven-changes-plugin</report>
+    <report>maven-developer-activity-plugin</report>
+    <report>maven-file-activity-plugin</report>
+    <report>maven-jdepend-plugin</report>
+    <report>maven-tasklist-plugin</report>
+    <report>maven-license-plugin</report>
+    <report>maven-checkstyle-plugin</report>
+    <report>maven-jxr-plugin</report>
+    <report>maven-changelog-plugin</report>
+</reports>
+<dependencies>
+    <dependency>
+    <groupId>jetspeed2</groupId>
+    <artifactId>jetspeed-security</artifactId>&gt; 
+    <version>2.0-dev</version>
+    <type>jar</type>
+    <properties>
+        <war.bundle>true</war.bundle>
+    </properties></dependency>
+    <dependency>
+    <groupId>jetspeed2</groupId>
+    <artifactId>jetspeed-api</artifactId>&gt; 
+    <version>2.0-dev</version>
+    <type>jar</type>
+    <properties>
+        <war.bundle>true</war.bundle>
+    </properties></dependency>
+    <dependency>
+        <id>commons-logging</id>
+        <version>1.0.3</version>
+        <type>jar</type>
+        <properties>
+            <war.bundle>true</war.bundle>
+        </properties>
+    </dependency>
+    <dependency>
+        <id>commons-lang</id>
+        <version>2.1</version>
+        <type>jar</type>
+        <properties>
+            <war.bundle>true</war.bundle>
+        </properties>
+    </dependency>
+    <dependency>
+        <id>junit</id>
+        <version>3.8.1</version>
+        <properties>
+            <war.bundle>false</war.bundle>
+        </properties>
+    </dependency>
+    <dependency>
+        <id>hibernate</id>
+        <version>3.1beta3</version>
+        <properties>
+            <war.bundle>true</war.bundle>
+        </properties>
+    </dependency>
+    <dependency>
+        <id>antlr</id>
+        <version>2.7.2</version>
+        <properties>
+            <war.bundle>true</war.bundle>
+        </properties>
+    </dependency>
+    <dependency>
+        <id>c3p0</id>
+        <version>0.9.0.2</version>
+        <properties>
+            <war.bundle>true</war.bundle>
+        </properties>
+    </dependency>
+    <dependency>
+        <id>cglib</id>
+        <version>nodep-2.1_3</version>
+        <properties>
+            <war.bundle>true</war.bundle>
+        </properties>
+    </dependency>
+    <dependency>
+        <id>commons-collections</id>
+        <version>3.1</version>
+        <properties>
+            <war.bundle>true</war.bundle>
+        </properties>
+    </dependency>
+    <dependency>
+        <id>dom4j</id>
+        <version>1.4</version>
+        <properties>
+            <war.bundle>true</war.bundle>
+        </properties>
+    </dependency>
+    <dependency>
+        <id>ehcache</id>
+        <version>1.1</version>
+        <properties>
+            <war.bundle>true</war.bundle>
+        </properties>
+    </dependency>
+    <dependency>
+        <id>hsqldb</id>
+        <version>1.8.0.2</version>
+        <properties>
+            <war.bundle>true</war.bundle>
+        </properties>
+    </dependency>
+    <dependency>
+        <id>jta</id>
+        <version>1.0.1</version>
+        <properties>
+            <war.bundle>true</war.bundle>
+        </properties>
+    </dependency>
+</dependencies></project>

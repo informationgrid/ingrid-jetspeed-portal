@@ -4,35 +4,30 @@
 
 package de.ingrid.usermanagement;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 import org.apache.jetspeed.security.SecurityException;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.SimpleExpression;
 
 /**
- *
+ * 
  */
 public class UserManagement {
 
-    private HashMap fUsers = new HashMap();
-
-    private ArrayList fRoles = new ArrayList();
-
-    private ArrayList fGroups = new ArrayList();
-
-    private HashMap fUser2Group = new HashMap();
-
-    private String fId;
+    private HibernateManager fHibernateManager = HibernateManager.getInstance();
 
     /**
      * @param name
      * @param password
      */
     public synchronized void addUser(final String name, final String password) {
-        if (!this.fUsers.containsKey(name)) {
-            this.fUsers.put(name, password);
+        if (!userExists(name)) {
+            User user = new User(name, password);
+            this.fHibernateManager.save(user);
         }
     }
 
@@ -41,7 +36,14 @@ public class UserManagement {
      * @return True if the user exists, false otherwise.
      */
     final public boolean userExists(final String name) {
-        return this.fUsers.containsKey(name);
+        boolean result = false;
+
+        User user = getUser(name);
+        if (null != user) {
+            result = true;
+        }
+
+        return result;
     }
 
     /**
@@ -49,15 +51,23 @@ public class UserManagement {
      * @return True if the group exists, false otherwise.
      */
     public boolean groupExists(final String name) {
-        return this.fGroups.contains(name);
+        boolean result = false;
+
+        Group group = getGroup(name);
+        if (null != group) {
+            result = true;
+        }
+
+        return result;
     }
 
     /**
-     * @param group
+     * @param name
      */
-    public synchronized void addGroup(String group) {
-        if (!this.fGroups.contains(group)) {
-            this.fGroups.add(group);
+    public synchronized void addGroup(String name) {
+        if (!groupExists(name)) {
+            Group group = new Group(name);
+            this.fHibernateManager.save(group);
         }
     }
 
@@ -65,35 +75,76 @@ public class UserManagement {
      * @param userName
      */
     public void removeUser(final String userName) {
-        this.fUsers.remove(userName);
-        this.fUser2Group.remove(userName);
+        List relations = this.fHibernateManager.loadAllData(UserGroupRoleRelation.class, 0);
+
+        if (null != relations) {
+            for (Iterator iterator = relations.iterator(); iterator.hasNext();) {
+                UserGroupRoleRelation relation = (UserGroupRoleRelation) iterator.next();
+                User user = relation.getUser();
+                if (user.getName().equals(userName)) {
+                    this.fHibernateManager.delete(relation);
+                }
+            }
+        }
+
+        if (userExists(userName)) {
+            User user = getUser(userName);
+            this.fHibernateManager.delete(user);
+        }
+    }
+
+    private User getUser(String userName) {
+        return (User) this.fHibernateManager.readObject(User.class, userName);
     }
 
     /**
      * @param groupName
      */
     public synchronized void removeGroup(final String groupName) {
-        for (Iterator iter = this.fUser2Group.keySet().iterator(); iter.hasNext();) {
-            String userName = (String) iter.next();
-            removeUserFromGroup(userName, groupName);
+        List relations = this.fHibernateManager.loadAllData(UserGroupRoleRelation.class, 0);
+        
+        if (null != relations) {
+            for (Iterator iterator = relations.iterator(); iterator.hasNext();) {
+                UserGroupRoleRelation relation = (UserGroupRoleRelation) iterator.next();
+                Group group = relation.getGroup();
+                if (group.getName().equals(groupName)) {
+                    this.fHibernateManager.delete(relation);
+                }
+            }
         }
-        this.fGroups.remove(groupName);
+
+        if (groupExists(groupName)) {
+            Group group = getGroup(groupName);
+            this.fHibernateManager.delete(group);
+        }
+    }
+
+    private Group getGroup(String groupName) {
+        return (Group) this.fHibernateManager.readObject(Group.class, groupName);
+    }
+
+    /**
+     * @param roleName
+     * @return True if the role exists, false otherwise.
+     */
+    public boolean roleExists(final String roleName) {
+        boolean result = false;
+
+        Role role = getRole(roleName);
+        if (null != role) {
+            result = true;
+        }
+
+        return result;
     }
 
     /**
      * @param name
-     * @return True if the role exists, false otherwise.
      */
-    public boolean roleExists(final String name) {
-        return this.fRoles.contains(name);
-    }
-
-    /**
-     * @param role
-     */
-    public synchronized void addRole(final String role) {
-        if (!this.fRoles.contains(role)) {
-            this.fRoles.add(role);
+    public synchronized void addRole(final String name) {
+        if (!roleExists(name)) {
+            Role role = new Role(name);
+            this.fHibernateManager.save(role);
         }
     }
 
@@ -101,15 +152,26 @@ public class UserManagement {
      * @param roleName
      */
     public synchronized void removeRole(final String roleName) {
-        for (Iterator userIter = this.fUser2Group.keySet().iterator(); userIter.hasNext();) {
-            String userName = (String) userIter.next();
-            HashMap groupHash = (HashMap) this.fUser2Group.get(userName);
-            for (Iterator groupIter = groupHash.keySet().iterator(); groupIter.hasNext();) {
-                String groupName = (String) groupIter.next();
-                removeUserFromRole(userName, groupName, roleName);
+        if (roleExists(roleName)) {
+            List relations = this.fHibernateManager.loadAllData(UserGroupRoleRelation.class, 0);
+
+            if (null != relations) {
+                for (Iterator iterator = relations.iterator(); iterator.hasNext();) {
+                    UserGroupRoleRelation relation = (UserGroupRoleRelation) iterator.next();
+                    Role role = relation.getRole();
+                    if (role.getName().equals(roleName)) {
+                        this.fHibernateManager.delete(relation);
+                    }
+                }
             }
+
+            Role role = getRole(roleName);
+            this.fHibernateManager.delete(role);
         }
-        this.fRoles.remove(roleName);
+    }
+
+    private Role getRole(String roleName) {
+        return (Role) this.fHibernateManager.readObject(Role.class, roleName);
     }
 
     /**
@@ -119,13 +181,16 @@ public class UserManagement {
      */
     public synchronized void removeUserFromRole(final String userName, final String groupName, final String roleName) {
         if (userExists(userName) && groupExists(groupName) && roleExists(roleName)) {
-            if (this.fUser2Group.containsKey(userName)) {
-                HashMap groupHash = (HashMap) this.fUser2Group.get(userName);
-                if (groupHash.containsKey(groupName)) {
-                    ArrayList roleArray = (ArrayList) groupHash.get(groupName);
-                    if (roleArray.contains(roleName)) {
-                        roleArray.remove(roleName);
-                    }
+            List relations = this.fHibernateManager.loadAllData(UserGroupRoleRelation.class, 0);
+
+            User user = getUser(userName);
+            Group group = getGroup(groupName);
+            Role role = getRole(roleName);
+            UserGroupRoleRelation relationToCompareWith = new UserGroupRoleRelation(user, group, role);
+            for (Iterator iter = relations.iterator(); iter.hasNext();) {
+                UserGroupRoleRelation relation = (UserGroupRoleRelation) iter.next();
+                if (relation.equals(relationToCompareWith)) {
+                    this.fHibernateManager.delete(relation);
                 }
             }
         }
@@ -133,32 +198,20 @@ public class UserManagement {
 
     /**
      * Bind a user to a group with a specific role. A user can have more roles in one group.
-     *
+     * 
      * @param userName
      * @param groupName
      * @param roleName
      */
-    final public synchronized void addUserToGroup(final String userName, final String groupName, final String roleName) {
+    public synchronized void addUserToGroup(final String userName, final String groupName, final String roleName) {
         if (userExists(userName) && groupExists(groupName) && roleExists(roleName)) {
-            if (this.fUser2Group.containsKey(userName)) {
-                HashMap groupHash = (HashMap) this.fUser2Group.get(userName);
-                if (groupHash.containsKey(groupName)) {
-                    ArrayList roleArray = (ArrayList) groupHash.get(groupName);
-                    if (!roleArray.contains(roleName)) {
-                        roleArray.add(roleName);
-                    }
-                } else {
-                    ArrayList roleArray = new ArrayList();
-                    roleArray.add(roleName);
-                    groupHash.put(groupName, roleArray);
-                }
-            } else {
-                ArrayList roleArray = new ArrayList();
-                roleArray.add(roleName);
-                HashMap groupHash = new HashMap();
-                groupHash.put(groupName, roleArray);
-                this.fUser2Group.put(userName, groupHash);
-            }
+            Group group = getGroup(groupName);
+            Role role = getRole(roleName);
+            User user = getUser(userName);
+            UserGroupRoleRelation newRelation = new UserGroupRoleRelation(user, group, role);
+            // TODO: if new relation does not exist store
+            this.fHibernateManager.save(newRelation);
+            // endif
         }
     }
 
@@ -172,13 +225,18 @@ public class UserManagement {
         boolean result = false;
 
         if (userExists(userName) && groupExists(groupName) && roleExists(roleName)) {
-            if (this.fUser2Group.containsKey(userName)) {
-                HashMap groupHash = (HashMap) this.fUser2Group.get(userName);
-                if (groupHash.containsKey(groupName)) {
-                    ArrayList roleArray = (ArrayList) groupHash.get(groupName);
-                    if (roleArray.contains(roleName)) {
-                        result = true;
-                    }
+            List relations = this.fHibernateManager.loadAllData(UserGroupRoleRelation.class, 0);
+
+            User user = getUser(userName);
+            Group group = getGroup(groupName);
+            Role role = getRole(roleName);
+            final UserGroupRoleRelation relationToCompareWith = new UserGroupRoleRelation(user, group, role);
+
+            for (Iterator iter = relations.iterator(); iter.hasNext();) {
+                UserGroupRoleRelation element = (UserGroupRoleRelation) iter.next();
+                if (relationToCompareWith.equals(element)) {
+                    result = true;
+                    break;
                 }
             }
         }
@@ -195,10 +253,17 @@ public class UserManagement {
         boolean result = false;
 
         if (userExists(userName) && groupExists(groupName)) {
-            if (this.fUser2Group.containsKey(userName)) {
-                HashMap groupHash = (HashMap) this.fUser2Group.get(userName);
-                if (groupHash.containsKey(groupName)) {
-                    result = true;
+            List relations = this.fHibernateManager.loadAllData(UserGroupRoleRelation.class, 0);
+            for (Iterator iter = relations.iterator(); iter.hasNext();) {
+                UserGroupRoleRelation element = (UserGroupRoleRelation) iter.next();
+                User user = element.getUser();
+                Group group = element.getGroup();
+                String elementGroupName = group.getName();
+                if ((userName.equals(user.getName())) && (null != elementGroupName)) {
+                    if (elementGroupName.equals(groupName)) {
+                        result = true;
+                        break;
+                    }
                 }
             }
         }
@@ -212,10 +277,14 @@ public class UserManagement {
      */
     public synchronized void removeUserFromGroup(final String userName, final String groupName) {
         if (userExists(userName) && groupExists(groupName)) {
-            if (this.fUser2Group.containsKey(userName)) {
-                HashMap groupHash = (HashMap) this.fUser2Group.get(userName);
-                if (groupHash.containsKey(groupName)) {
-                    groupHash.remove(groupName);
+            User user = getUser(userName);
+            List relations = this.fHibernateManager.loadAllData(UserGroupRoleRelation.class, 0);
+            for (Iterator iter = relations.iterator(); iter.hasNext();) {
+                UserGroupRoleRelation element = (UserGroupRoleRelation) iter.next();
+                Group group = element.getGroup();
+                String elementGroupName = group.getName();
+                if ((null != elementGroupName) && elementGroupName.equals(groupName)) {
+                    this.fHibernateManager.delete(element);
                 }
             }
         }
@@ -229,97 +298,29 @@ public class UserManagement {
     public synchronized boolean authenticate(final String userName, final String password) {
         boolean result = false;
 
-        String storedPassword = (String) this.fUsers.get(userName);
-        if (storedPassword.equals(password)) {
-            result = true;
+        if (userExists(userName)) {
+            User user = getUser(userName);
+            String storedPassword = user.getPassword();
+            if (storedPassword.equals(password)) {
+                result = true;
+            }
         }
 
         return result;
     }
 
     /**
-     * @return The id for hibernate.
-     */
-    public String getId() {
-        return this.fId;
-    }
-
-    /**
-     * Is used by hibernate.
-     *
-     * @param id
-     */
-    public void setId(final String id) {
-        this.fId = id;
-    }
-
-    /**
-     * @param users
-     *
-     */
-    public synchronized void setUsers(final Object users) {
-        this.fUsers = (HashMap) users;
-    }
-
-    /**
-     * @return The user hash map as serializable.
-     */
-    public synchronized HashMap getUsers() {
-        return this.fUsers;
-    }
-
-    /**
-     * @param groups
-     */
-    public synchronized void setGroups(Serializable groups) {
-        this.fGroups = (ArrayList) groups;
-    }
-
-    /**
-     * @return The group hash map as serializable.
-     */
-    public synchronized Serializable getGroups() {
-        return this.fGroups;
-    }
-
-    /**
-     * @param roles
-     */
-    public synchronized void setRoles(final Serializable roles) {
-        this.fRoles = (ArrayList) roles;
-    }
-
-    /**
-     * @return The role hash map as serializable.
-     */
-    public synchronized Serializable getRoles() {
-        return this.fRoles;
-    }
-
-    /**
-     * @param user2group
-     */
-    public synchronized void setUserToGroup(Serializable user2group) {
-        this.fUser2Group = (HashMap) user2group;
-    }
-
-    /**
-     * @return The user to group relation hash map as serializable.
-     */
-    public synchronized Serializable getUserToGroup() {
-        return this.fUser2Group;
-    }
-
-    /**
-     * @param username
+     * @param userName
      * @param oldPassword
      * @param newPassword
      * @throws SecurityException
      */
-    final public synchronized void setPassword(String username, String oldPassword, String newPassword)
+    final public synchronized void setPassword(String userName, String oldPassword, String newPassword)
             throws SecurityException {
-        if (authenticate(username, oldPassword)) {
-            this.fUsers.put(username, newPassword);
+        if (authenticate(userName, oldPassword)) {
+            User user = getUser(userName);
+            user.setPassword(newPassword);
+            this.fHibernateManager.update(user);
         } else {
             throw new SecurityException(SecurityException.INCORRECT_PASSWORD.create("Cannot authenticate."));
         }
@@ -334,7 +335,8 @@ public class UserManagement {
         String result = null;
 
         if (userExists(userName)) {
-            result = (String) this.fUsers.get(userName);
+            User user = getUser(userName);
+            result = user.getPassword();
         } else {
             throw new SecurityException(SecurityException.USER_DOES_NOT_EXIST.create(userName));
         }
@@ -345,16 +347,20 @@ public class UserManagement {
     /**
      * @param filter
      *            A wildcard filter.
-     * @return All user names that match the filter.
+     * @return All user that match the filter.
      */
     public synchronized String[] find(final String filter) {
         ArrayList result = new ArrayList();
+        List relations = this.fHibernateManager.loadAllData(User.class, 0);
 
-        for (Iterator iter = this.fUsers.keySet().iterator(); iter.hasNext();) {
-            String regex = wildcardToRegex(filter);
-            String userName = (String) iter.next();
-            if (userName.matches(regex)) {
-                result.add(userName);
+        final String filterRegexp = wildcardToRegex(filter);
+        if (null != relations) {
+            for (Iterator iter = relations.iterator(); iter.hasNext();) {
+                User user = (User) iter.next();
+                final String userName = user.getName();
+                if (userName.matches(filterRegexp)) {
+                    result.add(userName);
+                }
             }
         }
 
@@ -375,14 +381,17 @@ public class UserManagement {
      * @return All groups a user is member for.
      * @throws SecurityException
      */
-    public synchronized String[] getGroupsForUser(String userName) throws SecurityException {
+    public synchronized String[] getGroupsForUser(final String userName) throws SecurityException {
         ArrayList result = new ArrayList();
 
         if (userExists(userName)) {
-            if (this.fUser2Group.containsKey(userName)) {
-                HashMap groups = (HashMap) this.fUser2Group.get(userName);
-                for (Iterator iter = groups.keySet().iterator(); iter.hasNext();) {
-                    String groupName = (String) iter.next();
+            List relations = this.fHibernateManager.loadAllData(UserGroupRoleRelation.class, 0);
+            for (Iterator iter = relations.iterator(); iter.hasNext();) {
+                UserGroupRoleRelation relation = (UserGroupRoleRelation) iter.next();
+                Group group = relation.getGroup();
+                String groupName = group.getName();
+                User user = relation.getUser();
+                if ((userName.equals(user.getName())) && (null != groupName)) {
                     result.add(groupName);
                 }
             }
@@ -400,10 +409,15 @@ public class UserManagement {
     public synchronized String[] getUsersForGroup(String groupName) {
         ArrayList result = new ArrayList();
 
-        for (Iterator iter = this.fUsers.keySet().iterator(); iter.hasNext();) {
-            String userName = (String) iter.next();
-            if (isUserInGroup(userName, groupName)) {
-                result.add(userName);
+        List users = this.fHibernateManager.loadAllData(User.class, 0);
+
+        if (null != users) {
+            for (Iterator iter = users.iterator(); iter.hasNext();) {
+                User user = (User) iter.next();
+                final String userName = user.getName();
+                if (isUserInGroup(userName, groupName)) {
+                    result.add(userName);
+                }
             }
         }
 
@@ -418,17 +432,9 @@ public class UserManagement {
     public synchronized void addUserToGroup(String userName, String groupName) throws SecurityException {
         if (userExists(userName)) {
             if (groupExists(groupName)) {
-                if (this.fUser2Group.containsKey(userName)) {
-                    HashMap groupHash = (HashMap) this.fUser2Group.get(userName);
-                    if (!groupHash.containsKey(groupName)) {
-                        ArrayList roleArray = new ArrayList();
-                        groupHash.put(groupName, roleArray);
-                    }
-                } else {
-                    ArrayList roleArray = new ArrayList();
-                    HashMap groupHash = new HashMap();
-                    groupHash.put(groupName, roleArray);
-                    this.fUser2Group.put(userName, groupHash);
+                if (!isUserInGroup(userName, groupName)) {
+                    addRole("");
+                    addUserToGroup(userName, groupName, "");
                 }
             } else {
                 throw new SecurityException(SecurityException.GROUP_DOES_NOT_EXIST.create(groupName));

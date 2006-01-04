@@ -13,87 +13,60 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 /**
- *
+ * 
  */
 public class UserManagementPersistenceTest extends TestCase {
 
-    private Session fSession;
+    private UserManagement fUserManagement;
 
     protected void setUp() {
-        this.fSession = HibernateUtil.currentSession();
+        this.fUserManagement = new UserManagement();
     }
 
     protected void tearDown() {
-        HibernateUtil.closeSession();
+        this.fUserManagement = null;
     }
 
     /**
-     *
+     * 
      */
     public void testPersistenceWrite() {
-        Transaction tx = this.fSession.beginTransaction();
-
-        UserManagement um = new UserManagement();
-        um.addGroup("group");
-        um.addRole("role");
-        um.addUser("user", "password");
-        um.addUserToGroup("user", "group", "role");
-
-        this.fSession.save(um);
-        tx.commit();
+        this.fUserManagement.removeUser("user");
+        this.fUserManagement.addGroup("group");
+        this.fUserManagement.addRole("role");
+        this.fUserManagement.addUser("user", "password");
+        this.fUserManagement.addUserToGroup("user", "group", "role");
     }
 
     /**
-     *
+     * 
      */
     public void testPersistenceRead() {
-        Transaction tx = this.fSession.beginTransaction();
-
-        List result = this.fSession.createQuery("from UserManagement").list();
-
         boolean auth = false;
-        for (Iterator iter = result.iterator(); iter.hasNext();) {
-            UserManagement um = (UserManagement) iter.next();
-            auth = um.authenticate("user", "password");
-        }
+        auth = this.fUserManagement.authenticate("user", "password");
         assertTrue(auth);
-
-        tx.commit();
     }
 
     /**
-     *
+     * 
      */
     public void testPersistenceUpdateWrite() {
-        Transaction tx = this.fSession.beginTransaction();
+        this.fUserManagement.removeUser("user2");
+        this.fUserManagement.addUser("user2", "password2");
 
-        UserManagement um = null;
-        List result = this.fSession.createQuery("from UserManagement").list();
-        for (Iterator iter = result.iterator(); iter.hasNext();) {
-            um = (UserManagement) iter.next();
-            um.addUser("user2", "password2");
-        }
-
-        assertNotNull(um);
-        this.fSession.update(um);
-        tx.commit();
+        assertNotNull(this.fUserManagement);
     }
 
     /**
-     *
+     * 
      */
     public void testPersistenceUpdateRead() {
-        Transaction tx = this.fSession.beginTransaction();
-
-        List result = this.fSession.createQuery("from UserManagement").list();
-
         boolean auth = false;
-        for (Iterator iter = result.iterator(); iter.hasNext();) {
-            UserManagement um = (UserManagement) iter.next();
-            auth = (um.authenticate("user", "password") && um.authenticate("user2", "password2"));
-        }
+        auth = (this.fUserManagement.authenticate("user", "password") && this.fUserManagement.authenticate("user2",
+                "password2"));
         assertTrue(auth);
-
-        tx.commit();
+        
+        this.fUserManagement.removeUser("user");
+        this.fUserManagement.removeUser("user2");
     }
 }

@@ -12,6 +12,12 @@ public class Role {
     private String fName;
 
     /**
+     */
+    public Role() {
+        //for hibernate
+    }
+    
+    /**
      * @param name
      */
     public Role( final String name) {

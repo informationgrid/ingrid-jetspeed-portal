@@ -9,31 +9,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.jetspeed.security.SecurityException;
 import org.apache.jetspeed.security.UserPrincipal;
 import org.apache.jetspeed.security.impl.UserPrincipalImpl;
 import org.apache.jetspeed.security.spi.UserSecurityHandler;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
-import de.ingrid.usermanagement.HibernateUtil;
 import de.ingrid.usermanagement.UserManagement;
 
 /**
  */
 public class IngridUserSecurityHandler implements UserSecurityHandler {
 
-    private final Log fLogger = LogFactory.getLog(this.getClass());
-
-    private Session fSession;
-
-    /**
-     */
-    public IngridUserSecurityHandler() {
-        this.fSession = HibernateUtil.currentSession();
-    }
+    private UserManagement fUserManagement = new UserManagement();
 
     /**
      * @see org.apache.jetspeed.security.spi.UserSecurityHandler#isUserPrincipal(java.lang.String)
@@ -52,18 +39,8 @@ public class IngridUserSecurityHandler implements UserSecurityHandler {
 
         verifyUserName(userName);
 
-        Transaction tx = this.fSession.beginTransaction();
-        List authList = this.fSession.createQuery("from UserManagement").list();
-        try {
-            UserManagement um = (UserManagement) authList.get(0);
-
-            if (um.userExists(userName)) {
-                result = new UserPrincipalImpl(userName);
-            }
-        } catch (IndexOutOfBoundsException e) {
-            this.fLogger.error("An hibernate error has occurred: No UserManagement found.");
-        } finally {
-            tx.commit();
+        if (this.fUserManagement.userExists(userName)) {
+            result = new UserPrincipalImpl(userName);
         }
 
         return result;
@@ -74,22 +51,12 @@ public class IngridUserSecurityHandler implements UserSecurityHandler {
      */
     public List getUserPrincipals(String filter) {
         List result = new ArrayList();
-        
-        Transaction tx = this.fSession.beginTransaction();
-        List authList = this.fSession.createQuery("from UserManagement").list();
-        try {
-            UserManagement um = (UserManagement) authList.get(0);
-            
-            String[] userNames = um.find(filter);
-            for (int i = 0; i < userNames.length; i++) {
-                result.add(new UserPrincipalImpl(userNames[i]));
-            }
-        } catch (IndexOutOfBoundsException e) {
-            this.fLogger.error("An hibernate error has occurred: No UserManagement found.");
-        } finally {
-            tx.commit();
+
+        String[] userNames = this.fUserManagement.find(filter);
+        for (int i = 0; i < userNames.length; i++) {
+            result.add(new UserPrincipalImpl(userNames[i]));
         }
-        
+
         return result;
     }
 
@@ -104,19 +71,8 @@ public class IngridUserSecurityHandler implements UserSecurityHandler {
             throw new SecurityException(SecurityException.USER_ALREADY_EXISTS.create(userName));
         }
 
-        Transaction tx = this.fSession.beginTransaction();
-        List authList = this.fSession.createQuery("from UserManagement").list();
-        try {
-            UserManagement um = (UserManagement) authList.get(0);
-
-            // FIXME: Add the user here but with its name as the password.
-            um.addUser(userName, userName);
-            this.fSession.update(um);
-        } catch (IndexOutOfBoundsException e) {
-            this.fLogger.error("An hibernate error has occurred: No UserManagement found.");
-        } finally {
-            tx.commit();
-        }
+        // FIXME: Add the user here but with its name as the password.
+        this.fUserManagement.addUser(userName, userName);
     }
 
     private void verifyUserPrincipal(UserPrincipal userPrincipal) {
@@ -144,20 +100,7 @@ public class IngridUserSecurityHandler implements UserSecurityHandler {
 
         String userName = userPrincipal.getName();
 
-        Transaction tx = this.fSession.beginTransaction();
-        List authList = this.fSession.createQuery("from UserManagement").list();
-        try {
-            UserManagement um = (UserManagement) authList.get(0);
-
-            um.removeUser(userName);
-            this.fSession.update(um);
-        } catch (IndexOutOfBoundsException e) {
-            this.fLogger.error(e);
-            throw new SecurityException(SecurityException.UNEXPECTED
-                    .create("An hibernate error has occurred: No UserManagement found."));
-        } finally {
-            tx.commit();
-        }
+        this.fUserManagement.removeUser(userName);
     }
 
     private void verifyUserName(String userName) {

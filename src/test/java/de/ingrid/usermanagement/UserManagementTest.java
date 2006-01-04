@@ -4,6 +4,9 @@
 
 package de.ingrid.usermanagement;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import junit.framework.TestCase;
 
 import org.apache.jetspeed.security.SecurityException;
@@ -29,6 +32,7 @@ public class UserManagementTest extends TestCase {
      */
     protected void tearDown() throws Exception {
         this.fUserManagement = null;
+
         super.tearDown();
     }
 
@@ -38,6 +42,7 @@ public class UserManagementTest extends TestCase {
     public void testAddUser() {
         this.fUserManagement.addUser("user1", "pwd");
         assertTrue(this.fUserManagement.userExists("user1"));
+        this.fUserManagement.removeUser("user1");
     }
 
     /**
@@ -46,6 +51,7 @@ public class UserManagementTest extends TestCase {
     public void testAddGroup() {
         this.fUserManagement.addGroup("group1");
         assertTrue(this.fUserManagement.groupExists("group1"));
+        this.fUserManagement.removeGroup("group1");
     }
 
     /**
@@ -54,6 +60,7 @@ public class UserManagementTest extends TestCase {
     public void testAddRole() {
         this.fUserManagement.addRole("role1");
         assertTrue(this.fUserManagement.roleExists("role1"));
+        this.fUserManagement.removeRole("role1");
     }
 
     /**
@@ -96,6 +103,11 @@ public class UserManagementTest extends TestCase {
 
         this.fUserManagement.addUserToGroup("user1", "group1", "role1");
         assertTrue(this.fUserManagement.isUserInGroup("user1", "group1", "role1"));
+        
+        this.fUserManagement.removeUserFromGroup("user1", "group1");
+        this.fUserManagement.removeGroup("group1");
+        this.fUserManagement.removeRole("role1");
+        this.fUserManagement.removeUser("user1");
     }
 
     /**
@@ -193,33 +205,37 @@ public class UserManagementTest extends TestCase {
      * 
      */
     public void testSetPassword() throws SecurityException {
-        this.fUserManagement.addUser("user", "pwd");
-        this.fUserManagement.setPassword("user", "pwd", "dwp");
+        this.fUserManagement.removeUser("user12");
+        this.fUserManagement.addUser("user12", "pwd");
+        this.fUserManagement.setPassword("user12", "pwd", "dwp");
 
-        assertTrue(this.fUserManagement.authenticate("user", "dwp"));
+        assertTrue(this.fUserManagement.authenticate("user12", "dwp"));
+        this.fUserManagement.removeUser("user12");
     }
 
     /**
      */
     public void testCannotSetPassword() {
-        this.fUserManagement.addUser("user", "pwd");
-
+        this.fUserManagement.removeUser("user9867589");
+        this.fUserManagement.addUser("user9867589", "dwp");
         try {
-            this.fUserManagement.setPassword("user", "dwp", "pwd");
+            this.fUserManagement.setPassword("user9867589", "pwd", "dwp");
             fail();
         } catch (SecurityException e) {
-            assertTrue(this.fUserManagement.authenticate("user", "pwd"));
+            assertTrue(this.fUserManagement.authenticate("user9867589", "dwp"));
         }
+        this.fUserManagement.removeUser("user9867589");
     }
 
     /**
      * @throws SecurityException
      */
     public void testGetPassword() throws SecurityException {
-        this.fUserManagement.addUser("user", "pwd");
-
-        final String password = this.fUserManagement.getPassword("user");
-        assertEquals("pwd", password);
+        this.fUserManagement.removeUser("user4867439");
+        this.fUserManagement.addUser("user4867439", "dwp");
+        final String password = this.fUserManagement.getPassword("user4867439");
+        assertEquals("dwp", password);
+        this.fUserManagement.removeUser("user4867439");
     }
 
     /**
@@ -227,7 +243,7 @@ public class UserManagementTest extends TestCase {
      */
     public void testGetPasswordNoUser() {
         try {
-            this.fUserManagement.getPassword("user");
+            this.fUserManagement.getPassword("user5");
             fail();
         } catch (SecurityException e) {
             assertEquals(SecurityException.USER_DOES_NOT_EXIST.getKey(), e.getKeyedMessage().getKey());
@@ -239,59 +255,63 @@ public class UserManagementTest extends TestCase {
      * 
      */
     public void testGetGroupsForUser() throws SecurityException {
-        this.fUserManagement.addUser("user", "pwd");
-        this.fUserManagement.addUser("user1", "pwd");
+        this.fUserManagement.removeUser("user5645654");
+        this.fUserManagement.removeUser("user56456547");
+        this.fUserManagement.addUser("user5645654", "pwd");
+        this.fUserManagement.addUser("user56456547", "pwd");
         this.fUserManagement.addGroup("group1");
         this.fUserManagement.addGroup("group2");
         this.fUserManagement.addGroup("group3");
         this.fUserManagement.addGroup("group4");
-        this.fUserManagement.addUserToGroup("user", "group1");
-        this.fUserManagement.addUserToGroup("user", "group2");
-        this.fUserManagement.addUserToGroup("user", "group3");
-        this.fUserManagement.addUserToGroup("user1", "group4");
+        this.fUserManagement.addUserToGroup("user5645654", "group1");
+        this.fUserManagement.addUserToGroup("user5645654", "group2");
+        this.fUserManagement.addUserToGroup("user5645654", "group3");
+        this.fUserManagement.addUserToGroup("user56456547", "group4");
 
-        String[] groups = this.fUserManagement.getGroupsForUser("user1");
+        String[] groups = this.fUserManagement.getGroupsForUser("user56456547");
         assertEquals(1, groups.length);
         assertEquals("group4", groups[0]);
 
-        groups = this.fUserManagement.getGroupsForUser("user");
+        groups = this.fUserManagement.getGroupsForUser("user5645654");
         assertEquals(3, groups.length);
+
+        this.fUserManagement.removeUser("user5645654");
+        this.fUserManagement.removeUser("user56456547");
     }
 
     /**
      */
     public void testGetGroupsForUserNoUser() {
         try {
-            this.fUserManagement.getGroupsForUser("user");
+            this.fUserManagement.getGroupsForUser("user90");
             fail();
         } catch (SecurityException e) {
             assertEquals(SecurityException.USER_DOES_NOT_EXIST.getKey(), e.getKeyedMessage().getKey());
         }
     }
-    
+
     /**
      */
     public void testAddUserToGroupNoUser() {
         try {
-            this.fUserManagement.addUserToGroup("user", "group");
+            this.fUserManagement.addUserToGroup("user90", "group");
             fail();
         } catch (SecurityException e) {
             assertEquals(SecurityException.USER_DOES_NOT_EXIST.getKey(), e.getKeyedMessage().getKey());
         }
     }
-    
+
     /**
      */
     public void testAddUserToGroupNoGroup() {
-        this.fUserManagement.addUser("user", "pwd");
         try {
-            this.fUserManagement.addUserToGroup("user", "group");
+            this.fUserManagement.addUserToGroup("user", "group90");
             fail();
         } catch (SecurityException e) {
             assertEquals(SecurityException.GROUP_DOES_NOT_EXIST.getKey(), e.getKeyedMessage().getKey());
         }
     }
-    
+
     /**
      * @throws SecurityException
      */
