@@ -6,9 +6,9 @@
     <session-factory>
         <!-- Database connection settings -->
         <property name="connection.driver_class">org.hsqldb.jdbcDriver</property>
-        <property name="connection.url">jdbc:hsqldb:file:hsqldb/data/ingrid-um;shutdown=true</property>
+        <property name="connection.url">jdbc:hsqldb:file:ingrid-um</property>
         <property name="connection.username">sa</property>
-        <property name="connection.password">fdlgeklgfjdt743</property>
+        <property name="connection.password"></property>
 
 		<property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
         <property name="cache.use_query_cache">false</property>
@@ -27,7 +27,7 @@
         <property name="show_sql">false</property>
 
         <!-- Drop and re-create the database schema on startup -->
-        <property name="hbm2ddl.auto">create</property>
+        <property name="hbm2ddl.auto">update</property>
 
 		<mapping resource="User.hbm.xml"/>
         <mapping resource="Group.hbm.xml"/>
