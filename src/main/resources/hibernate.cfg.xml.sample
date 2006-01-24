@@ -6,7 +6,7 @@
     <session-factory>
         <!-- Database connection settings -->
         <property name="connection.driver_class">org.hsqldb.jdbcDriver</property>
-        <property name="connection.url">jdbc:hsqldb:file:ingrid-um</property>
+        <property name="connection.url">jdbc:hsqldb:file://ingrid-um</property>
         <property name="connection.username">sa</property>
         <property name="connection.password"></property>
 
@@ -26,12 +26,11 @@
         <!-- Echo all executed SQL to stdout -->
         <property name="show_sql">false</property>
 
-        <!-- Drop and re-create the database schema on startup -->
-        <property name="hbm2ddl.auto">update</property>
+        <property name="hbm2ddl.auto">create</property>
 
-		<mapping resource="User.hbm.xml"/>
-        <mapping resource="Group.hbm.xml"/>
-        <mapping resource="Role.hbm.xml"/>
-        <mapping resource="UserGroupRoleRelation.hbm.xml"/>
+		<mapping resource="de/ingrid/usermanagement/User.hbm.xml"/>
+        <mapping resource="de/ingrid/usermanagement/Group.hbm.xml"/>
+        <mapping resource="de/ingrid/usermanagement/Role.hbm.xml"/>
+        <mapping resource="de/ingrid/usermanagement/UserGroupRoleRelation.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

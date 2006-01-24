@@ -41,9 +41,9 @@
         <!-- Drop and re-create the database schema on startup -->
         <property name="hbm2ddl.auto">create</property>
 
-        <mapping resource="User.hbm.xml"/>
-        <mapping resource="Group.hbm.xml"/>
-        <mapping resource="Role.hbm.xml"/>
-        <mapping resource="UserGroupRoleRelation.hbm.xml"/>
+        <mapping resource="de/ingrid/usermanagement/User.hbm.xml"/>
+        <mapping resource="de/ingrid/usermanagement/Group.hbm.xml"/>
+        <mapping resource="de/ingrid/usermanagement/Role.hbm.xml"/>
+        <mapping resource="de/ingrid/usermanagement/UserGroupRoleRelation.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>
