@@ -1,11 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-  <!-- ************** Security SPI Handlers ************** -->
-  
-  <!-- Security SPI: CredentialHandler -->
-  <bean id="org.apache.jetspeed.security.spi.CredentialHandler" class="de.ingrid.usermanagement.jetspeed.IngridCredentialHandler" />
-  
-  <!-- Security SPI: UserSecurityHandler -->
-  <bean id="org.apache.jetspeed.security.spi.UserSecurityHandler" class="de.ingrid.usermanagement.jetspeed.IngridUserSecurityHandler" />
+<!-- ************** Security SPI Handlers ************** -->
+<!-- Security SPI: CredentialHandler -->
+    <bean id="org.apache.jetspeed.security.spi.CredentialHandler" class="de.ingrid.usermanagement.jetspeed.IngridCredentialHandler" />
+<!-- Security SPI: UserSecurityHandler -->
+    <bean id="org.apache.jetspeed.security.spi.UserSecurityHandler" class="de.ingrid.usermanagement.jetspeed.IngridUserSecurityHandler" />
 </beans>
