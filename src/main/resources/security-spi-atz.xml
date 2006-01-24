@@ -1,9 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+<!-- ************** Security SPI Handlers ************** -->
+<!-- Security SPI: RoleSecurityHandler -->
+    <bean id="org.apache.jetspeed.security.spi.RoleSecurityHandler" class="org.apache.jetspeed.security.spi.impl.DefaultRoleSecurityHandler">
+        <constructor-arg>
+            <ref bean="org.apache.jetspeed.security.spi.SecurityAccess" />
+        </constructor-arg>
+    </bean>
+<!-- Security SPI: GroupSecurityHandler -->
+    <bean id="org.apache.jetspeed.security.spi.GroupSecurityHandler" class="org.apache.jetspeed.security.spi.impl.DefaultGroupSecurityHandler">
+        <constructor-arg>
+            <ref bean="org.apache.jetspeed.security.spi.SecurityAccess" />
+        </constructor-arg>
+    </bean>
 <!-- Security SPI: SecurityMappingHandler -->
-<bean id="org.apache.jetspeed.security.spi.SecurityMappingHandler" class="org.ingrid.usermanagement.jetspeed.IngridSecurityMappingHandler">  	   
-   <constructor-arg >
-   </constructor-arg>
-   <!-- Default role hierarchy strategy is by generalization.  
-        Add contructor-arg to change the strategy. -->
-   <!-- Default group hierarchy strategy is by generalization.  
-        Add contructor-arg to change the strategy. -->
-</bean>
+    <bean id="org.apache.jetspeed.security.spi.SecurityMappingHandler" class="de.ingrid.usermanagement.jetspeed.IngridSecurityMappingHandler">
+    </bean>
+</beans>
