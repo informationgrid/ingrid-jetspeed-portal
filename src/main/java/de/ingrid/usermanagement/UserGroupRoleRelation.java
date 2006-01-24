@@ -16,7 +16,18 @@ public class UserGroupRoleRelation {
 
     private User fUser = null;
 
-    UserGroupRoleRelation(User user,Group group, Role role) {
+    /**
+     */
+    public UserGroupRoleRelation() {
+        //for cglib
+    }
+    
+    /**
+     * @param user
+     * @param group
+     * @param role
+     */
+    public UserGroupRoleRelation(User user,Group group, Role role) {
         this.fUser  = user;
         this.fGroup = group;
         this.fRole = role;
