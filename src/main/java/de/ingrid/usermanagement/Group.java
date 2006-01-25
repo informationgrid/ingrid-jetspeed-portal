@@ -13,9 +13,9 @@ public class Group {
     /**
      */
     public Group() {
-        //for hibernate
+        // for hibernate
     }
-    
+
     /**
      * @param name
      */
@@ -24,7 +24,9 @@ public class Group {
     }
 
     /**
-     * @return
+     * Returns the name of the group this object represents.
+     * 
+     * @return The name of the group.
      */
     public String getName() {
         return this.fName;

@@ -19,22 +19,24 @@ public class UserGroupRoleRelation {
     /**
      */
     public UserGroupRoleRelation() {
-        //for cglib
+        // for cglib
     }
-    
+
     /**
      * @param user
      * @param group
      * @param role
      */
-    public UserGroupRoleRelation(User user,Group group, Role role) {
-        this.fUser  = user;
+    public UserGroupRoleRelation(User user, Group group, Role role) {
+        this.fUser = user;
         this.fGroup = group;
         this.fRole = role;
     }
 
     /**
-     * @return
+     * The current group.
+     * 
+     * @return A group object.
      */
     public Group getGroup() {
         return this.fGroup;
@@ -48,7 +50,9 @@ public class UserGroupRoleRelation {
     }
 
     /**
-     * @return
+     * The current role.
+     * 
+     * @return A role object.
      */
     public Role getRole() {
         return this.fRole;
@@ -76,8 +80,11 @@ public class UserGroupRoleRelation {
     }
 
     /**
+     * If two objects have the same group name and the same role name they are equal.
+     * 
      * @param obj
-     * @return
+     *            The object the current one is compared to.
+     * @return True if both objects are equal otherwise false.
      */
     public boolean equals(UserGroupRoleRelation obj) {
         boolean groupEqual = false;
@@ -102,7 +109,9 @@ public class UserGroupRoleRelation {
     }
 
     /**
-     * @return
+     * The current user.
+     * 
+     * @return A user object.
      */
     public User getUser() {
         return this.fUser;
