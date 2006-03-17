@@ -5,7 +5,9 @@
 package de.ingrid.usermanagement.jetspeed;
 
 import java.security.Principal;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.prefs.Preferences;
 
@@ -19,6 +21,8 @@ import org.apache.jetspeed.security.impl.GeneralizationHierarchyResolver;
 import org.apache.jetspeed.security.impl.GroupPrincipalImpl;
 import org.apache.jetspeed.security.impl.RolePrincipalImpl;
 import org.apache.jetspeed.security.impl.UserPrincipalImpl;
+import org.apache.jetspeed.security.om.InternalGroupPrincipal;
+import org.apache.jetspeed.security.om.InternalRolePrincipal;
 import org.apache.jetspeed.security.spi.SecurityMappingHandler;
 
 import de.ingrid.usermanagement.UserManagement;
@@ -78,7 +82,20 @@ public class IngridSecurityMappingHandler implements SecurityMappingHandler {
     }
 
     public Set getRolePrincipalsInGroup(String groupFullPathName) {
-        return new HashSet();
+        Set rolePrincipals = new HashSet();
+
+        Preferences preferences = Preferences.userRoot().node(
+                GroupPrincipalImpl.getFullPathFromPrincipalName(groupFullPathName));
+        String[] fullPaths = this.fGroupHierarchyResolver.resolve(preferences);
+        for (int i = 0; i < fullPaths.length; i++)
+        {
+            String[] roles = this.fUserManagement.getRolesForGroup(fullPaths[i]);
+            
+            for (int j = 0; j < roles.length; j++) {
+                createResolvedRolePrincipalSet("not specified", rolePrincipals, roles, j);
+            }
+        }
+        return rolePrincipals;        
     }
 
     public void setRolePrincipalInGroup(String groupFullPathName, String roleFullPathName) throws SecurityException {
@@ -105,11 +122,38 @@ public class IngridSecurityMappingHandler implements SecurityMappingHandler {
     }
 
     public Set getGroupPrincipalsInRole(String roleFullPathName) {
-        return new HashSet();
+        Set groupPrincipals = new HashSet();
+
+        Preferences preferences = Preferences.userRoot().node(
+                RolePrincipalImpl.getFullPathFromPrincipalName(roleFullPathName));
+        String[] fullPaths = this.fRoleHierarchyResolver.resolve(preferences);
+        for (int i = 0; i < fullPaths.length; i++)
+        {
+            String[] groups = this.fUserManagement.getGroupsForRole(fullPaths[i]);
+            
+            for (int j = 0; j < groups.length; j++) {
+                createResolvedRolePrincipalSet("not specified", groupPrincipals, groups, j);
+            }
+        }
+        return groupPrincipals;        
     }
 
     public Set getUserPrincipalsInRole(String roleFullPathName) {
-        return new HashSet();
+
+        Set userPrincipals = new HashSet();
+
+        Preferences preferences = Preferences.userRoot().node(
+                RolePrincipalImpl.getFullPathFromPrincipalName(roleFullPathName));
+        String[] fullPaths = this.fRoleHierarchyResolver.resolve(preferences);
+        for (int i = 0; i < fullPaths.length; i++) {
+            String[] usersInRole = this.fUserManagement.getUsersForRole(fullPaths[i]);
+            for (int y = 0; y < usersInRole.length; y++) {
+                Principal userPrincipal = new UserPrincipalImpl(usersInRole[y]);
+                userPrincipals.add(userPrincipal);
+            }
+        }
+        
+        return userPrincipals;
     }
 
     public Set getUserPrincipalsInGroup(String groupFullPathName) {
@@ -141,7 +185,7 @@ public class IngridSecurityMappingHandler implements SecurityMappingHandler {
         this.fLogger.debug("Group [" + i + "] for user[" + username + "] is [" + groups[i] + "]");
 
         GroupPrincipal group = new GroupPrincipalImpl(groups[i]);
-        Preferences preferences = Preferences.userRoot().node(group.getName());
+        Preferences preferences = Preferences.userRoot().node(group.getFullPath());
         this.fLogger.debug("Group name:" + group.getName());
         String[] fullPaths = this.fGroupHierarchyResolver.resolve(preferences);
         for (int n = 0; n < fullPaths.length; n++) {
@@ -155,7 +199,7 @@ public class IngridSecurityMappingHandler implements SecurityMappingHandler {
         this.fLogger.debug("Role [" + i + "] for user[" + username + "] is [" + roles[i] + "]");
 
         RolePrincipal role = new RolePrincipalImpl(roles[i]);
-        Preferences preferences = Preferences.userRoot().node(role.getName());
+        Preferences preferences = Preferences.userRoot().node(role.getFullPath());
         this.fLogger.debug("Role name:" + role.getName());
         String[] fullPaths = this.fRoleHierarchyResolver.resolve(preferences);
         for (int n = 0; n < fullPaths.length; n++) {

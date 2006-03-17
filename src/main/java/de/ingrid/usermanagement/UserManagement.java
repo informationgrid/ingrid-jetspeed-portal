@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.transaction.UserTransaction;
+
 import org.apache.jetspeed.security.SecurityException;
 
 /**
@@ -268,6 +270,28 @@ public class UserManagement {
         return result;
     }
 
+    
+    public synchronized boolean isUserInRole(final String userName, final String roleName) {
+        boolean result = false;
+
+        if (userExists(userName) && roleExists(roleName)) {
+            List relations = this.fHibernateManager.loadAllData(UserGroupRoleRelation.class, 0);
+            for (Iterator iter = relations.iterator(); iter.hasNext();) {
+                UserGroupRoleRelation element = (UserGroupRoleRelation) iter.next();
+                User user = element.getUser();
+                Role role = element.getRole();
+                String elementRoleName = role.getName();
+                if ((userName.equals(user.getName())) && (null != elementRoleName)) {
+                    if (elementRoleName.equals(roleName)) {
+                        result = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return result;
+    }
+    
     /**
      * @param userName
      * @param groupName
@@ -464,5 +488,57 @@ public class UserManagement {
         } else {
             throw new SecurityException(SecurityException.USER_DOES_NOT_EXIST.create(userName));
         }
+    }
+
+    public String[] getRolesForGroup(String groupName) {
+        ArrayList result = new ArrayList();
+
+        List relations = this.fHibernateManager.loadAllData(UserGroupRoleRelation.class, 0);
+
+        for (Iterator iter = relations.iterator(); iter.hasNext();) {
+            UserGroupRoleRelation relation = (UserGroupRoleRelation) iter.next();
+            Role role = relation.getRole();
+            String roleName = role.getName();
+            Group group = relation.getGroup();
+            if ((groupName.equals(group.getName())) && (null != roleName)) {
+                result.add(roleName);
+            }
+        }
+
+        return (String[]) result.toArray(new String[result.size()]);
+    }
+
+    public String[] getUsersForRole(String roleName) {
+        ArrayList result = new ArrayList();
+
+        List users = this.fHibernateManager.loadAllData(User.class, 0);
+
+        if (null != users) {
+            for (Iterator iter = users.iterator(); iter.hasNext();) {
+                User user = (User) iter.next();
+                final String userName = user.getName();
+                if (isUserInRole(userName, roleName)) {
+                    result.add(userName);
+                }
+            }
+        }
+        return (String[]) result.toArray(new String[result.size()]);
+    }
+
+    public String[] getGroupsForRole(String roleName) {
+        ArrayList result = new ArrayList();
+
+        List relations = this.fHibernateManager.loadAllData(UserGroupRoleRelation.class, 0);
+
+        for (Iterator iter = relations.iterator(); iter.hasNext();) {
+            UserGroupRoleRelation relation = (UserGroupRoleRelation) iter.next();
+            Group group = relation.getGroup();
+            String groupName = group.getName();
+            Role role = relation.getRole();
+            if ((roleName.equals(role.getName())) && (null != groupName)) {
+                result.add(groupName);
+            }
+        }
+        return (String[]) result.toArray(new String[result.size()]);
     }
 }
