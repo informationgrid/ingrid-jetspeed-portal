@@ -136,7 +136,7 @@
     </dependency>
     <dependency>
         <id>hibernate</id>
-        <version>3.1beta3</version>
+        <version>3.1rc2</version>
         <properties>
             <war.bundle>true</war.bundle>
         </properties>

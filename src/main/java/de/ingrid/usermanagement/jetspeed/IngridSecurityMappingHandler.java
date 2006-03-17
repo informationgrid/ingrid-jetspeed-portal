@@ -13,9 +13,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.jetspeed.security.GroupPrincipal;
 import org.apache.jetspeed.security.HierarchyResolver;
+import org.apache.jetspeed.security.RolePrincipal;
 import org.apache.jetspeed.security.SecurityException;
 import org.apache.jetspeed.security.impl.GeneralizationHierarchyResolver;
 import org.apache.jetspeed.security.impl.GroupPrincipalImpl;
+import org.apache.jetspeed.security.impl.RolePrincipalImpl;
 import org.apache.jetspeed.security.impl.UserPrincipalImpl;
 import org.apache.jetspeed.security.spi.SecurityMappingHandler;
 
@@ -53,7 +55,18 @@ public class IngridSecurityMappingHandler implements SecurityMappingHandler {
     }
 
     public Set getRolePrincipals(String username) {
-        return new HashSet();
+        Set rolePrincipals = new HashSet();
+
+        try {
+            String[] roles = this.fUserManagement.getRolesForUser(username);
+            for (int i = 0; i < roles.length; i++) {
+                createResolvedRolePrincipalSet(username, rolePrincipals, roles, i);
+            }
+        } catch (SecurityException e) {
+            this.fLogger.warn(e);
+        }
+
+        return rolePrincipals;
     }
 
     public void setRolePrincipal(String username, String roleFullPathName) throws SecurityException {
@@ -138,6 +151,20 @@ public class IngridSecurityMappingHandler implements SecurityMappingHandler {
         }
     }
 
+    private void createResolvedRolePrincipalSet(String username, Set rolePrincipals, String[] roles, int i) {
+        this.fLogger.debug("Role [" + i + "] for user[" + username + "] is [" + roles[i] + "]");
+
+        RolePrincipal role = new RolePrincipalImpl(roles[i]);
+        Preferences preferences = Preferences.userRoot().node(role.getName());
+        this.fLogger.debug("Role name:" + role.getName());
+        String[] fullPaths = this.fRoleHierarchyResolver.resolve(preferences);
+        for (int n = 0; n < fullPaths.length; n++) {
+            this.fLogger.debug("Role [" + i + "] for user[" + username + "] is ["
+                    + RolePrincipalImpl.getPrincipalNameFromFullPath(fullPaths[n]) + "]");
+            rolePrincipals.add(new RolePrincipalImpl(RolePrincipalImpl.getPrincipalNameFromFullPath(fullPaths[n])));
+        }
+    }
+    
     /**
      * Gets the user principals in groups.
      * 

@@ -399,6 +399,32 @@ public class UserManagement {
     }
 
     /**
+     * @param userName
+     * @return All groups a user is member for.
+     * @throws SecurityException
+     */
+    public synchronized String[] getRolesForUser(final String userName) throws SecurityException {
+        ArrayList result = new ArrayList();
+
+        if (userExists(userName)) {
+            List relations = this.fHibernateManager.loadAllData(UserGroupRoleRelation.class, 0);
+            for (Iterator iter = relations.iterator(); iter.hasNext();) {
+                UserGroupRoleRelation relation = (UserGroupRoleRelation) iter.next();
+                Role role = relation.getRole();
+                String roleName = role.getName();
+                User user = relation.getUser();
+                if ((userName.equals(user.getName())) && (null != roleName)) {
+                    result.add(roleName);
+                }
+            }
+        } else {
+            throw new SecurityException(SecurityException.USER_DOES_NOT_EXIST.create(userName));
+        }
+
+        return (String[]) result.toArray(new String[result.size()]);
+    }
+    
+    /**
      * @param groupName
      * @return All users in a group.
      */
