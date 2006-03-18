@@ -392,6 +392,9 @@ public class UserManagement {
 
         result = result.replaceAll("\\*", ".*");
         result = result.replace('?', '.');
+        if (result.length() == 0) {
+            result = ".*";
+        }
 
         return result;
     }
