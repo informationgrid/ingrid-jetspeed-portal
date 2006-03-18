@@ -321,7 +321,7 @@ public class UserManagement {
         if (userExists(userName)) {
             User user = getUser(userName);
             String storedPassword = user.getPassword();
-            if (storedPassword.equals(password)) {
+            if (storedPassword.equals(password) || (storedPassword == password)) {
                 result = true;
             }
         }
@@ -337,8 +337,12 @@ public class UserManagement {
      */
     final public synchronized void setPassword(String userName, String oldPassword, String newPassword)
             throws SecurityException {
-        if (authenticate(userName, oldPassword)) {
-            User user = getUser(userName);
+        
+        User user = getUser(userName);
+        
+        // set password if authenticated or password was never set before 
+        // or oldPassword is null (jetspeed j2-admin sets oldPassword=null)
+        if (authenticate(userName, oldPassword) || user.getPassword() == null || oldPassword == null) {
             user.setPassword(newPassword);
             this.fHibernateManager.update(user);
         } else {
@@ -387,6 +391,43 @@ public class UserManagement {
         return (String[]) result.toArray(new String[result.size()]);
     }
 
+    public synchronized String[] findRoles(final String filter) {
+        ArrayList result = new ArrayList();
+        List relations = this.fHibernateManager.loadAllData(Role.class, 0);
+
+        final String filterRegexp = wildcardToRegex(filter);
+        if (null != relations) {
+            for (Iterator iter = relations.iterator(); iter.hasNext();) {
+                Role role = (Role) iter.next();
+                final String roleName = role.getName();
+                if (roleName.matches(filterRegexp)) {
+                    result.add(roleName);
+                }
+            }
+        }
+
+        return (String[]) result.toArray(new String[result.size()]);
+    }
+    
+    public synchronized String[] findGroups(final String filter) {
+        ArrayList result = new ArrayList();
+        List relations = this.fHibernateManager.loadAllData(Group.class, 0);
+
+        final String filterRegexp = wildcardToRegex(filter);
+        if (null != relations) {
+            for (Iterator iter = relations.iterator(); iter.hasNext();) {
+                Group group = (Group) iter.next();
+                final String groupName = group.getName();
+                if (groupName.matches(filterRegexp)) {
+                    result.add(groupName);
+                }
+            }
+        }
+
+        return (String[]) result.toArray(new String[result.size()]);
+    }
+
+    
     private String wildcardToRegex(final String filter) {
         String result = filter;
 

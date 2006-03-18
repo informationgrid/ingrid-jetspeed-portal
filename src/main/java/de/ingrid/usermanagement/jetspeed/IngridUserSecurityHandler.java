@@ -72,7 +72,7 @@ public class IngridUserSecurityHandler implements UserSecurityHandler {
         }
 
         // FIXME: Add the user here but with its name as the password.
-        this.fUserManagement.addUser(userName, userName);
+        this.fUserManagement.addUser(userName, null);
     }
 
     private void verifyUserPrincipal(UserPrincipal userPrincipal) {
