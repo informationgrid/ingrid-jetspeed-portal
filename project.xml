@@ -96,21 +96,24 @@
 </reports>
 <dependencies>
     <dependency>
-    <groupId>jetspeed2</groupId>
-    <artifactId>jetspeed-security</artifactId>
-    <version>2.0-dev</version>
-    <type>jar</type>
-    <properties>
-        <war.bundle>true</war.bundle>
-    </properties></dependency>
+	    <groupId>jetspeed2</groupId>
+	    <artifactId>jetspeed-security</artifactId>
+	    <version>2.0-dev</version>
+	    <type>jar</type>
+	    <properties>
+	        <war.bundle>true</war.bundle>
+	    </properties>
+    </dependency>
     <dependency>
-    <groupId>jetspeed2</groupId>
-    <artifactId>jetspeed-api</artifactId>
-    <version>2.0-dev</version>
-    <type>jar</type>
-    <properties>
-        <war.bundle>true</war.bundle>
-    </properties></dependency>
+	    <groupId>jetspeed2</groupId>
+	    <artifactId>jetspeed-api</artifactId>
+	    <version>2.0-dev</version>
+	    <type>jar</type>
+	    <properties>
+	        <war.bundle>true</war.bundle>
+	    </properties>
+	</dependency>
+    
     <dependency>
         <id>commons-logging</id>
         <version>1.0.3</version>
@@ -135,55 +138,6 @@
         </properties>
     </dependency>
     <dependency>
-        <id>hibernate</id>
-        <version>3.1rc2</version>
-        <properties>
-            <war.bundle>true</war.bundle>
-        </properties>
-    </dependency>
-    <dependency>
-        <id>antlr</id>
-        <version>2.7.2</version>
-        <properties>
-            <war.bundle>true</war.bundle>
-        </properties>
-    </dependency>
-    <dependency>
-        <id>c3p0</id>
-        <version>0.9.0.2</version>
-        <properties>
-            <war.bundle>true</war.bundle>
-        </properties>
-    </dependency>
-    <dependency>
-        <id>cglib</id>
-        <version>nodep-2.1_3</version>
-        <properties>
-            <war.bundle>true</war.bundle>
-        </properties>
-    </dependency>
-    <dependency>
-        <id>commons-collections</id>
-        <version>3.1</version>
-        <properties>
-            <war.bundle>true</war.bundle>
-        </properties>
-    </dependency>
-    <dependency>
-        <id>dom4j</id>
-        <version>1.4</version>
-        <properties>
-            <war.bundle>true</war.bundle>
-        </properties>
-    </dependency>
-    <dependency>
-        <id>ehcache</id>
-        <version>1.1</version>
-        <properties>
-            <war.bundle>true</war.bundle>
-        </properties>
-    </dependency>
-    <dependency>
         <id>hsqldb</id>
         <version>1.8.0.2</version>
         <properties>
@@ -197,4 +151,29 @@
             <war.bundle>true</war.bundle>
         </properties>
     </dependency>
+	<!-- Apache OJB persistence framework -->
+    <dependency>
+	   <id>ojb:db-ojb</id>
+       <version>1.0.3</version>
+       <properties>
+    	 <war.bundle>true</war.bundle>
+       </properties>
+    </dependency>
+
+    <dependency>
+      <id>commons-pool</id>
+      <version>1.2</version>
+	  <properties>
+        <war.bundle>true</war.bundle>
+      </properties>
+    </dependency>
+    <dependency>
+      <id>commons-dbcp</id>
+      <version>1.2.1</version>
+	  <properties>
+        <war.bundle>true</war.bundle>
+      </properties>
+    </dependency>
+
+    
 </dependencies></project>
