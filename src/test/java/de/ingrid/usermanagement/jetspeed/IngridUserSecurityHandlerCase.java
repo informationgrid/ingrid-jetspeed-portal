@@ -3,7 +3,7 @@ package de.ingrid.usermanagement.jetspeed;
 import de.ingrid.usermanagement.jetspeed.IngridUserSecurityHandler;
 import junit.framework.TestCase;
 
-public class IngridUserSecurityHandlerTest extends TestCase {
+public class IngridUserSecurityHandlerCase extends TestCase {
 
     IngridUserSecurityHandler uh;
     
