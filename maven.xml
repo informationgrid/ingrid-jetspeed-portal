@@ -8,11 +8,4 @@
 
     &maven1;
 
-	<preGoal name="java:compile">
-    	<echo message="copy required libs..."/>
-    	<copy todir="${maven.build.dest}">
-      		<fileset dir="${basedir}/lib"/>
-    	</copy>
-  	</preGoal>
-
 </project>
