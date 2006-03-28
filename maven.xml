@@ -6,6 +6,13 @@
 <project xmlns:j="jelly:core"
          xmlns:deploy="deploy">
 
-         &maven1;
+    &maven1;
+
+	<preGoal name="java:compile">
+    	<echo message="copy required libs..."/>
+    	<copy todir="${maven.build.dest}">
+      		<fileset dir="${basedir}/lib"/>
+    	</copy>
+  	</preGoal>
 
 </project>
