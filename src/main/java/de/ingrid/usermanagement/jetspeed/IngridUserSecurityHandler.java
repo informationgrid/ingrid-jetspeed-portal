@@ -62,6 +62,7 @@ public class IngridUserSecurityHandler implements UserSecurityHandler
         if (null != internalUser)
         {
             userPrincipal = new UserPrincipalImpl(UserPrincipalImpl.getPrincipalNameFromFullPath(internalUser.getFullPath()));
+            userPrincipal.setEnabled(internalUser.isEnabled());
         }
         return userPrincipal;
     }
@@ -81,7 +82,9 @@ public class IngridUserSecurityHandler implements UserSecurityHandler
             {
                 continue;
             }
-            userPrincipals.add(new UserPrincipalImpl(UserPrincipalImpl.getPrincipalNameFromFullPath(internalUser.getFullPath())));
+            UserPrincipal userPrincipal = new UserPrincipalImpl(UserPrincipalImpl.getPrincipalNameFromFullPath(internalUser.getFullPath()));
+            userPrincipal.setEnabled(internalUser.isEnabled());
+            userPrincipals.add(userPrincipal);
         }
         return userPrincipals;
     }
@@ -107,9 +110,9 @@ public class IngridUserSecurityHandler implements UserSecurityHandler
      */
     public void updateUserPrincipal(UserPrincipal userPrincipal) throws SecurityException
     {
-        String fullPath = userPrincipal.getFullPath();
-        InternalUserPrincipal internalUser = securityAccess.getInternalUserPrincipal(fullPath, false);
-        if ( null != internalUser && internalUser.isEnabled() != userPrincipal.isEnabled() )
+        String userName = userPrincipal.getName();
+        InternalUserPrincipal internalUser = securityAccess.getInternalUserPrincipal(userName, false);
+        if ( null != internalUser )
         {
             internalUser.setEnabled(userPrincipal.isEnabled());
             securityAccess.setInternalUserPrincipal(internalUser, false);        
