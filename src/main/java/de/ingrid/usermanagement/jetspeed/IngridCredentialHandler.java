@@ -332,37 +332,42 @@ public class IngridCredentialHandler implements CredentialHandler
         InternalUserPrincipal internalUser = securityAccess.getInternalUserPrincipal(userName, false);
         if (null != internalUser)
         {
-            InternalCredential credential = getPasswordCredential(internalUser, userName );
-            if ( credential != null && credential.isEnabled() && !credential.isExpired())
-            {
-                if ( pcProvider.getEncoder() != null && credential.isEncoded())
+            if (!internalUser.isEnabled()) {
+                authenticated = false;
+            } else {
+            
+                InternalCredential credential = getPasswordCredential(internalUser, userName );
+                if ( credential != null && credential.isEnabled() && !credential.isExpired())
                 {
-                    password = pcProvider.getEncoder().encode(userName,password);
-                }
-
-                authenticated = credential.getValue().equals(password);
-                boolean update = false;
-
-                if ( ipcInterceptor != null )
-                {
-                    update = ipcInterceptor.afterAuthenticated(internalUser, userName, credential, authenticated);
-                    if ( update && (!credential.isEnabled() || credential.isExpired()))
+                    if ( pcProvider.getEncoder() != null && credential.isEncoded())
                     {
-                        authenticated = false;
+                        password = pcProvider.getEncoder().encode(userName,password);
                     }
-                }
-                if ( authenticated )
-                {
-                    credential.setAuthenticationFailures(0);
-                    credential.setPreviousAuthenticationDate(credential.getLastAuthenticationDate());
-                    credential.setLastAuthenticationDate(new Timestamp(System.currentTimeMillis()));
-                    update = true;
-                }
-                
-                if ( update )
-                {
-                    internalUser.setModifiedDate(new Timestamp(System.currentTimeMillis()));
-                    securityAccess.setInternalUserPrincipal(internalUser, false);
+    
+                    authenticated = credential.getValue().equals(password);
+                    boolean update = false;
+    
+                    if ( ipcInterceptor != null )
+                    {
+                        update = ipcInterceptor.afterAuthenticated(internalUser, userName, credential, authenticated);
+                        if ( update && (!credential.isEnabled() || credential.isExpired()))
+                        {
+                            authenticated = false;
+                        }
+                    }
+                    if ( authenticated )
+                    {
+                        credential.setAuthenticationFailures(0);
+                        credential.setPreviousAuthenticationDate(credential.getLastAuthenticationDate());
+                        credential.setLastAuthenticationDate(new Timestamp(System.currentTimeMillis()));
+                        update = true;
+                    }
+                    
+                    if ( update )
+                    {
+                        internalUser.setModifiedDate(new Timestamp(System.currentTimeMillis()));
+                        securityAccess.setInternalUserPrincipal(internalUser, false);
+                    }
                 }
             }
         }
