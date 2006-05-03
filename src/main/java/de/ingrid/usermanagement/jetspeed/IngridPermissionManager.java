@@ -214,7 +214,9 @@ public class IngridPermissionManager implements PermissionManager
                 .getName(), permission.getActions());
         try
         {            
+            broker.beginTransaction();
             broker.store(internalPermission);            
+            broker.commitTransaction();
         }
         catch (Exception e)
         {
@@ -239,7 +241,9 @@ public class IngridPermissionManager implements PermissionManager
             try
             {
                 // Remove permission.
+                broker.beginTransaction();
                 broker.delete(internalPermission);
+                broker.commitTransaction();
             }
             catch (Exception e)
             {
@@ -274,7 +278,9 @@ public class IngridPermissionManager implements PermissionManager
                 internalPrincipal.setModifiedDate(new Timestamp(System.currentTimeMillis()));
                 internalPrincipal.setPermissions(internalPermissions);
                 
+                broker.beginTransaction();
                 broker.store(internalPrincipal);
+                broker.commitTransaction();
             }
             catch (Exception e)
             {
@@ -331,7 +337,9 @@ public class IngridPermissionManager implements PermissionManager
             internalPrincipal.setModifiedDate(new Timestamp(System.currentTimeMillis()));
             internalPrincipal.setPermissions(internalPermissions);
             
+            broker.beginTransaction();
             broker.store(internalPrincipal);
+            broker.commitTransaction();
         }
         catch (Exception e)
         {
@@ -397,7 +405,9 @@ public class IngridPermissionManager implements PermissionManager
                         internalPrincipal.setModifiedDate(new Timestamp(System.currentTimeMillis()));
                         internalPrincipal.setPermissions(newInternalPermissions);
 
+                        broker.beginTransaction();
                         broker.store(internalPrincipal);
+                        broker.commitTransaction();
                     }
                     catch (Exception e)
                     {

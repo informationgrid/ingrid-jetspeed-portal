@@ -162,7 +162,9 @@ public class SecurityAccessImpl implements SecurityAccess
             {
                 internalUser.setMappingOnly(isMappingOnly);
             }
+            broker.beginTransaction();
             broker.store(internalUser);
+            broker.commitTransaction();
         }
         catch (Exception e)
         {
@@ -187,7 +189,9 @@ public class SecurityAccessImpl implements SecurityAccess
         try
         {
             // Remove user.
+            broker.beginTransaction();
             broker.delete(internalUser);
+            broker.commitTransaction();
             if (log.isDebugEnabled())
             {
                 log.debug("Deleted user: " + internalUser.getFullPath());
@@ -238,7 +242,9 @@ public class SecurityAccessImpl implements SecurityAccess
             {
                 internalRole.setMappingOnly(isMappingOnly);
             }
+            broker.beginTransaction();
             broker.store(internalRole);
+            broker.commitTransaction();
         }
         catch (Exception e)
         {
@@ -263,8 +269,9 @@ public class SecurityAccessImpl implements SecurityAccess
         try
         {
             // Remove role.
-
+            broker.beginTransaction();
             broker.delete(internalRole);
+            broker.commitTransaction();
             if (log.isDebugEnabled())
             {
                 log.debug("Deleted role: " + internalRole.getFullPath());
@@ -317,7 +324,9 @@ public class SecurityAccessImpl implements SecurityAccess
             {
                 internalGroup.setMappingOnly(isMappingOnly);
             }
+            broker.beginTransaction();
             broker.store(internalGroup);
+            broker.commitTransaction();
         }
         catch (Exception e)
         {
@@ -342,7 +351,9 @@ public class SecurityAccessImpl implements SecurityAccess
         try
         {
             // Remove role.           
+            broker.beginTransaction();
             broker.delete(internalGroup);
+            broker.commitTransaction();
        
             if (log.isDebugEnabled())
             {
