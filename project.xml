@@ -5,7 +5,7 @@
 <artifactId>ingrid-jetspeed-portal</artifactId>
 <name>ingrid-jetspeed-portal</name>
 <currentVersion>0.1-SNAPSHOT</currentVersion>
-<organization>media style GmbH</organization>
+<organization>wemove GmbH</organization>
 <inceptionYear>2005</inceptionYear>
 <package />
 <description />
@@ -20,44 +20,13 @@
 <mailingLists />
 <developers>
     <developer>
-        <id>sg</id>
-        <name>Stefan Groschupf</name>
-        <email>sg(at)media-style.com</email>
-        <organization>media style GmbH</organization>
-        <organizationUrl>http://www.media-style.com</organizationUrl>
+        <id>jm</id>
+        <name>Joachim Müller</name>
+        <email>joachim(at)wemove.com</email>
+        <organization>wemove GmbH</organization>
+        <organizationUrl>http://www.wemove.com</organizationUrl>
         <roles>
             <role>project leader</role>
-            <role>developer</role>
-        </roles>
-    </developer>
-    <developer>
-        <id>fh</id>
-        <name>Frank Henze</name>
-        <email>fh(at)media-style.com</email>
-        <organization>media style GmbH</organization>
-        <organizationUrl>http://www.media-style.com</organizationUrl>
-        <roles>
-            <role>project leader</role>
-            <role>developer</role>
-        </roles>
-    </developer>
-    <developer>
-        <id>mb</id>
-        <name>Marko Bauhardt</name>
-        <email>mb(at)media-style.com</email>
-        <organization>media style GmbH</organization>
-        <organizationUrl>http://www.media-style.com</organizationUrl>
-        <roles>
-            <role>developer</role>
-        </roles>
-    </developer>
-    <developer>
-        <id>ms</id>
-        <name>Martin Schaaf</name>
-        <email>ms(at)media(stripe)style(dot)com</email>
-        <organization>media style GmbH</organization>
-        <organizationUrl>http://www.media-style.com</organizationUrl>
-        <roles>
             <role>developer</role>
         </roles>
     </developer>
@@ -98,7 +67,7 @@
     <dependency>
 	    <groupId>org.apache.portals.jetspeed-2</groupId>
 	    <artifactId>jetspeed-security</artifactId>
-	    <version>2.0</version>
+	    <version>2.1-dev</version>
 	    <type>jar</type>
 	    <properties>
 	        <war.bundle>true</war.bundle>
@@ -107,7 +76,7 @@
     <dependency>
 	    <groupId>org.apache.portals.jetspeed-2</groupId>
 	    <artifactId>jetspeed-api</artifactId>
-	    <version>2.0</version>
+	    <version>2.1-dev</version>
 	    <type>jar</type>
 	    <properties>
 	        <war.bundle>true</war.bundle>
@@ -116,7 +85,7 @@
     <dependency>
 	    <groupId>org.apache.portals.jetspeed-2</groupId>
 	    <artifactId>jetspeed-commons</artifactId>
-	    <version>2.0</version>
+	    <version>2.1-dev</version>
 	    <type>jar</type>
 	    <properties>
 	        <war.bundle>true</war.bundle>
@@ -125,7 +94,7 @@
     <dependency>
 	    <groupId>org.apache.portals.jetspeed-2</groupId>
 	    <artifactId>jetspeed-rdbms</artifactId>
-	    <version>2.0</version>
+	    <version>2.1-dev</version>
 	    <type>jar</type>
 	    <properties>
 	        <war.bundle>true</war.bundle>
