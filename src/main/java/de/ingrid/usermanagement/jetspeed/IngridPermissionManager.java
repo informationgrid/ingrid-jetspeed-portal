@@ -561,8 +561,7 @@ public class IngridPermissionManager implements PermissionManager
         while (principals.hasNext())
         {
             InternalPrincipal internalPrincipal = (InternalPrincipal)principals.next();            
-            Principal principal = 
-                SecurityHelper.createPrincipalFromFullPath(internalPrincipal.getFullPath());
+            Principal principal = SecurityHelper.createPrincipalFromFullPath(internalPrincipal.getFullPath());
             result.add(principal);
         }
         return  result;
