@@ -497,5 +497,77 @@ public class IngridSecurityMappingHandler implements SecurityMappingHandler
             throw new SecurityException(SecurityException.USER_DOES_NOT_EXIST.create(username));
         }
     }
+
+    /**
+     * @see org.apache.jetspeed.security.spi.SecurityMappingHandler#setUserPrincipalInRole(java.lang.String,
+     *      java.lang.String)
+     */
+    public void setUserPrincipalInRole(String username, String roleFullPathName) throws SecurityException
+    {
+        InternalUserPrincipal internalUser = commonQueries.getInternalUserPrincipal(username);
+        boolean isMappingOnly = false;
+        if (null == internalUser)
+        {
+            // This is a record for mapping only.
+            isMappingOnly = true;
+            internalUser = new InternalUserPrincipalImpl(UserPrincipalImpl.getFullPathFromPrincipalName(username));
+        }
+        Collection internalRoles = internalUser.getRolePrincipals();
+        // This should not be null. Check for null should be made by the caller.
+        InternalRolePrincipal internalRole = commonQueries.getInternalRolePrincipal(RolePrincipalImpl
+                .getFullPathFromPrincipalName(roleFullPathName));
+        // Check anyway.
+        if (null == internalRole)
+        {
+            throw new SecurityException(SecurityException.ROLE_DOES_NOT_EXIST.create(roleFullPathName));
+        }
+        internalRoles.add(internalRole);
+        internalUser.setRolePrincipals(internalRoles);
+        commonQueries.setInternalUserPrincipal(internalUser, isMappingOnly);
+    }
+
+    /**
+     * @see org.apache.jetspeed.security.spi.SecurityMappingHandler#removeUserPrincipalInRole(java.lang.String,
+     *      java.lang.String)
+     */
+    public void removeUserPrincipalInRole(String username, String roleFullPathName) throws SecurityException
+    {
+        boolean isMappingOnly = false;
+        // Check is the record is used for mapping only.
+        InternalUserPrincipal internalUser = commonQueries.getInternalUserPrincipal(username, false);
+        if (null == internalUser)
+        {
+            internalUser = commonQueries.getInternalUserPrincipal(username, true);
+            isMappingOnly = true;
+        }
+        if (null != internalUser)
+        {
+            Collection internalRoles = internalUser.getRolePrincipals();
+            // This should not be null. Check for null should be made by the caller.
+            InternalRolePrincipal internalRole = commonQueries.getInternalRolePrincipal(RolePrincipalImpl
+                    .getFullPathFromPrincipalName(roleFullPathName));
+            // Check anyway.
+            if (null == internalRole)
+            {
+                throw new SecurityException(SecurityException.ROLE_DOES_NOT_EXIST.create(roleFullPathName));
+            }
+            internalRoles.remove(internalRole);
+            // Remove dead mapping records. I.e. No mapping is associated with the specific record.
+            if (isMappingOnly && internalRoles.isEmpty() && internalUser.getGroupPrincipals().isEmpty()
+                    && internalUser.getPermissions().isEmpty())
+            {
+                commonQueries.removeInternalUserPrincipal(internalUser);
+            }
+            else
+            {
+                internalUser.setRolePrincipals(internalRoles);
+                commonQueries.setInternalUserPrincipal(internalUser, isMappingOnly);
+            }
+        }
+        else
+        {
+            throw new SecurityException(SecurityException.USER_DOES_NOT_EXIST.create(username));
+        }
+    }
     
 }
