@@ -15,7 +15,7 @@
 <siteAddress>http://torwald.gistec-online.de/ingrid/ingrid-jetspeed-portal</siteAddress>
 <siteDirectory>/srv/www/htdocs/ingrid/ingrid-jetspeed-portal</siteDirectory>
 <repository>
-    <connection>scm:svn:https://mb@127.0.0.1:444/svn/ingrid:ingrid-jetspeed-portal</connection>
+    <connection>scm:svn:https://127.0.0.1:444/svn/ingrid/ingrid-jetspeed-portal/trunk</connection>
 </repository>
 <mailingLists />
 <developers>
