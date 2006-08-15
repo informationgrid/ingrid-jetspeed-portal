@@ -6,18 +6,18 @@
 	<classpathentry output="target/test-classes" kind="src" path="src/test/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="var" path="MAVEN_REPO/commons-logging/jars/commons-logging-1.0.3.jar"/>
-	<classpathentry kind="var" path="MAVEN_REPO/org.apache.portals.jetspeed-2/jars/jetspeed-api-2.0.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/org.apache.portals.jetspeed-2/jars/jetspeed-api-2.1-dev.jar"/>
 	<classpathentry kind="var" path="MAVEN_REPO/junit/jars/junit-3.8.1.jar"/>
-	<classpathentry kind="var" path="MAVEN_REPO/org.apache.portals.jetspeed-2/jars/jetspeed-security-2.0.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/org.apache.portals.jetspeed-2/jars/jetspeed-security-2.1-dev.jar"/>
 	<classpathentry kind="var" path="MAVEN_REPO/commons-collections/jars/commons-collections-3.1.jar"/>
 	<classpathentry kind="var" path="MAVEN_REPO/jta/jars/jta-1.0.1.jar"/>
 	<classpathentry kind="var" path="MAVEN_REPO/hsqldb/jars/hsqldb-1.8.0.2.jar"/>
-	<classpathentry sourcepath="/JETSPEED_SRC/components/rdbms/src/java" kind="var" path="MAVEN_REPO/org.apache.portals.jetspeed-2/jars/jetspeed-rdbms-2.0.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/org.apache.portals.jetspeed-2/jars/jetspeed-rdbms-2.1-dev.jar"/>
 	<classpathentry kind="var" path="MAVEN_REPO/commons-lang/jars/commons-lang-2.1.jar"/>
 	<classpathentry kind="var" path="MAVEN_REPO/ojb/jars/db-ojb-1.0.3.jar"/>
 	<classpathentry kind="var" path="MAVEN_REPO/commons-pool/jars/commons-pool-1.2.jar"/>
 	<classpathentry kind="var" path="MAVEN_REPO/commons-dbcp/jars/commons-dbcp-1.2.1.jar"/>
-	<classpathentry sourcepath="/JETSPEED_SRC" kind="var" path="MAVEN_REPO/org.apache.portals.jetspeed-2/jars/jetspeed-commons-2.0.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/org.apache.portals.jetspeed-2/jars/jetspeed-commons-2.1-dev.jar"/>
 	<classpathentry kind="var" path="MAVEN_REPO/mysql/jars/mysql-connector-java-3.1.7-bin.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
