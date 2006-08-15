@@ -14,6 +14,7 @@
  */
 package de.ingrid.usermanagement.jetspeed;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,7 +36,9 @@ import org.apache.jetspeed.security.spi.CredentialHandler;
 import org.apache.jetspeed.security.spi.InternalPasswordCredentialInterceptor;
 import org.apache.jetspeed.security.spi.PasswordCredentialProvider;
 import org.apache.jetspeed.security.spi.SecurityAccess;
+import org.apache.jetspeed.security.spi.impl.DefaultCredentialPasswordValidator;
 import org.apache.jetspeed.security.spi.impl.DefaultPasswordCredentialProvider;
+import org.apache.jetspeed.security.spi.impl.MessageDigestCredentialPasswordEncoder;
 
 /**
  * @see org.apache.jetspeed.security.spi.CredentialHandler
@@ -54,8 +57,16 @@ public class IngridCredentialHandler implements CredentialHandler
     public IngridCredentialHandler()
     {
         this.securityAccess = new SecurityAccessImpl();
-        this.pcProvider = new DefaultPasswordCredentialProvider();
+        try {
+            this.pcProvider = new DefaultPasswordCredentialProvider(new DefaultCredentialPasswordValidator(), new MessageDigestCredentialPasswordEncoder());
+        } catch (NoSuchAlgorithmException e) {
+            this.pcProvider = new DefaultPasswordCredentialProvider();
+        }
         this.ipcInterceptor = null;
+    }
+    
+    public PasswordCredentialProvider getPCProvider() {
+        return  this.pcProvider;
     }
     
     /**
