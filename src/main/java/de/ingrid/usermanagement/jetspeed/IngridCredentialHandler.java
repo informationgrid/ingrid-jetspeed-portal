@@ -68,6 +68,13 @@ public class IngridCredentialHandler implements CredentialHandler
     public PasswordCredentialProvider getPCProvider() {
         return  this.pcProvider;
     }
+
+    /**
+     * Clean up Objects resources. Close the DB Connection. 
+     */
+    public void destroy() {
+        ((SecurityAccessImpl)securityAccess).destroy();
+    }
     
     /**
      * @see org.apache.jetspeed.security.spi.CredentialHandler#getPrivateCredentials(java.lang.String)

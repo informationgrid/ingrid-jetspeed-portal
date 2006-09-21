@@ -52,6 +52,13 @@ public class IngridRoleManager implements RoleManager {
         this.roleSecurityHandler = new IngridRoleSecurityHandler();
         this.securityMappingHandler = new IngridSecurityMappingHandler();
     }
+    
+    /**
+     * Clean up Objects resources. Close the DB Connection. 
+     */
+    public void destroy() {
+        ((IngridSecurityMappingHandler)securityMappingHandler).destroy();
+    }
 
     /**
      * @see org.apache.jetspeed.security.RoleManager#addRole(java.lang.String)

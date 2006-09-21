@@ -35,6 +35,13 @@ public class IngridRoleSecurityHandler implements RoleSecurityHandler {
     }
     
     /**
+     * Clean up Objects resources. Close the DB Connection. 
+     */
+    public void destroy() {
+        ((SecurityAccessImpl)securityAccess).destroy();
+    }
+    
+    /**
      * @see org.apache.jetspeed.security.spi.RoleSecurityHandler#getRolePrincipal(java.lang.String)
      */
     public RolePrincipal getRolePrincipal(String roleFullPathName) {

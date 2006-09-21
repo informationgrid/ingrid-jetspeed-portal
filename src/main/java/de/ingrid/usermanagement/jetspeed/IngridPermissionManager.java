@@ -87,6 +87,15 @@ public class IngridPermissionManager implements PermissionManager
     public IngridPermissionManager() {
         broker = PersistenceBrokerFactory.defaultPersistenceBroker();
     }
+    
+    /**
+     * Clean up Objects resources. Close the DB Connection. 
+     */
+    public void destroy() {
+        if (broker != null) {
+            broker.close();
+        }
+    }
 
     /**
      * @see org.apache.jetspeed.security.PermissionManager#getPermissions(java.security.Principal)
@@ -224,7 +233,8 @@ public class IngridPermissionManager implements PermissionManager
         {
             KeyedMessage msg = SecurityException.UNEXPECTED.create("PermissionManager.addPermission",
                                                                    "store", e.getMessage());
-            log.error(msg, e);            
+            log.error(msg, e);  
+            broker.abortTransaction();
             throw new SecurityException(msg, e);
         }
     }
@@ -251,7 +261,8 @@ public class IngridPermissionManager implements PermissionManager
             {
                 KeyedMessage msg = SecurityException.UNEXPECTED.create("PermissionManager.removePermission",
                                                                        "delete", e.getMessage());
-                log.error(msg, e);            
+                log.error(msg, e);
+                broker.abortTransaction();
                 throw new SecurityException(msg, e);
             }
         }
@@ -288,7 +299,8 @@ public class IngridPermissionManager implements PermissionManager
             {
                 KeyedMessage msg = SecurityException.UNEXPECTED.create("PermissionManager.removePermissions",
                                                                        "store", e.getMessage());
-                log.error(msg, e);                
+                log.error(msg, e);
+                broker.abortTransaction();
                 throw new SecurityException(msg, e);
             }
         }
@@ -347,7 +359,8 @@ public class IngridPermissionManager implements PermissionManager
         {
             KeyedMessage msg = SecurityException.UNEXPECTED.create("PermissionManager.grantPermission",
                                                                    "store", e.getMessage());
-            log.error(msg, e);            
+            log.error(msg, e);  
+            broker.abortTransaction();
             throw new SecurityException(msg, e);
         }
     }
@@ -415,7 +428,8 @@ public class IngridPermissionManager implements PermissionManager
                     {
                         KeyedMessage msg = SecurityException.UNEXPECTED.create("PermissionManager.revokePermission",
                                                                                "store", e.getMessage());
-                        log.error(msg, e);                      
+                        log.error(msg, e); 
+                        broker.abortTransaction();
                         throw new SecurityException(msg, e);
                     }
                 }
@@ -542,7 +556,8 @@ public class IngridPermissionManager implements PermissionManager
         {
             KeyedMessage msg = SecurityException.UNEXPECTED.create("PermissionManager.updatePermission",
                                                                    "store", e.getMessage());
-            log.error(msg, e);            
+            log.error(msg, e);
+            broker.abortTransaction();
             throw new SecurityException(msg, e);
         }
 

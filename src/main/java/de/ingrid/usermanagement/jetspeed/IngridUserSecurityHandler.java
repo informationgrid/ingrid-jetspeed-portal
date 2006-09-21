@@ -43,6 +43,13 @@ public class IngridUserSecurityHandler implements UserSecurityHandler
     {
         this.securityAccess = new SecurityAccessImpl();
     }
+
+    /**
+     * Clean up Objects resources. Close the DB Connection. 
+     */
+    public void destroy() {
+        ((SecurityAccessImpl)securityAccess).destroy();
+    }
     
     /**
      * @see org.apache.jetspeed.security.spi.UserSecurityHandler#isUserPrincipal(java.lang.String)

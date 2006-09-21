@@ -81,6 +81,14 @@ public class IngridSecurityMappingHandler implements SecurityMappingHandler
     }
 
     /**
+     * Clean up Objects resources. Close the DB Connection. 
+     */
+    public void destroy() {
+        ((SecurityAccessImpl)commonQueries).destroy();
+    }
+    
+    
+    /**
      * @return Returns the roleHierarchyResolver.
      */
     public HierarchyResolver getRoleHierarchyResolver()
