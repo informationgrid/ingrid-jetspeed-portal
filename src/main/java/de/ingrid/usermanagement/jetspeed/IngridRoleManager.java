@@ -58,6 +58,8 @@ public class IngridRoleManager implements RoleManager {
      */
     public void destroy() {
         ((IngridSecurityMappingHandler)securityMappingHandler).destroy();
+        ((IngridRoleSecurityHandler)roleSecurityHandler).destroy();
+        ((IngridUserSecurityHandler)atnProviderProxy).destroy();
     }
 
     /**

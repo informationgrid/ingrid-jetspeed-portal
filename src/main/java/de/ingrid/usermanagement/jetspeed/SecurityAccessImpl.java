@@ -205,7 +205,6 @@ public class SecurityAccessImpl implements SecurityAccess {
     public void removeInternalUserPrincipal(InternalUserPrincipal internalUser) throws SecurityException {
         try {
             // Remove user.
-            broker = PersistenceBrokerFactory.defaultPersistenceBroker();
             broker.beginTransaction();
             broker.delete(internalUser);
             broker.commitTransaction();
@@ -260,7 +259,6 @@ public class SecurityAccessImpl implements SecurityAccess {
             if (isMappingOnly) {
                 internalRole.setMappingOnly(isMappingOnly);
             }
-            broker = PersistenceBrokerFactory.defaultPersistenceBroker();
             broker.beginTransaction();
             broker.store(internalRole);
             broker.commitTransaction();
@@ -288,7 +286,6 @@ public class SecurityAccessImpl implements SecurityAccess {
     public void removeInternalRolePrincipal(InternalRolePrincipal internalRole) throws SecurityException {
         try {
             // Remove role.
-            broker = PersistenceBrokerFactory.defaultPersistenceBroker();
             broker.beginTransaction();
             broker.delete(internalRole);
             broker.commitTransaction();
@@ -345,7 +342,6 @@ public class SecurityAccessImpl implements SecurityAccess {
             if (isMappingOnly) {
                 internalGroup.setMappingOnly(isMappingOnly);
             }
-            broker = PersistenceBrokerFactory.defaultPersistenceBroker();
             broker.beginTransaction();
             broker.store(internalGroup);
             broker.commitTransaction();
@@ -373,7 +369,6 @@ public class SecurityAccessImpl implements SecurityAccess {
     public void removeInternalGroupPrincipal(InternalGroupPrincipal internalGroup) throws SecurityException {
         try {
             // Remove role.
-            broker = PersistenceBrokerFactory.defaultPersistenceBroker();
             broker.beginTransaction();
             broker.delete(internalGroup);
             broker.commitTransaction();
