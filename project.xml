@@ -37,14 +37,11 @@
     <unitTest>
         <resources>
             <resource>
-                <directory>src/test/resources</directory>
+                <directory>src/conf</directory>
             </resource>
         </resources>
     </unitTest>
     <resources>
-        <resource>
-            <directory>src/main/resources</directory>
-        </resource>
     </resources>
 </build>
 <reports>
@@ -69,76 +66,49 @@
 	    <artifactId>jetspeed-security</artifactId>
 	    <version>2.1-dev</version>
 	    <type>jar</type>
-	    <properties>
-	        <war.bundle>true</war.bundle>
-	    </properties>
     </dependency>
     <dependency>
 	    <groupId>org.apache.portals.jetspeed-2</groupId>
 	    <artifactId>jetspeed-api</artifactId>
 	    <version>2.1-dev</version>
 	    <type>jar</type>
-	    <properties>
-	        <war.bundle>true</war.bundle>
-	    </properties>
 	</dependency>
     <dependency>
 	    <groupId>org.apache.portals.jetspeed-2</groupId>
 	    <artifactId>jetspeed-commons</artifactId>
 	    <version>2.1-dev</version>
 	    <type>jar</type>
-	    <properties>
-	        <war.bundle>true</war.bundle>
-	    </properties>
 	</dependency>
     <dependency>
 	    <groupId>org.apache.portals.jetspeed-2</groupId>
 	    <artifactId>jetspeed-rdbms</artifactId>
 	    <version>2.1-dev</version>
 	    <type>jar</type>
-	    <properties>
-	        <war.bundle>true</war.bundle>
-	    </properties>
 	</dependency>
     
     <dependency>
         <id>commons-logging</id>
         <version>1.0.3</version>
         <type>jar</type>
-        <properties>
-            <war.bundle>true</war.bundle>
-        </properties>
     </dependency>
     <dependency>
         <id>commons-lang</id>
         <version>2.1</version>
         <type>jar</type>
-        <properties>
-            <war.bundle>true</war.bundle>
-        </properties>
     </dependency>
     <dependency>
         <id>junit</id>
         <version>3.8.1</version>
-        <properties>
-            <war.bundle>false</war.bundle>
-        </properties>
     </dependency>
     <dependency>
         <id>hsqldb</id>
         <version>1.8.0.2</version>
-        <properties>
-            <war.bundle>true</war.bundle>
-        </properties>
     </dependency>
 
     <dependency>
 	    <groupId>mysql</groupId>
 	    <artifactId>mysql-connector-java</artifactId>
         <version>3.1.7-bin</version>
-        <properties>
-            <war.bundle>true</war.bundle>
-        </properties>
         <type>jar</type>
         <url>http://www.ibiblio.org/maven</url>
     </dependency>
@@ -146,46 +116,24 @@
     <dependency>
         <id>jta</id>
         <version>1.0.1</version>
-        <properties>
-            <war.bundle>true</war.bundle>
-        </properties>
     </dependency>
 	<!-- Apache OJB persistence framework -->
     <dependency>
 	   <id>ojb:db-ojb</id>
        <version>1.0.3</version>
-       <properties>
-    	 <war.bundle>true</war.bundle>
-       </properties>
     </dependency>
 
     <dependency>
       <id>commons-pool</id>
       <version>1.2</version>
-	  <properties>
-        <war.bundle>true</war.bundle>
-      </properties>
     </dependency>
     <dependency>
       <id>commons-dbcp</id>
       <version>1.2.1</version>
-	  <properties>
-        <war.bundle>true</war.bundle>
-      </properties>
-    </dependency>
-    <dependency>
-      <id>commons-dbcp</id>
-      <version>1.2.1</version>
-	  <properties>
-        <war.bundle>true</war.bundle>
-      </properties>
     </dependency>
 	<dependency>
 	    <id>commons-collections</id>
 	    <version>3.0</version>
-		<properties>
-	        <war.bundle>true</war.bundle>
-		</properties>
     </dependency>
 
 

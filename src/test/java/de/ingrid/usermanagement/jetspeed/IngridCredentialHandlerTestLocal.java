@@ -4,7 +4,7 @@ import org.apache.jetspeed.security.SecurityException;
 
 import junit.framework.TestCase;
 
-public class IngridCredentialHandlerTest extends TestCase {
+public class IngridCredentialHandlerTestLocal extends TestCase {
 
     IngridCredentialHandler ch;
     

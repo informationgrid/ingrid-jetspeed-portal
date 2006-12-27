@@ -54,7 +54,7 @@ using the MetadataManager.
            subprotocol="mysql"
            dbalias="//localhost/ingrid-portal"
            username="root"
-           password="mkmysql"
+           password=""
            useAutoCommit="1"
      >
         <sequence-manager className="org.apache.ojb.broker.util.sequence.SequenceManagerHighLowImpl">
