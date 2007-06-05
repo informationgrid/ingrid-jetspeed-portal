@@ -25,6 +25,7 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.jetspeed.security.AlgorithmUpgradePasswordEncodingService;
 import org.apache.jetspeed.security.InvalidNewPasswordException;
 import org.apache.jetspeed.security.InvalidPasswordException;
 import org.apache.jetspeed.security.PasswordAlreadyUsedException;
@@ -32,6 +33,7 @@ import org.apache.jetspeed.security.SecurityException;
 import org.apache.jetspeed.security.om.InternalCredential;
 import org.apache.jetspeed.security.om.InternalUserPrincipal;
 import org.apache.jetspeed.security.om.impl.InternalCredentialImpl;
+import org.apache.jetspeed.security.spi.AlgorithmUpgradeCredentialPasswordEncoder;
 import org.apache.jetspeed.security.spi.CredentialHandler;
 import org.apache.jetspeed.security.spi.InternalPasswordCredentialInterceptor;
 import org.apache.jetspeed.security.spi.PasswordCredentialProvider;
@@ -152,9 +154,9 @@ public class IngridCredentialHandler implements CredentialHandler
     /**
      * @see org.apache.jetspeed.security.spi.CredentialHandler#setPassword(java.lang.String,java.lang.String,java.lang.String)
      */
-    public void setPassword(String userName, String oldPassword, String newPassword) throws SecurityException
+    protected void setPassword(String userName, String oldPassword, String newPassword, boolean raw) throws SecurityException
     {
-        InternalUserPrincipal internalUser = securityAccess.getInternalUserPrincipal(userName, false);
+    	InternalUserPrincipal internalUser = securityAccess.getInternalUserPrincipal(userName, false);
         if (null == internalUser)
         {
             throw new SecurityException(SecurityException.USER_DOES_NOT_EXIST.create(userName));
@@ -175,7 +177,14 @@ public class IngridCredentialHandler implements CredentialHandler
                     credential.isEncoded() && 
                     pcProvider.getEncoder() != null )
             {
-                oldPassword = pcProvider.getEncoder().encode(userName, oldPassword);
+                if ( pcProvider.getEncoder() instanceof AlgorithmUpgradeCredentialPasswordEncoder )
+                {
+                    oldPassword = ((AlgorithmUpgradeCredentialPasswordEncoder)pcProvider.getEncoder()).encode(userName,oldPassword, credential);
+                }
+                else
+                {
+                    oldPassword = pcProvider.getEncoder().encode(userName,oldPassword);
+                }
             }
         }
         
@@ -184,23 +193,25 @@ public class IngridCredentialHandler implements CredentialHandler
             // supplied PasswordCredential not defined for this user
             throw new InvalidPasswordException();
         }
-        
-        if ( pcProvider.getValidator() != null )
+        if (!raw) // bypass validation if raw 
         {
-            try
-            {
-                pcProvider.getValidator().validate(newPassword);
-            }
-            catch (InvalidPasswordException ipe)
-            {
-                throw new InvalidNewPasswordException();
-            }
+	        if ( pcProvider.getValidator() != null )
+	        {
+	            try
+	            {
+	                pcProvider.getValidator().validate(newPassword);
+	            }
+	            catch (InvalidPasswordException ipe)
+	            {
+	                throw new InvalidNewPasswordException();
+	            }
+	        }
         }
-        
         boolean encoded = false;
         if ( pcProvider.getEncoder() != null )
         {
-            newPassword = pcProvider.getEncoder().encode(userName, newPassword);
+        	if (!(raw)) // if raw just bypass encoding
+        		newPassword = pcProvider.getEncoder().encode(userName, newPassword);
             encoded = true;
         }
 
@@ -237,6 +248,7 @@ public class IngridCredentialHandler implements CredentialHandler
                 ipcInterceptor.beforeSetPassword(internalUser, credentials, userName, credential, newPassword, oldPassword != null );
             }
         }
+        
         if (!create)
         {
             credential.setValue(newPassword);
@@ -244,12 +256,35 @@ public class IngridCredentialHandler implements CredentialHandler
             credential.setUpdateRequired(false);
         }
                 
-        internalUser.setModifiedDate(new Timestamp(new Date().getTime()));
+        long time = new Date().getTime();
+        
+        if ( oldPassword == null )
+        {
+            // non-user (admin) modified the password
+            
+            if ( encoded && pcProvider.getEncoder() instanceof AlgorithmUpgradePasswordEncodingService )
+            {
+                // set current time in previous auth date, and clear last authentication date
+                // !!! While this might be a bit strange logic, it is *required* for the AlgorithmUpgradePBEPasswordEncodingService
+                // to be able to distinguise password changes from other changes
+                credential.setPreviousAuthenticationDate(new Timestamp(new Date().getTime()));
+                credential.setLastAuthenticationDate(null);
+            }
+        }
+        else
+        {
+            // authenticated password change (by user itself)
+            credential.setPreviousAuthenticationDate(credential.getLastAuthenticationDate());
+            credential.setLastAuthenticationDate(new Timestamp(time));
+        }
+        
+        credential.setModifiedDate(new Timestamp(time));
+        internalUser.setModifiedDate(new Timestamp(time));
         internalUser.setCredentials(credentials);
         // Set the user with the new credentials.
         securityAccess.setInternalUserPrincipal(internalUser, false);
     }
-    
+
     
     /**
      * @see org.apache.jetspeed.security.spi.CredentialHandler#setPasswordEnabled(java.lang.String, boolean)
@@ -395,4 +430,12 @@ public class IngridCredentialHandler implements CredentialHandler
         }
         return authenticated;
     }
+
+	public void importPassword(String userName, String newPassword) throws SecurityException {
+		setPassword (userName, null, newPassword, true);
+	}
+
+	public void setPassword(String userName, String oldPassword, String newPassword) throws SecurityException {
+		setPassword (userName, oldPassword, newPassword, false);
+	}
 }

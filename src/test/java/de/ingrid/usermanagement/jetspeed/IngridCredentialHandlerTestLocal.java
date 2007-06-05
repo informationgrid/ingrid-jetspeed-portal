@@ -19,7 +19,10 @@ public class IngridCredentialHandlerTestLocal extends TestCase {
     public void testAuthenticate() throws SecurityException {
         
         assertEquals(ch.authenticate("admin", "admin"), true);
-
+        ch.setPassword("admin", "admin", "admin1");
+        assertEquals(ch.authenticate("admin", "admin1"), true);
+        ch.setPassword("admin", "admin1", "admin");
+        assertEquals(ch.authenticate("admin", "admin"), true);
     }
 
 }
