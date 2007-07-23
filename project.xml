@@ -4,7 +4,7 @@
 <groupId>ingrid</groupId>
 <artifactId>ingrid-jetspeed-portal</artifactId>
 <name>ingrid-jetspeed-portal</name>
-<currentVersion>0.2.0-SNAPSHOT</currentVersion>
+<currentVersion>1.1.0-SNAPSHOT</currentVersion>
 <organization>wemove GmbH</organization>
 <inceptionYear>2005</inceptionYear>
 <package />
