@@ -3,10 +3,10 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
-  <groupId>de.ingrid.ingrid-jetspeed-portal</groupId>
+  <groupId>de.ingrid</groupId>
   <artifactId>ingrid-jetspeed-portal</artifactId>
   <packaging>jar</packaging>
-  <version>1.2.0</version>
+  <version>1.2.0-SNAPSHOT</version>
   <name>Ingrid Portal Security Provider</name>
   <scm>
     <connection>scm:svn:https://harrison.its-technidata.de:444/svn/ingrid/ingrid-jetspeed-portal/trunk</connection>
@@ -75,7 +75,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
     <dependency>
       <groupId>jta</groupId>
       <artifactId>jta</artifactId>
-      <version>1.0.1</version>
+      <version>1.0.1b</version>
     </dependency>
     <!-- Apache OJB persistence framework -->
     <dependency>
@@ -116,6 +116,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
           <manifestEntries>
             <Implementation-Version>${version}</Implementation-Version>
             <Implementation-Build>${buildNumber}</Implementation-Build>
+            <Build-Timestamp>${timestamp}</Build-Timestamp>
           </manifestEntries>
         </archive>
       </configuration>
@@ -128,7 +129,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>buildnumber-maven-plugin</artifactId>
-        <version>1.0-beta-3</version>
         <executions>
           <execution>
             <phase>validate</phase>
@@ -145,6 +145,12 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
           </providerImplementations>
         </configuration>
       </plugin>
+      <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-deploy-plugin</artifactId>
+            <version>2.4</version>
+          </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
@@ -181,18 +187,16 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
   </build>
   <distributionManagement>
     <repository>
-      <uniqueVersion>false</uniqueVersion>
+      <uniqueVersion>true</uniqueVersion>
       <id>ingrid-repository</id>
       <name>ingrid-repository</name>
       <url>file:///srv/www/htdocs/ingrid/maven2</url>
-      <layout>legacy</layout>
     </repository>
     <snapshotRepository>
-      <uniqueVersion>false</uniqueVersion>
+      <uniqueVersion>true</uniqueVersion>
       <id>ingrid-repository</id>
       <name>ingrid-repository</name>
       <url>file:///srv/www/htdocs/ingrid/maven2</url>
-      <layout>legacy</layout>
     </snapshotRepository>
   </distributionManagement>
 </project>
