@@ -4,16 +4,16 @@
   <groupId>de.ingrid</groupId>
   <artifactId>ingrid-jetspeed-portal</artifactId>
   <packaging>jar</packaging>
-  <version>1.2.1-SNAPSHOT</version>
+  <version>1.2.1</version>
   <name>Ingrid Portal Security Provider</name>
   <scm>
-    <connection>scm:svn:https://127.0.0.1:444/svn/ingrid/ingrid-jetspeed-portal/trunk</connection>
-    <developerConnection>scm:svn:https://harrison.its-technidata.de:444/svn/ingrid/ingrid-jetspeed-portal/trunk</developerConnection>
-    <url>http://somerepository.com/view.cvs</url>    
+    <connection>scm:svn:https://127.0.0.1:444/svn/ingrid/ingrid-jetspeed-portal/tags/ingrid-jetspeed-portal-1.2.1</connection>
+    <developerConnection>scm:svn:https://harrison.its-technidata.de:444/svn/ingrid/ingrid-jetspeed-portal/tags/ingrid-jetspeed-portal-1.2.1</developerConnection>
+    <url>http://somerepository.com/view.cvs/tags/ingrid-jetspeed-portal-1.2.1</url>    
   </scm>
   <repositories>
     <repository>
-			<snapshots/>
+			<snapshots />
 			<id>ingrid-repository</id>
 			<name>ingrid-repository</name>
 			<url>http://harrison.its-technidata.de/ingrid/maven2</url>
