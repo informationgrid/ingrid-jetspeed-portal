@@ -189,13 +189,13 @@
   </build>
   <distributionManagement>
     <repository>
-      <uniqueVersion>true</uniqueVersion>
+      <uniqueVersion>false</uniqueVersion>
       <id>ingrid-repository</id>
       <name>ingrid-repository</name>
       <url>file:///srv/www/htdocs/ingrid/maven2</url>
     </repository>
     <snapshotRepository>
-      <uniqueVersion>true</uniqueVersion>
+      <uniqueVersion>false</uniqueVersion>
       <id>ingrid-repository</id>
       <name>ingrid-repository</name>
       <url>file:///srv/www/htdocs/ingrid/maven2</url>
