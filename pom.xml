@@ -144,9 +144,6 @@
         <configuration>
           <doCheck>false</doCheck>
           <doUpdate>false</doUpdate>
-          <providerImplementations>
-            <svn>javasvn</svn>
-          </providerImplementations>
         </configuration>
       </plugin>
       <plugin>
