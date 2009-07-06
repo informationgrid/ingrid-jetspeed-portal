@@ -1,44 +1,30 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <parent>
+    <artifactId>ingrid-base-pom</artifactId>
+    <groupId>de.ingrid</groupId>
+    <version>1.0.1-SNAPSHOT</version>
+  </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>de.ingrid</groupId>
   <artifactId>ingrid-jetspeed-portal</artifactId>
   <packaging>jar</packaging>
-  <version>1.2.2-SNAPSHOT</version>
+  <version>1.2.1-SNAPSHOT</version>
   <name>Ingrid Portal Security Provider</name>
   <scm>
     <connection>scm:svn:https://127.0.0.1:444/svn/ingrid/ingrid-jetspeed-portal/trunk</connection>
     <developerConnection>scm:svn:https://harrison.its-technidata.de:444/svn/ingrid/ingrid-jetspeed-portal/trunk</developerConnection>
-    <url>http://somerepository.com/view.cvs</url>    
+    <url>http://somerepository.com/view.cvs</url>
   </scm>
-  <repositories>
-    <repository>
-			<snapshots />
-			<id>ingrid-repository</id>
-			<name>ingrid-repository</name>
-			<url>http://harrison.its-technidata.de/ingrid/maven2</url>
-		</repository>
-    <repository>
-        <id>com.bluesunrise.m2</id>
-        <name>Maven2 BlueSunrise</name>
-        <url>http://www.bluesunrise.com/maven2</url>
-    </repository>
-    <repository>
-        <id>central</id>
-        <name>Maven Repository Switchboard</name>
-        <url>http://repo1.maven.org/maven2</url>
-    </repository>
-  </repositories>
   <dependencies>
     <dependency>
       <groupId>org.apache.portals.jetspeed-2</groupId>
       <artifactId>jetspeed-security</artifactId>
-      <version>2.1</version>
     </dependency>
     <dependency>
       <groupId>org.apache.portals.jetspeed-2</groupId>
       <artifactId>jetspeed-api</artifactId>
-      <version>2.1</version>
     </dependency>
     <dependency>
       <groupId>org.apache.portals.jetspeed-2</groupId>
@@ -53,28 +39,22 @@
     <dependency>
       <groupId>commons-logging</groupId>
       <artifactId>commons-logging</artifactId>
-      <version>1.0.3</version>
     </dependency>
     <dependency>
       <groupId>commons-lang</groupId>
       <artifactId>commons-lang</artifactId>
-      <version>2.1</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>hsqldb</groupId>
       <artifactId>hsqldb</artifactId>
-      <version>1.8.0.2</version>
     </dependency>
     <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
-      <version>3.0.10</version>
     </dependency>
     <dependency>
       <groupId>jta</groupId>
@@ -87,7 +67,7 @@
       <artifactId>db-ojb</artifactId>
       <version>1.0.3</version>
     </dependency>
-   <dependency>
+    <dependency>
       <groupId>commons-pool</groupId>
       <artifactId>commons-pool</artifactId>
       <version>1.2</version>
@@ -100,102 +80,19 @@
     <dependency>
       <groupId>commons-collections</groupId>
       <artifactId>commons-collections</artifactId>
-      <version>3.1</version>
     </dependency>
     <dependency>
       <groupId>commons-codec</groupId>
       <artifactId>commons-codec</artifactId>
-      <version>1.3</version>
     </dependency>
   </dependencies>
-  <build>
-    <finalName>${project.artifactId}-${project.version}-r${buildNumber}</finalName>
-    <plugins>
-      <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-jar-plugin</artifactId>
-      <version>2.2</version>
-      <configuration>
-        <archive>
-          <manifestEntries>
-            <Implementation-Version>${version}</Implementation-Version>
-            <Implementation-Build>${buildNumber}</Implementation-Build>
-            <Build-Timestamp>${timestamp}</Build-Timestamp>
-          </manifestEntries>
-        </archive>
-      </configuration>
-    </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.3</version>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>buildnumber-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>validate</phase>
-            <goals>
-              <goal>create</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <doCheck>false</doCheck>
-          <doUpdate>false</doUpdate>
-        </configuration>
-      </plugin>
-      <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-deploy-plugin</artifactId>
-            <version>2.4</version>
-          </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-release-plugin</artifactId>
-        <version>2.0-beta-9</version>
-      </plugin>
-
-
-<!--
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <configuration>
-              <tasks>
-                <mail mailhost="localhost" mailport="25" subject="[ingrid update announcement] ${artifactId}-${version}-r${buildNumber}" messagefile="history.${artifactId}.txt">
-                  <from address="noreply@wemove.com" />
-                  <replyto address="noreply@wemove.com" />
-                  <to address="ingrid-announcement@wemove.com" />
-                </mail>
-              </tasks>
-            </configuration>
-            <goals>
-              <goal>run</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
--->
-    </plugins>
-  </build>
-  <distributionManagement>
+  <repositories>
+    <!-- Repo of parent pom needed, parent pom may not be installed locally yet -->
     <repository>
-      <uniqueVersion>false</uniqueVersion>
-      <id>ingrid-repository</id>
-      <name>ingrid-repository</name>
-      <url>file:///srv/www/htdocs/ingrid/maven2</url>
+      <snapshots />
+      <id>de.ingrid.m2</id>
+      <name>Maven2 Repo InGrid</name>
+      <url>http://harrison.its-technidata.de/ingrid/maven2</url>
     </repository>
-    <snapshotRepository>
-      <uniqueVersion>false</uniqueVersion>
-      <id>ingrid-repository</id>
-      <name>ingrid-repository</name>
-      <url>file:///srv/www/htdocs/ingrid/maven2</url>
-    </snapshotRepository>
-  </distributionManagement>
+  </repositories>
 </project>
