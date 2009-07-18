@@ -1,6 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
     <artifactId>ingrid-base-pom</artifactId>
     <groupId>de.ingrid</groupId>
@@ -10,12 +8,12 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
   <groupId>de.ingrid</groupId>
   <artifactId>ingrid-jetspeed-portal</artifactId>
   <packaging>jar</packaging>
-  <version>1.2.1-SNAPSHOT</version>
+  <version>1.2.1</version>
   <name>Ingrid Portal Security Provider</name>
   <scm>
-    <connection>scm:svn:https://127.0.0.1:444/svn/ingrid/ingrid-jetspeed-portal/trunk</connection>
-    <developerConnection>scm:svn:https://harrison.its-technidata.de:444/svn/ingrid/ingrid-jetspeed-portal/trunk</developerConnection>
-    <url>http://somerepository.com/view.cvs</url>
+    <connection>scm:svn:https://127.0.0.1:444/svn/ingrid/ingrid-jetspeed-portal/tags/ingrid-jetspeed-portal-1.2.1</connection>
+    <developerConnection>scm:svn:https://harrison.its-technidata.de:444/svn/ingrid/ingrid-jetspeed-portal/tags/ingrid-jetspeed-portal-1.2.1</developerConnection>
+    <url>http://somerepository.com/view.cvs/tags/ingrid-jetspeed-portal-1.2.1</url>
   </scm>
   <dependencies>
     <dependency>
