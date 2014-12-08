@@ -2,18 +2,17 @@
   <parent>
     <artifactId>ingrid-base-pom</artifactId>
     <groupId>de.ingrid</groupId>
-    <version>3.0.0-SNAPSHOT</version>
+    <version>3.0.0</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>de.ingrid</groupId>
   <artifactId>ingrid-jetspeed-portal</artifactId>
   <packaging>jar</packaging>
   <version>3.0.0-SNAPSHOT</version>
-  <name>Ingrid Portal Security Provider</name>
+  <name>InGrid Portal Security Provider</name>
   <scm>
-    <connection>scm:svn:https://127.0.0.1:444/svn/ingrid/ingrid-jetspeed-portal/tags/ingrid-jetspeed-portal-1.2.1</connection>
-    <developerConnection>scm:svn:https://harrison.its-technidata.de:444/svn/ingrid/ingrid-jetspeed-portal/tags/ingrid-jetspeed-portal-1.2.1</developerConnection>
-    <url>http://somerepository.com/view.cvs/tags/ingrid-jetspeed-portal-1.2.1</url>
+    <connection>scm:git:git@github.com:informationgrid/ingrid-jetspeed-portal.git</connection>
+    <developerConnection>scm:git:git@github.com:informationgrid/ingrid-jetspeed-portal.git</developerConnection>
   </scm>
   <dependencies>
     <dependency>
@@ -89,7 +88,7 @@
 		<repository>
           <id>de.ingrid.all</id>
           <name>Maven Repo InGrid</name>
-          <url>http://harrison.its-technidata.de/archiva/repository/ingrid-all</url>
+          <url>https://dev.informationgrid.eu/archiva/repository/ingrid-all</url>
         </repository>
   </repositories>
 </project>
