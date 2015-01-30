@@ -2,7 +2,7 @@
   <parent>
     <artifactId>ingrid-base-pom</artifactId>
     <groupId>de.ingrid</groupId>
-    <version>3.5.0-SNAPSHOT-R304</version>
+    <version>3.5.0</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>de.ingrid</groupId>
@@ -92,6 +92,24 @@
       <version>1.4</version>
     </dependency>
   </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>license-maven-plugin</artifactId>
+        <configuration>
+          <excludes>
+          <!-- this file contains UTF8 characters which is converted in a wrong way when applying a license -->
+            <exclude>**/*.dtd</exclude>
+            <exclude>**/*.properties</exclude>
+            <exclude>**/*.json</exclude>
+            <exclude>**/*.sql</exclude>
+            <exclude>**/*.xml</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
   <repositories>
     <!-- Repo of parent pom needed, parent pom may not be installed locally yet -->
 		<repository>
